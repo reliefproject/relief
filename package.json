@@ -29,7 +29,6 @@
     "prerelease": "gulp build --env=production",
     "release": "build --x64 --publish never",
     "start": "gulp start",
-    "pretest": "gulp build-unit --env=test",
     "test": "electron-mocha test --recursive"
   },
   "devDependencies": {

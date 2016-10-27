@@ -65,7 +65,7 @@ const init = function(callback) {
     });
 };
 
-const initUserDb = function(username, password, callback) {
+const initUserDb = function(username, key, callback) {
   const dbPath = getPath(env.userDbPrefix + username);
   db.user = new Storage({
     id: 'user',
@@ -73,7 +73,7 @@ const initUserDb = function(username, password, callback) {
     encryptionKey: key,
   });
   if (db.user instanceof Error) {
-    return callback(db.app);
+    return callback(db.user);
   }
   db.user.getDoc(function(err, doc) {
     if (err) {
@@ -98,10 +98,17 @@ const createUserDb = function(username, key, callback) {
     : callback();
 };
 
+const unsetUserDb = function(callback) {
+  db.user = {};
+  user = {};
+  callback();
+};
+
 module.exports = {
   init: init,
   initUserDb: initUserDb,
   createUserDb: createUserDb,
+  unsetUserDb: unsetUserDb,
   db: db,
   app: app,
   user: user,

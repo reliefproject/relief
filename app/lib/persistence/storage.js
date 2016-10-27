@@ -46,6 +46,7 @@ module.exports = function(options) {
   }
 
   options.autoload = true;
+
   jetpack.file(options.filename);
 
   db = new Datastore(options);

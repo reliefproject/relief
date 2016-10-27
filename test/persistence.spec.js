@@ -1,46 +1,87 @@
-const assert = require('assert')
+const crypto = require('crypto');
+const assert = require('assert');
 const path = require('path');
-const jetpack = require('fs-jetpack')
+const jetpack = require('fs-jetpack');
 const { app } = require('electron');
 const env = require('../app/lib/env');
 const persistence = require('../app/lib/persistence/persistence');
 
-const appDbFile = path.join(
-  app.getPath('userData'),
-  env.dbDir,
-  env.appDbName + env.dbSuffix
-);
-
-const serverDbFile = path.join(
-  app.getPath('userData'),
-  env.dbDir,
-  env.serverDbName + env.dbSuffix
-);
-
 describe('persistence init', function() {
-  before(function() {
-    jetpack.remove(appDbFile);
-    jetpack.remove(serverDbFile);
-  });
-
-  it('create application DB', function() {
+  it('create application and server DB', function(done) {
     persistence.init(function(err) {
-      const file = jetpack.exists('appDbFile');
       assert.equal(err, undefined);
-      assert.equal(file, 'file');
+      done();
     });
   });
-
-  it('create server DB', function() {
-    persistence.init(function(err) {
-      const file = jetpack.exists('serverDbFile');
+  it('can write to app DB', function(done) {
+    persistence.db.app.insertDoc({ language: 'en' }, function(err) {
       assert.equal(err, undefined);
-      assert.equal(file, 'file');
+      done();
+    }) ;
+  });
+  it('can read from app DB', function(done) {
+    persistence.db.app.getDoc(function(err, doc) {
+      assert.equal(err, undefined);
+      assert.equal(doc.language, 'en');
+      done();
     });
   });
+  it('can write to server DB', function(done) {
+    persistence.db.servers.insertDoc({ nxt: 'rocks' }, function(err) {
+      assert.equal(err, undefined);
+      done();
+    }) ;
+  });
+  it('can read from server DB', function(done) {
+    persistence.db.servers.getDoc(function(err, doc) {
+      assert.equal(err, undefined);
+      assert.equal(doc.nxt, 'rocks');
+      done();
+    });
+  });
+});
 
-  after(function() {
-    jetpack.remove(appDbFile);
-    jetpack.remove(serverDbFile);
+describe('user db', function() {
+  it('create a new user db', function(done) {
+    const key = crypto.pbkdf2Sync('pass', 'salt', 100000, 32, 'sha512');
+    persistence.createUserDb('newuser', key, function(err) {
+      assert.equal(err, undefined);
+      done();
+    });
+  });
+  it('can write into user db', function(done) {
+    persistence.db.user.insertDoc({ food: 'sandwich' }, function(err) {
+      assert.equal(err, undefined);
+      done();
+    });
+  });
+  it('can read from user db', function(done) {
+    persistence.db.user.getDoc(function(err,doc) {
+      assert.equal(err, undefined);
+      assert.equal(doc.food, 'sandwich');
+      done();
+    });
+  });
+  it('can unset the user db', function(done) {
+    persistence.unsetUserDb(function(err) {
+      assert.equal(err, undefined);
+      assert.deepEqual(persistence.db.user, {});
+      assert.deepEqual(persistence.user, {});
+      done();
+    });
+  });
+  it('can init the user db', function(done) {
+    const key = crypto.pbkdf2Sync('pass', 'salt', 100000, 32, 'sha512');
+    persistence.initUserDb('newuser', key, function(err) {
+      assert.equal(err, undefined);
+      done();
+    });
+  });
+  it('should not load user db', function(done) {
+    const key = crypto.pbkdf2Sync('wrongpass', 'salt', 100000, 32, 'sha512');
+    persistence.initUserDb('newuser', key, function(err) {
+      assert.equal((err instanceof Error), true);
+      done();
+    });
   });
 });
