@@ -35,10 +35,10 @@ module.exports = function(options) {
   }
 
   if (options.id === 'user' && !options.createIfNotExists) {
-    const ciphertext = jetpack.read(options.filename);
+    const encrypted = jetpack.read(options.filename);
     try {
       JSON.parse(
-        aes.decryptData(ciphertext, options.encryptionKey)
+        aes.decryptData(encrypted, options.encryptionKey)
       );
     } catch (e) {
       return new Error('Cannot decrypt database');
