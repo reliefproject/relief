@@ -26,6 +26,17 @@ describe('persistence init', function() {
       done();
     });
   });
+  it('can set property', function(done) {
+    persistence.setProperty('app', 'food', 'pizza', function(err) {
+      assert.equal(err, undefined);
+      done();
+    });
+  });
+  it('can get property', function(done) {
+    const food = persistence.getProperty('app', 'food');
+    assert.equal(food,  'pizza');
+    done();
+  });
   it('can write to server DB', function(done) {
     persistence.db.servers.insertDoc({ nxt: 'rocks' }, function(err) {
       assert.equal(err, undefined);
@@ -66,7 +77,6 @@ describe('user db', function() {
     persistence.unsetUserDb(function(err) {
       assert.equal(err, undefined);
       assert.deepEqual(persistence.db.user, {});
-      assert.deepEqual(persistence.user, {});
       done();
     });
   });
