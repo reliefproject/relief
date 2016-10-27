@@ -3,5 +3,12 @@
   "version": "0.0.0",
   "logFilePrefix":"relief_",
   "logFileSuffix":".log",
-  "logsDir":"logs"
+  "logsDir":"logs",
+  "storages":["app","servers","user"],
+  "dbDir":"databases",
+  "appDbName":"application",
+  "serverDbName":"servers",
+  "userDbPrefix":"user_",
+  "dbSuffix":".db",
+  "encryptUserDb":true
 }

@@ -4,8 +4,11 @@ module.exports = function(options) {
   const Datastore = require('nedb');
   const aes = require('../crypto/aes');
 
+  let db = {};
+
   /**
    * Options:
+   * id (app, servers, user)
    * filename (required)
    * createIfNotExists (default false)
    * encryptionKey
@@ -13,8 +16,12 @@ module.exports = function(options) {
    * https://github.com/louischatriot/nedb
    */
 
+  if (env.storages.indexOf(options.id) != -1) {
+    return new Error('Unknown storage ' + options.id);
+  }
+
   if (!jetpack.exists(options.filename) && !options.createIfNotExists) {
-    return null;
+    return new Error('Database does not exist');
   }
 
   if (options.encryptionKey) {
@@ -26,8 +33,42 @@ module.exports = function(options) {
     };
   }
 
+  if (options.id === 'user' && !options.createIfNotExists) {
+    const ciphertext = jetpack.read(options.filename);
+    try {
+      JSON.parse(
+        aes.decryptData(ciphertext, options.encryptionKey)
+      );
+    } catch (e) {
+      return new Error('Cannot decrypt database');
+    }
+  }
+
   options.autoload = true;
   jetpack.file(options.filename);
 
-  return new Datastore(options);
+  db = new Datastore(options);
+
+  this.getDoc = function(callback) {
+    db.findOne({ _id: options.id }, callback);
+  };
+
+  this.insertDoc = function(doc, callback) {
+    doc._id = options.id;
+    db.insert(doc, callback)
+  };
+
+  this.update = function(values, callback) {
+    db.update({ _id: options.id }, { $set: values }, {}, callback);
+  };
+
+  this.updateDoc = function(doc, callback) {
+    db.update({ _id: options.id }, doc, {}, callback);
+  };
+
+  this.upsert = function(doc, callback) {
+    db.update({ _id: options.id }, doc, { upsert: true }, callback);
+  };
+
+  return this;
 };
