@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="MainApp">
+  <head>
+    <title>Relief</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="stylesheets/photon.css">
+    <link rel="stylesheet" href="stylesheets/main.css">
+
+    <!-- Javascript -->
+    <script src="../node_modules/angular/angular.js" charset="utf-8"></script>
+    <script src="js/app.js" charset="utf-8"></script>
+
+  </head>
+  <body>
+    <div class="window" ng-controller="TabsCtrl">
+
+      <!-- .toolbar-header sits at the top of your app -->
+      <header class="toolbar toolbar-header">
+
+        <div class="pull-left">
+             <!--style="width:200px; height:30px; background-size: 200px 40px; background-image: url('https://automattic.files.wordpress.com/2005/12/jetpack-logo-horizontal1.png')">-->
+             <b>BRAND LOGO</b>
+        </div>
+
+        <div class="toolbar-actions">
+
+          <div class="btn-group pull-right">
+            <button class="btn btn-default active pull-right">
+              <span class="icon icon-users"></span>
+            </button>
+            <button class="btn btn-default pull-right">
+              <span class="icon icon-key"></span>
+            </button>
+            <button class="btn btn-default"
+                    ng-click="openTab('fuenf', { title: 'Test F&uuml;nf', url: 'http://bitbucket.org' })">
+              <span class="icon icon-cog"></span>
+            </button>
+            <button class="btn btn-default pull-right">
+              <span class="icon icon-help-circled"></span>
+            </button>
+            <button class="btn btn-default pull-right">
+              <span class="icon icon-logout"></span>
+            </button>
+          </div>
+
+          <div class="btn-group pull-right">
+            <button class="btn btn-primary">
+              <span class="icon icon-home icon-bell"></span>
+              &nbsp;1
+            </button>
+            <button class="btn btn-default">
+              <span class="icon icon-home icon-hourglass"></span>
+              &nbsp;0
+            </button>
+          </div>
+
+        </div>
+      </header>
+
+      <div class="tab-group">
+        <div class="tab-item"
+             ng-repeat="(tabId, tab) in tabs"
+             ng-class="{'active': tabId == selectedTab, 'tab-item-fixed': tab.fixed }"
+             ng-click="selectTab(tabId)">
+          <span class="icon icon-cancel icon-close-tab"
+                ng-hide="tab.fixed"
+                ng-click="closeTab(tabId)">
+          </span>
+          <span class="icon"
+                ng-show="tab.fixed"
+                ng-class="tab.icon">
+          </span>
+          {{ tab.title }}
+        </div>
+      </div>
+
+    <div class="window-content">
+        <webview id="{{ tabId }}"
+                 ng-repeat="(tabId, tab) in tabs"
+                 ng-class="{ show: tabId == selectedTab }"
+                 ng-src="{{ trustUrl(tab) }}">
+        </webview>
+      </div>
+
+      <footer class="toolbar toolbar-footer">
+
+        <div class="toolbar-actions pull-right">
+          <small>BTC: </small><span class="icon icon-record" style="color:red"></span> <small>Block 492'817</small>
+          | <small>Nxt: </small><span class="icon icon-record" style="color:green"></span> <small>Block 3'928'374</small>
+        </div>
+      </footer>
+
+    </div>
+  </body>
+</html>

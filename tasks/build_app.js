@@ -24,7 +24,7 @@ gulp.task('less', function() {
     return gulp.src(srcDir.path('stylesheets/main.less'))
         .pipe(plumber())
         .pipe(less())
-        .pipe(gulp.dest(destDir.path('stylesheets/html')));
+        .pipe(gulp.dest(destDir.path('html/stylesheets')));
   });
 
 gulp.task('environment', function() {

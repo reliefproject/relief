@@ -10,7 +10,7 @@ const createWindow = function() {
     width: width,
     height: height,
   });
-  mainWindow.loadURL('file://' + __dirname + '/app/html/app.html');
+  mainWindow.loadURL('file://' + __dirname + '/../html/index.html');
   return mainWindow;
 };
 
