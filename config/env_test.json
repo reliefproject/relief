@@ -1,4 +1,14 @@
 {
   "name": "test",
-  "description": "Add here any environment specific stuff you like."
+  "version": "0.0.0",
+  "logFilePrefix":"relief_",
+  "logFileSuffix":".log",
+  "logsDir":"logs",
+  "storages":["app","servers","user"],
+  "dbDir":"databases_test",
+  "appDbName":"application",
+  "serverDbName":"servers",
+  "userDbPrefix":"user_",
+  "dbSuffix":".db",
+  "encryptUserDb":true
 }

@@ -3,6 +3,7 @@ module.exports = function(options) {
   const jetpack = require('fs-jetpack');
   const Datastore = require('nedb');
   const aes = require('../crypto/aes');
+  const env = require('../env');
 
   let db = {};
 
@@ -16,7 +17,7 @@ module.exports = function(options) {
    * https://github.com/louischatriot/nedb
    */
 
-  if (env.storages.indexOf(options.id) != -1) {
+  if (env.storages.indexOf(options.id) == -1) {
     return new Error('Unknown storage ' + options.id);
   }
 

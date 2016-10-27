@@ -1,7 +1,8 @@
 const path = require('path');
 const crypto = require('crypto');
-const { app } = require('electron');
+const electronApp = require('electron').app;
 const uuid = require('uuid');
+const jetpack = require('fs-jetpack');
 const env = require('../env');
 const log = require('../log');
 const Storage = require('./storage');
@@ -11,16 +12,19 @@ let db = {
   app: {},
   servers: {},
 };
-let user: {};
-let app: {};
-let servers: {};
+let user = {};
+let app = {};
+let servers = {};
+
+const dbDir = path.join(
+  electronApp.getPath('userData'),
+  env.dbDir
+);
+
+jetpack.dir(dbDir);
 
 const getPath = function(filename) {
-  return path.join(
-    app.getPath('userData'),
-    env.dbDir,
-    filename + env.dbSuffix
-  );
+  return path.join(dbDir, filename + env.dbSuffix);
 };
 
 const init = function(callback) {
@@ -47,18 +51,18 @@ const init = function(callback) {
   }
 
   db.app.getDoc(function(err, doc) {
-    if (err) {
-      return callback(err);
-    }
-    app = doc;
-    db.servers.getDoc(function(err, doc) {
       if (err) {
         return callback(err);
       }
-      servers = doc;
-      callback();
+      app = doc;
+      db.servers.getDoc(function(err, doc) {
+        if (err) {
+          return callback(err);
+        }
+        servers = doc;
+        callback();
+      });
     });
-  });
 };
 
 const initUserDb = function(username, password, callback) {
