@@ -53,22 +53,22 @@ const init = function(callback) {
   }
 
   db.app.getDoc(function(err, doc) {
+    if (err) {
+      return callback(err);
+    }
+    stores.app = doc === null
+      ? {}
+      : doc;
+    db.servers.getDoc(function(err, doc) {
       if (err) {
         return callback(err);
       }
-      stores.app = doc === null
+      stores.servers = doc === null
         ? {}
         : doc;
-      db.servers.getDoc(function(err, doc) {
-        if (err) {
-          return callback(err);
-        }
-        stores.servers = doc === null
-          ? {}
-          : doc;
-        callback();
-      });
+      callback();
     });
+  });
 };
 
 const initUserDb = function(username, key, callback) {
@@ -115,7 +115,7 @@ const unsetUserDb = function(callback) {
 const getProperty = function(store, key) {
   return (stores[store] !== null && typeof stores[store] === 'object')
     ? stores[store][key]
-    : undefined;
+    : new Error('Unknown store');
 };
 
 const setProperty = function(store, key, value, callback) {
