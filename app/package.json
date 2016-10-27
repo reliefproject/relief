@@ -1,11 +1,11 @@
 {
-  "name": "electron-boilerplate",
-  "productName": "Electron Boilerplate",
-  "description": "Starter for your Electron application",
+  "name": "relief-ccs",
+  "productName": "Relief",
+  "description": "Crypto-Currency Wallet",
   "version": "0.0.0",
-  "author": "Mr. Gumby <mr.gumby@example.com>",
-  "copyright": "© 2016, Gumby inc.",
-  "homepage": "http://example.com",
+  "author": "toenu <toenu23@gmail.com>",
+  "copyright": "© 2016 toenu",
+  "homepage": "https://bitbucket.org/toenu/relief",
   "license": "MIT",
   "main": "main.js",
   "dependencies": {
