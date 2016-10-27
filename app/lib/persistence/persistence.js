@@ -15,12 +15,18 @@ let user: {};
 let app: {};
 let servers: {};
 
-const basePath = path.join(app.getPath('userData'), env.dbDir);
+const getPath = function(filename) {
+  return path.join(
+    app.getPath('userData'),
+    env.dbDir,
+    filename + env.dbSuffix
+  );
+};
 
 const init = function(callback) {
 
-  const appDbPath = path.join(basePath, env.appDbName + env.dbSuffix);
-  const serverDbPath = path.join(basePath, env.serverDbName + env.dbSuffix);
+  const appDbPath = getPath(env.appDbName);
+  const serverDbPath = getPath(env.serverDbName);
 
   db.app = new Storage({
     id: 'app',
@@ -56,7 +62,7 @@ const init = function(callback) {
 };
 
 const initUserDb = function(username, password, callback) {
-  const dbPath = path.join(basePath, env.userDbPrefix + username + env.dbSuffix);
+  const dbPath = getPath(env.userDbPrefix + username);
   db.user = new Storage({
     id: 'user',
     filename: dbPath,
@@ -76,7 +82,7 @@ const initUserDb = function(username, password, callback) {
 
 
 const createUserDb = function(username, key, callback) {
-  const dbPath = path.join(basePath, env.userDbPrefix + username + env.dbSuffix);
+  const dbPath = getPath(env.userDbPrefix + username);
   db.user = new Storage({
     id: 'user',
     filename: dbPath,
