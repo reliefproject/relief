@@ -1,0 +1,51 @@
+* {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}
+
+/* Scrollable table */
+.table-fixed tr {
+  width: 100%;
+  display: inline-table;
+  table-layout: fixed;
+}
+
+.table-fixed {
+ height:275px;              // <-- Select the height of the table
+}
+
+.table-fixed tbody{
+  overflow-y: scroll;
+  height: 270px;            //  <-- Select the height of the body
+  width: 100%;
+  position: absolute;
+  margin-right:2px;
+}
+
+.table-fixed tbody > tr:hover {
+  cursor: pointer;
+}
+
+/* Progress Bar*/
+.progress-bar {
+  overflow: visible;
+}
+.progress1 {
+  width:17%;
+}
+.progress2 {
+  width:34%;
+}
+.progress3 {
+  width:51%;
+}
+.progress4 {
+  width:68%;
+}
+.progress5 {
+  width:85%;
+}
+.progress6 {
+  width:100%;
+}
