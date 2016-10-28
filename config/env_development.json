@@ -16,13 +16,13 @@
   "pluginManifest":"manifest.json",
   "bootstrapServers":{
     "electrum":{
-      "protocol": "tls",
+      "protocol": "tcp",
       "host": "electrum.online",
-      "port": 50002
+      "port": 50001
     },
     "nxt":{
-      "protocol": "https",
-      "host": "nxt9.y.cz",
+      "protocol": "http",
+      "host": "23.92.52.49",
       "port": 7876
     }
   }
