@@ -13,5 +13,17 @@
   "pbkdf2Iterations":100000,
   "pbkdf2Keylen":32,
   "pbkdf2Digest":"sha512",
-  "pluginManifest":"manifest.json"
+  "pluginManifest":"manifest.json",
+  "bootstrapServers":{
+    "electrum":{
+      "protocol": "tls",
+      "host": "electrum.online",
+      "port": 50002
+    },
+    "nxt":{
+      "protocol": "https",
+      "host": "nxt9.y.cz",
+      "port": 7876
+    }
+  }
 }
