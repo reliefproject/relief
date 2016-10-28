@@ -6,7 +6,7 @@ const getHash = function(password, salt) {
   return crypto.pbkdf2Sync(password, salt, 100000, 32, 'sha512');
 };
 
-const login = function(username, password) {
+const login = function(username, password, callback) {
 
   const onGetDoc = function(err, doc) {
     if (err) {
@@ -40,17 +40,21 @@ const isLoggedIn = function() {
 
 const createAccount = function(userData, callback) {
   let appData = {};
+  const salt = uuid.v4();
 
   const onGetDoc = function(err, doc) {
     if (err) {
       return callback(err);
     }
     appData = doc;
+    if (!appData.users) {
+      appData.users = {};
+    }
     if (appData.users[userData.username] !== undefined) {
       return callback(new Error('User already exists'));
     }
-    const salt = uuid.v4();
-    const key = getHash(password, salt);
+
+    const key = getHash(userData.password, salt);
     persistence.createUserDb(userData.username, key, onCreateUserDb);
   };
 
@@ -59,10 +63,10 @@ const createAccount = function(userData, callback) {
       return callback(err);
     }
     const user = {
-      username: data.username,
+      username: userData.username,
       salt: salt,
     };
-    appData.users[data.username] = user;
+    appData.users[userData.username] = user;
     persistence.db.app.updateDoc(appData, onUpdateDoc);
   };
 
@@ -70,7 +74,7 @@ const createAccount = function(userData, callback) {
     if (err) {
       return callback(err);
     }
-    delete data.password;
+    delete userData.password;
     persistence.db.user.insertDoc(userData, callback);
   };
 

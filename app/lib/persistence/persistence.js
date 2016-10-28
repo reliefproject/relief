@@ -30,12 +30,12 @@ const init = function(callback) {
   const serverDbPath = getPath(env.serverDbName);
 
   db.app = new Storage({
-    _id: 'app',
+    id: 'app',
     filename: appDbPath,
     createIfNotExists: true,
   });
   db.servers = new Storage({
-    _id: 'servers',
+    id: 'servers',
     filename: serverDbPath,
     createIfNotExists: true,
   });
@@ -63,7 +63,7 @@ const init = function(callback) {
 const initUserDb = function(username, key, callback) {
   const dbPath = getPath(env.userDbPrefix + username);
   db.user = new Storage({
-    _id: 'user',
+    id: 'user',
     filename: dbPath,
     encryptionKey: key,
   });
@@ -82,7 +82,7 @@ const initUserDb = function(username, key, callback) {
 const createUserDb = function(username, key, callback) {
   const dbPath = getPath(env.userDbPrefix + username);
   db.user = new Storage({
-    _id: 'user',
+    id: 'user',
     filename: dbPath,
     encryptionKey: key,
     createIfNotExists: true,
