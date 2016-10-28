@@ -1,5 +1,3 @@
-console.log(Relief)
-
 const app = angular.module('MainApp', []);
 
 app.controller(
@@ -7,44 +5,18 @@ app.controller(
   ['$scope', '$sce', '$timeout',
   function($scope, $sce, $timeout) {
 
-    $scope.tabs = {
-      wallet: {
-        title: 'Wallet',
-        icon: 'icon-home',
-        fixed: true,
-        url: '',
-      },
-      apps: {
-        title: 'Apps',
-        icon: 'icon-layout',
-        fixed: true,
-        url: '',
-      },
-      transact: {
-        title: 'Transact',
-        icon: 'icon-pencil',
-        fixed: true,
-        url: '',
-      },
-      eins: {
-        title: 'Test 1',
-        url: 'http://test.com',
-      },
-      zwei: {
-        title: 'Test 2',
-        url: 'http://getbootstrap.com',
-      },
-      drei: {
-        title: 'Test 3',
-        url: 'http://purecss.io/layouts/blog/',
-      },
-      vier: {
-        title: 'Test 4',
-        url: 'http://photonkit.com',
-      },
-    };
+    $scope.tabs = {};
 
-    $scope.selectedTab = 'zwei';
+    Relief.plugin.loadPlugin('start', function(err, data) {
+      if (err) {
+        return Relief.log.error(err);
+      }
+      data.fixed = true;
+      data.url = '../plugins/start/' + data.main;
+      $scope.tabs['start'] = data;
+      $scope.selectedTab = 'start';
+      $scope.$apply();
+    });
 
     $scope.selectTab = function(tabId) {
       $scope.selectedTab = tabId;
@@ -86,9 +58,5 @@ app.controller(
     $scope.trustUrl = function(tab) {
       return $sce.trustAsResourceUrl(tab.url);
     };
-
-    /*$timeout(function() {
-      $scope.openTab('fuenf', { title: 'Test Fünf', url: 'http://bitbucket.org' });
-    }, 5000)*/
   },
 ]);
