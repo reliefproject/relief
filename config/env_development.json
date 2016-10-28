@@ -25,5 +25,15 @@
       "host": "23.92.52.49",
       "port": 7876
     }
-  }
+  },
+  "languages": [
+    {
+      "id" : "en",
+      "name" : "English"
+    },
+    {
+      "id" : "de",
+      "name" : "Deutsch"
+    }
+  ]
 }
