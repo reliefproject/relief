@@ -1,0 +1,32 @@
+{
+  "account" : {
+    "LANGUAGE":"Sprache",
+    "USERNAME":"Benutzername",
+    "PASSWORD":"Passwort",
+    "PASSWORD_REPEAT":"Passwort wiederholen",
+    "HIDDEN":"Versteckt",
+    "TAB_LOGIN":"Anmelden",
+    "TAB_CREATE":"Benutzerkonto erstellen",
+    "SERVER_SETTINGS":"Server Einstellungen",
+    "PANEL_LOGIN_TITLE":"Willkommen zurück!",
+    "PANEL_LOGIN_TEXT":"Schön, dass Sie wieder da sind. Wir sind immer an Rückmeldungen unserer Benutzer interessiert. Wenn Sie also ein bisschen Zeit übrig haben, würden wir uns freuen wenn Sie in unsere Foren reinschauen würden und uns dabei helfen unsere Software zu verbesseren. Wir haben ebenfalls einen Slack-Kanal auf http://so.und.so",
+    "ELECTRUM":"Electrum (Bitcoin)",
+    "NXT":"Nxt",
+    "REMEMBER_SERVER":"Server merken",
+    "BTN_CONTINUE":"Weiter",
+    "BTN_BACK":"Zurück",
+    "BTN_CLOSE":"Schliessen",
+    "BTN_OK":"Ok",
+    "BTN_GENERATE":"Generieren",
+    "BTN_CREATE_ACCOUNT":"Konto erstellen",
+    "LIST_ELECTRUM_TITLE":"Electrum Server",
+    "LIST_NXT_TITLE":"Nxt Server",
+    "PROTOCOL":"Protokoll",
+    "HOSTNAME":"Hostname",
+    "PORT":"Port",
+    "LIMIT":"Limit",
+    "FORM_ERROR":"Bitte untenstehende Fehler korrigieren",
+    "STEP":"Schritt",
+    "STEP_OF":"von"
+  }
+}

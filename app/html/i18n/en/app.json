@@ -1,0 +1,12 @@
+{
+  "app" : {
+    "APP_NAME":"Relief",
+    "APP_TITLE":"Crypto-Currency Suite",
+    "MENU_VIEW":"View",
+    "MENU_RELOAD":"Reload",
+    "MENU_FULLSCREEN":"Toggle Fullscreen",
+    "MENU_DEVTOOLS":"Toggle Developer Tools",
+    "MENU_HELP":"Help",
+    "MENU_ABOUT":"About"
+  }
+}
