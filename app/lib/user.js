@@ -1,9 +1,16 @@
 const crypto = require('crypto');
 const uuid = require('node-uuid');
+const env = require('./env')
 const persistence = require('./persistence/persistence');
 
 const getHash = function(password, salt) {
-  return crypto.pbkdf2Sync(password, salt, 100000, 32, 'sha512');
+  return crypto.pbkdf2Sync(
+    password,
+    salt,
+    env.pbkdf2Iterations,
+    env.pbkdf2Keylen,
+    env.pbkdf2Digest
+  );
 };
 
 const login = function(username, password, callback) {

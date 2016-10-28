@@ -10,5 +10,7 @@
   "serverDbName":"servers",
   "userDbPrefix":"user_",
   "dbSuffix":".db",
-  "encryptUserDb":true
+  "pbkdf2Iterations":100000,
+  "pbkdf2Keylen":32,
+  "pbkdf2Digest":"sha512"
 }
