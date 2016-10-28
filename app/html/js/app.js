@@ -16,6 +16,11 @@ app.controller(
       $scope.tabs['start'] = data;
       $scope.selectedTab = 'start';
       $scope.$apply();
+
+      setTimeout(function() {
+            const webview = document.getElementById('start');
+            webview.openDevTools();
+          }, 1000);
     });
 
     $scope.selectTab = function(tabId) {
