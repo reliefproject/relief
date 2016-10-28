@@ -1,41 +1,45 @@
-const { app } = require('electron');
+(function() {'use strict';
 
-const env = require('./lib/env');
-const log = require('./lib/log');
-const { createWindow } = require('./lib/window');
-const persistence = require('./lib/persistence/persistence');
-const blockchain = require('./lib/blockchain/blockchain');
-const user = require('./lib/user')
+  const { app } = require('electron');
 
-app.on('ready', function() {
-  const mainWindow = createWindow();
-});
+  global.Relief = {
+    env: require('./lib/env'),
+    log: require('./lib/log'),
+    window: require('./lib/window'),
+    persistence: require('./lib/persistence/persistence'),
+    get blockchain() {
+      return require('./lib/blockchain/blockchain')(Relief);
+    },
+    get user() {
+      return require('./lib/user')(Relief);
+    },
+  };
 
-app.on('window-all-closed', function() {
-  app.quit();
-});
+  app.on('ready', function() {
+    const mainWindow = Relief.window.createWindow();
+  });
 
-log.info('Starting application...');
-log.info('Version: ', env.version);
+  app.on('window-all-closed', function() {
+    app.quit();
+  });
 
-global.Relief = {};
+  Relief.log.info('Starting application...');
+  Relief.log.info('Version: ', Relief.env.version);
 
-const onPersistenceInit = function(err) {
-  if (err) {
-    log.error(err);
-    process.exit();
-  }
-  global.Relief.db = persistence.db;
-  global.Relief.user = user;
-  blockchain.init(onBlockchainInit);
-};
+  const onPersistenceInit = function(err) {
+    if (err) {
+      Relief.log.error(err);
+      process.exit();
+    }
+    Relief.blockchain.init(onBlockchainInit);
+  };
 
-const onBlockchainInit = function(err) {
-  if (err) {
-    log.error(err);
-    process.exit();
-  }
-  global.Relief.bc = blockchain.bc;
-};
+  const onBlockchainInit = function(err) {
+    if (err) {
+      Relief.log.error(err);
+    }
+  };
 
-persistence.init(onPersistenceInit);
+  Relief.persistence.init(onPersistenceInit);
+
+}());
