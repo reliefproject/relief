@@ -10,6 +10,7 @@ const App = {
 
 describe('blockchain', function() {
   it('inits without error', function(done) {
+    this.timeout(5000);
     App.persistence.init(function(err) {
       Blockchain(App).init(function(err) {
         assert.equal(err, undefined);
