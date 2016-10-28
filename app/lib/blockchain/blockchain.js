@@ -15,14 +15,10 @@ const init = function(callback) {
     if (err) {
       return callback(err);
     }
-    if (!doc) {
-      doc = {
-        servers: {
-          electrum: {},
-          nxt: {},
-        },
-      };
-    }
+    doc = !doc
+      ? { servers: { electrum: {}, nxt: {}, }, }
+      : doc;
+
     let initServers = {};
     initServers.electrum = Object.keys(doc.servers.electrum).length > 0
       ? doc.servers.electrum
