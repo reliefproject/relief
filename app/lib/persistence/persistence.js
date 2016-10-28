@@ -12,11 +12,6 @@ let db = {
   app: {},
   servers: {},
 };
-let stores = {
-  user: {},
-  app: {},
-  servers: {},
-};
 
 const dbDir = path.join(
   electronApp.getPath('userData'),
@@ -56,16 +51,10 @@ const init = function(callback) {
     if (err) {
       return callback(err);
     }
-    stores.app = doc === null
-      ? {}
-      : doc;
     db.servers.getDoc(function(err, doc) {
       if (err) {
         return callback(err);
       }
-      stores.servers = doc === null
-        ? {}
-        : doc;
       callback();
     });
   });
@@ -85,9 +74,6 @@ const initUserDb = function(username, key, callback) {
     if (err) {
       return callback(err);
     }
-    stores.user = doc === null
-      ? {}
-      : doc;
     callback();
   });
 };
@@ -108,22 +94,7 @@ const createUserDb = function(username, key, callback) {
 
 const unsetUserDb = function(callback) {
   db.user = {};
-  stores.user = {};
   callback();
-};
-
-const getProperty = function(store, key) {
-  return (stores[store] !== null && typeof stores[store] === 'object')
-    ? stores[store][key]
-    : new Error('Unknown store');
-};
-
-const setProperty = function(store, key, value, callback) {
-  if (!stores[store] || typeof stores[store] !== 'object') {
-    return callback(new Error('Unknown store'));
-  }
-  stores[store][key] = value;
-  db[store].updateDoc(stores[store], callback);
 };
 
 module.exports = {
@@ -132,6 +103,4 @@ module.exports = {
   createUserDb: createUserDb,
   unsetUserDb: unsetUserDb,
   db: db,
-  getProperty: getProperty,
-  setProperty: setProperty,
 };
