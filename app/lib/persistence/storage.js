@@ -65,6 +65,8 @@ module.exports = function(options) {
   };
 
   this.updateDoc = function(doc, callback) {
+    console.log('test')
+    console.log(options.id)
     db.update({ _id: options.id }, doc, {}, callback);
   };
 
