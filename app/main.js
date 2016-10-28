@@ -6,6 +6,7 @@
     env: require('./lib/env'),
     log: require('./lib/log'),
     window: require('./lib/window'),
+    plugin: require('./lib/plugin'),
     persistence: require('./lib/persistence/persistence'),
     get blockchain() {
       return require('./lib/blockchain/blockchain')(Relief);
