@@ -1,0 +1,9 @@
+{
+  "name":"start",
+  "title":{
+    "en":"Welcome"
+  },
+  "description":"Sign In, Create Account",
+  "version":"0.0.0",
+  "icon":"user"
+}
