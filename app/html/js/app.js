@@ -1,3 +1,5 @@
+console.log(Relief)
+
 const app = angular.module('MainApp', []);
 
 app.controller(

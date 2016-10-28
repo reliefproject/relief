@@ -9,6 +9,7 @@
 
     <!-- Javascript -->
     <script src="../node_modules/angular/angular.js" charset="utf-8"></script>
+    <script src="js/preload.js" charset="utf-8"></script>
     <script src="js/app.js" charset="utf-8"></script>
 
   </head>
@@ -79,7 +80,8 @@
         <webview id="{{ tabId }}"
                  ng-repeat="(tabId, tab) in tabs"
                  ng-class="{ show: tabId == selectedTab }"
-                 ng-src="{{ trustUrl(tab) }}">
+                 ng-src="{{ trustUrl(tab) }}"
+                 preload="js/preload.js">
         </webview>
       </div>
 
