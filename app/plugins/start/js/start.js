@@ -105,7 +105,7 @@
           $scope.login.nxt = serverData.nxt[key];
         }
         $scope.$apply();
-        // Wait for language strings to load
+        // This will trigger the main window to show
         $timeout(function() {
           Relief.events.emit('loadingComplete');
         }, 500);
