@@ -50,21 +50,20 @@ module.exports = function(options) {
               break;
             }
           }
-
           // Non-standard port
           if (params[j].substr(1)) {
             port = params[j].substr(1);
           }
+          const key = shortHash(protocol + host);
+          newDoc.electrum[key] = {
+            protocol: protocol,
+            host: host,
+            ip: ip,
+            port: port,
+            version: version,
+            limit: limit,
+          };
         }
-        const key = shortHash(protocol + host);
-        newDoc.electrum[key] = {
-          protocol: protocol,
-          host: host,
-          ip: ip,
-          port: port,
-          version: version,
-          limit: limit,
-        };
       }
       callback(null, newDoc);
     });
