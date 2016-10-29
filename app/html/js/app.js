@@ -95,7 +95,13 @@ app.controller(
       if (err) {
         return Relief.log.error(err);
       }
-      appData = doc;
+      if (!doc) {
+        appData = {
+          language: Relief.env.defaultLanguage,
+        };
+      } else {
+        appData = doc;
+      }
       // First start, we're not logged in
       $scope.loggedOut();
     });
