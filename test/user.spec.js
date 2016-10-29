@@ -1,5 +1,13 @@
 const assert = require('assert');
-const user = require('../app/lib/user');
+
+const App = {
+  env: require('../app/lib/env'),
+  log: require('../app/lib/log'),
+  window: require('../app/lib/window'),
+  persistence: require('../app/lib/persistence/persistence'),
+};
+
+const user = require('../app/lib/user')(App);
 
 describe('user', function() {
   it('creates a user', function(done) {
