@@ -1,0 +1,10 @@
+{
+  "name":"wallet",
+  "title":{
+    "en":"Wallet"
+  },
+  "description":"Addresses and Balances",
+  "version":"0.0.0",
+  "icon":"icon-user",
+  "main":"wallet.html"
+}

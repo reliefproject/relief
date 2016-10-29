@@ -1,0 +1,10 @@
+{
+  "name":"transact",
+  "title":{
+    "en":"Transact"
+  },
+  "description":"Send Transctions",
+  "version":"0.0.0",
+  "icon":"icon-pencil",
+  "main":"transact.html"
+}

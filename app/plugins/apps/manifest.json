@@ -1,0 +1,10 @@
+{
+  "name":"apps",
+  "title":{
+    "en":"Apps"
+  },
+  "description":"Relief Plugins",
+  "version":"0.0.0",
+  "icon":"icon-layout",
+  "main":"apps.html"
+}

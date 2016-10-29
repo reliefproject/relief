@@ -184,7 +184,7 @@
               alert('fail');
               return;
             }
-            alert('ok')
+            Relief.events.emit('loggedIn');
           }
         );
       }
