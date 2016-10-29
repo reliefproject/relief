@@ -46,6 +46,24 @@ app.controller(
       return $sce.trustAsResourceUrl(tab.url);
     };
 
+    $scope.loggedOut = function() {
+      Relief.plugin.loadPlugin('start', function(err, data) {
+        if (err) {
+          return Relief.log.error(err);
+        }
+        $scope.tabs = {};
+        $scope.tabs['start'] = data;
+        updateTabData();
+        $scope.selectedTab = 'start';
+        $scope.$apply();
+
+        setTimeout(function() {
+              const webview = document.getElementById('start');
+              webview.openDevTools();
+            }, 1000);
+      });
+    };
+
     const getTabDisplayTitle = function(plugin) {
       if (plugin.title !== null && typeof plugin.title === 'object') {
         return plugin.title[appData.language]
@@ -77,21 +95,8 @@ app.controller(
         return Relief.log.error(err);
       }
       appData = doc;
-    });
-
-    Relief.plugin.loadPlugin('start', function(err, data) {
-      if (err) {
-        return Relief.log.error(err);
-      }
-      $scope.tabs['start'] = data;
-      updateTabData();
-      $scope.selectedTab = 'start';
-      $scope.$apply();
-
-      setTimeout(function() {
-            const webview = document.getElementById('start');
-            webview.openDevTools();
-          }, 1000);
+      // First start, we're not logged in
+      $scope.loggedOut();
     });
 
     Relief.events.on('loggedIn', function() {
