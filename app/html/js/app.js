@@ -50,7 +50,7 @@ app.controller(
       if (plugin.title !== null && typeof plugin.title === 'object') {
         return plugin.title[appData.language]
           ? plugin.title[appData.language]
-          : plugin.title[env.defaultLanguage];
+          : plugin.title[Relief.env.defaultLanguage];
       }
       return plugin.name;
     };
@@ -95,6 +95,7 @@ app.controller(
     });
 
     Relief.events.on('loggedIn', function() {
+      console.log('ok');
       const onWalletLoad = function(err, data) {
         if (err) {
           return Relief.log.error(err);
