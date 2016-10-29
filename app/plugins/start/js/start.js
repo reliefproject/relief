@@ -119,7 +119,7 @@
           $scope.create.language = language;
           $scope.strings = strings.account;
           $scope.$apply();
-          //Relief.event.emit('languageChanged', language);
+          Relief.events.emit('languageChanged', language);
         });
       });
     };
@@ -223,7 +223,7 @@
           // Set other things here
         }, function(err) {
           if (err) {
-            alert('Unexpected error; See log for details.')
+            // Username taken
             Relief.log.error(err);
             return;
           }

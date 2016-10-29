@@ -5,6 +5,7 @@ app.controller(
   ['$scope', '$sce', '$timeout',
   function($scope, $sce, $timeout) {
 
+    let appData = {};
     $scope.tabs = {};
 
     $scope.selectTab = function(tabId) {
@@ -22,10 +23,8 @@ app.controller(
     };
 
     $scope.closeTab = function(tabId) {
-
       const webview = document.getElementById(tabId);
       const showing = angular.element(webview).hasClass('show');
-
       if (showing) {
         let tabIndex;
         const keys = Object.keys($scope.tabs);
@@ -40,7 +39,6 @@ app.controller(
           : tabIndex - 1;
         $scope.selectTab(keys[tabToSelect]);
       }
-
       delete $scope.tabs[tabId];
     };
 
@@ -48,17 +46,45 @@ app.controller(
       return $sce.trustAsResourceUrl(tab.url);
     };
 
+    const getTabDisplayTitle = function(plugin) {
+      if (plugin.title !== null && typeof plugin.title === 'object') {
+        return plugin.title[appData.language]
+          ? plugin.title[appData.language]
+          : plugin.title[env.defaultLanguage];
+      }
+      return plugin.name;
+    };
+
     const getPluginSrc = function(plugin) {
       return '../plugins/' + plugin.name + '/' + plugin.main;
     }
+
+    const updateTabData = function() {
+      for (var k in $scope.tabs) {
+        if (!$scope.tabs[k].url) {
+          $scope.tabs[k].url = getPluginSrc($scope.tabs[k]);
+        }
+        if (Relief.env.fixedTabs.indexOf($scope.tabs[k].name) != -1) {
+          $scope.tabs[k].fixed = true;
+        }
+        $scope.tabs[k].displayTitle = getTabDisplayTitle($scope.tabs[k]);
+      }
+      $scope.$apply();
+    };
+
+    Relief.persistence.db.app.getDoc(function(err, doc) {
+      if (err) {
+        return Relief.log.error(err);
+      }
+      appData = doc;
+    });
 
     Relief.plugin.loadPlugin('start', function(err, data) {
       if (err) {
         return Relief.log.error(err);
       }
-      data.fixed = true;
-      data.url = getPluginSrc(data);
       $scope.tabs['start'] = data;
+      updateTabData();
       $scope.selectedTab = 'start';
       $scope.$apply();
 
@@ -69,40 +95,38 @@ app.controller(
     });
 
     Relief.events.on('loggedIn', function() {
-      let wallet = {};
-      let apps = {};
       const onWalletLoad = function(err, data) {
         if (err) {
           return Relief.log.error(err);
         }
-        wallet = data;
+        delete $scope.tabs['start'];
+        $scope.tabs['wallet'] = data;
         Relief.plugin.loadPlugin('apps', onAppsLoad);
       };
       const onAppsLoad = function(err, data) {
         if (err) {
           return Relief.log.error(err);
         }
-        apps = data;
+        $scope.tabs['apps'] = data;
         Relief.plugin.loadPlugin('transact', onTransactLoad);
       };
       const onTransactLoad = function(err, data) {
         if (err) {
           return Relief.log.error(err);
         }
-        wallet.fixed = true;
-        apps.fixed = true;
-        data.fixed = true;
-        wallet.url = getPluginSrc(wallet);
-        apps.url = getPluginSrc(apps);
-        data.url = getPluginSrc(data);
-        $scope.tabs['wallet'] = wallet;
-        $scope.tabs['apps'] = apps;
         $scope.tabs['transact'] = data;
-        delete $scope.tabs['start'];
+        updateTabData();
         $scope.selectTab('wallet');
         $scope.$apply();
       };
       Relief.plugin.loadPlugin('wallet', onWalletLoad);
+    });
+
+    Relief.events.on('languageChanged', function(lang) {
+      if (lang !== appData.language) {
+        appData.language = lang;
+        updateTabData();
+      }
     });
   },
 ]);

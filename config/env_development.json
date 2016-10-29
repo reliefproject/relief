@@ -36,5 +36,6 @@
       "name" : "Deutsch"
     }
   ],
-  "defaultLanguage":"en"
+  "defaultLanguage":"en",
+  "fixedTabs":["start", "wallet", "apps", "transact"]
 }
