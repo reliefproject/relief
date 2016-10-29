@@ -1,16 +1,18 @@
 (function() {
 
-  var appData = {};
-  var appDb = { _id: 'appData' };
+  let appData = {
+    users: {},
+    servers: {
+      electrum: {},
+      nxt: {},
+    },
+  };
 
-  var app = angular.module(
+  const app = angular.module(
     'Account',
     ['ngSanitize']
   );
 
-  /**
-   * Main controller
-   */
   app.controller('MainCtrl', ['$scope', '$timeout', function($scope, $timeout) {
 
     $scope.finishedLoading = false;
@@ -19,21 +21,17 @@
       $scope.$apply();
     });
 
-    $scope.strings = {};//Relief.messages.account;
+    $scope.strings = {};
     $scope.languages = Relief.env.languages;
-
-    $scope.selectedTab = 'login';
+    $scope.selectedTab = 'start';
     $scope.createFormStep = 1;
     $scope.createAccountSuccess = false;
-
     $scope.showAdvSettingsLogin = false;
     $scope.showAdvSettingsCreate = false;
-
-    $scope.servers = {};
-
-    /**
-     * Login Form
-     */
+    $scope.servers = {
+      electrum: {},
+      nxt: {},
+    };
     $scope.login = {
       language: '',
       username: '',
@@ -51,15 +49,10 @@
         remember: false,
       },
     };
-
     $scope.loginErrorUsername = '';
     $scope.loginErrorPassword = '';
     $scope.loginErrorElectrum = '';
     $scope.loginErrorNxt = '';
-
-    /**
-     * Create Account Form
-     */
     $scope.create = {
       language: '',
       username: '',
@@ -70,7 +63,6 @@
       nxtPhrase1: '',
       nxtPhrase2: '',
     };
-
     $scope.createErrorUsername = '';
     $scope.createErrorPassword1 = '';
     $scope.createErrorPassword2 = '';
@@ -79,21 +71,13 @@
     $scope.createErrorNxtPhrase1 = '';
     $scope.createErrorNxtPhrase2 = '';
 
-
     Relief.persistence.db.app.getDoc(function(err, data) {
       if (err) {
         return Relief.log.error(err);
       }
-      const tmpl = {
-        users: {},
-        servers: {
-          electrum: {},
-          nxt: {},
-        },
-      };
-      appData = data
-        ? data
-        : tmpl;
+      if (data) {
+        appData = data;
+      }
 
       // Show "create account" if there are no users
       if (Object.keys(appData.users).length === 0) {
@@ -102,7 +86,7 @@
 
       $scope.login.language = appData.language
         ? appData.language
-        : 'en';
+        : Relief.env.defaultLanguage;
       $scope.create.language = $scope.login.language;
 
       // Get server lists
@@ -110,28 +94,25 @@
         if (err) {
           return Relief.log.error(err);
         }
-        if (!data) {
-          data = { electrum: {}, nxt: {}}
+        if (data) {
+          $scope.servers = data;
         }
         // Remembered servers
         if (Object.keys(appData.servers.electrum) > 0) {
           $scope.login.electrum = appData.servers.electrum;
         } else {
           // TODO Server selection logic
-          var key = Object.keys(data.electrum)[0];
-          $scope.login.electrum = data.electrum[key];
+          var key = Object.keys($scope.servers.electrum)[0];
+          $scope.login.electrum = $scope.servers.electrum[key];
         }
-
         if (Object.keys(appData.servers.nxt) > 0) {
           $scope.login.nxt = appData.servers.nxt;
         } else {
           // TODO Server selection logic
-          var key = Object.keys(data.nxt)[0];
-          $scope.login.nxt = data.nxt[key];
+          var key = Object.keys($scope.servers.nxt)[0];
+          $scope.login.nxt = $scope.servers.nxt[key];
         }
-
-        // Server lists
-        $scope.servers = data;
+        $scope.$apply();
 
         //Relief.event.emit('startUpDone');
       });
@@ -165,21 +146,21 @@
      * Load lanuage strings when user switches language
      */
     var languageChanged = function(language) {
-      if (!language || (language == appData.language)) {
+      if (!language) {
         return;
       }
       appData.language = language;
       Relief.persistence.db.app.upsert(appData, function() {
         Relief.i18n.loadStrings(language, function(err, strings) {
-            if (err) {
-              return Relief.log.error(err);
-            }
-            $scope.login.language = language;
-            $scope.create.language = language;
-            $scope.strings = strings.account;
-            $scope.$apply();
-            //Relief.event.emit('languageChanged', language);
-          });
+          if (err) {
+            return Relief.log.error(err);
+          }
+          $scope.login.language = language;
+          $scope.create.language = language;
+          $scope.strings = strings.account;
+          $scope.$apply();
+          //Relief.event.emit('languageChanged', language);
+        });
       });
     };
     $scope.$watch('login.language', languageChanged);
