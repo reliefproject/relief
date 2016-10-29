@@ -87,7 +87,6 @@
           return Relief.log.error(err);
         }
         if (data) {
-          //$scope.servers = data;
           serverData = data;
         }
         // Remembered servers
@@ -128,7 +127,7 @@
           }
           $scope.login.language = language;
           $scope.create.language = language;
-          $scope.strings = strings.account;
+          $scope.strings = strings.start;
           $scope.$apply();
           Relief.events.emit('languageChanged', language);
         });
@@ -176,14 +175,13 @@
         'nxtHost',
         'nxtPort',
       ];
-
       for (var i in serverFields) {
         var key = serverFields[i];
         if ($scope.forms.loginForm[key].$invalid) {
           $scope.showAdvSettingsLogin = true;
         }
       }
-      console.log($scope.forms.loginForm.$valid)
+
       // Client-side validation passed
       if ($scope.forms.loginForm.$valid) {
         // Do stuff
