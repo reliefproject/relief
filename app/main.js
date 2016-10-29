@@ -21,34 +21,34 @@
   };
 
   app.on('ready', function() {
-    const mainWindow = Relief.window.createWindow();
-    Relief.events.on('loadingComplete', function() {
-      mainWindow.show();
-    });
+
+    Relief.log.info('Starting application...');
+    Relief.log.info('Environment: ', Relief.env.name);
+    Relief.log.info('Version: ', Relief.env.version);
+
+    const onPersistenceInit = function(err) {
+      if (err) {
+        Relief.log.error(err);
+        process.exit();
+      }
+      Relief.blockchain.init(onBlockchainInit);
+    };
+
+    const onBlockchainInit = function(err) {
+      if (err) {
+        Relief.log.error(err);
+      }
+      const mainWindow = Relief.window.createWindow();
+      Relief.events.on('loadingComplete', function() {
+        mainWindow.show();
+      });
+    };
+
+    Relief.persistence.init(onPersistenceInit);
   });
 
   app.on('window-all-closed', function() {
     app.quit();
   });
-
-  Relief.log.info('Starting application...');
-  Relief.log.info('Environment: ', Relief.env.name);
-  Relief.log.info('Version: ', Relief.env.version);
-
-  const onPersistenceInit = function(err) {
-    if (err) {
-      Relief.log.error(err);
-      process.exit();
-    }
-    Relief.blockchain.init(onBlockchainInit);
-  };
-
-  const onBlockchainInit = function(err) {
-    if (err) {
-      Relief.log.error(err);
-    }
-  };
-
-  Relief.persistence.init(onPersistenceInit);
 
 }());
