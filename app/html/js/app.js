@@ -47,6 +47,7 @@ app.controller(
     };
 
     $scope.loggedOut = function() {
+      $scope.isLoggedIn = false;
       Relief.plugin.loadPlugin('start', function(err, data) {
         if (err) {
           return Relief.log.error(err);
@@ -100,7 +101,7 @@ app.controller(
     });
 
     Relief.events.on('loggedIn', function() {
-      console.log('ok');
+      $scope.isLoggedIn = true;
       const onWalletLoad = function(err, data) {
         if (err) {
           return Relief.log.error(err);
