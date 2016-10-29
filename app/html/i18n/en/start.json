@@ -26,6 +26,10 @@
 		"LIMIT": "Limit",
 		"LOGIN_ERROR_FAILED":"Login failed",
     "LOGIN_ERROR_SERVER":"Server settings invalid",
+		"CREATE_ERROR_MATCH":"Passwords do not match",
+		"CREATE_ERROR_USERNAME":"Invalid username",
+		"CREATE_ERROR_PASSWORD":"Invalid password",
+		"CREATE_ERROR_NAMETAKEN":"Username already taken",
 		"ALPHANUM_SPACES": "Letters, numbers and spaces allowed",
 		"MINLENGTH_10": "Must be at least 10 characters",
     "CREATE_SUCCESS":"Account created successfully. Please log in."

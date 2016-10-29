@@ -194,23 +194,18 @@
      */
     $scope.submitCreateForm = function() {
 
-      // Set all fields to "touched"
-      angular.forEach($scope.forms.createForm.$error.required, function(field) {
-        field.$setTouched();
-      });
-
       // Passwords do not match
       if ($scope.create.password1 !== $scope.create.password2) {
-        $scope.forms.createForm.password2.$setValidity(
-          'forms.createForm.password2.$error.match',
-          false
-        );
-        $scope.forms.createForm.password2.$setTouched();
-      } else {
-        $scope.forms.createForm.password2.$setValidity(
-          'forms.createForm.password2.$error.match',
-          true
-        );
+        $scope.forms.createForm.err = $scope.strings.CREATE_ERROR_MATCH;
+        return;
+      }
+
+      if (!$scope.forms.createForm.username.$valid) {
+        $scope.forms.createForm.err = $scope.strings.CREATE_ERROR_USERNAME;
+      }
+
+      if (!$scope.forms.createForm.password1.$valid) {
+        $scope.forms.createForm.err = $scope.strings.CREATE_ERROR_PASSWORD;
       }
 
       // Client-side validation passed
@@ -222,9 +217,10 @@
           // Set other things here
         }, function(err) {
           if (err) {
-            // Username taken
-            Relief.log.error(err);
-            return;
+            $scope.forms.createForm.$invalid = true;
+            $scope.forms.createForm.err = $scope.strings.CREATE_ERROR_NAMETAKEN;
+            $scope.$apply();
+            return Relief.log.error(err);
           }
           $scope.selectedTab = 'login';
           $scope.createAccountSuccess = true;

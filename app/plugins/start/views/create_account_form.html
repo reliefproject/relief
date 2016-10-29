@@ -2,9 +2,9 @@
       ng-submit="submitCreateForm()">
 
   <div class="alert alert-danger" role="alert"
-       ng-show="createForm.$submitted && createForm.$invalid">
+       ng-show="forms.createForm.$submitted && forms.createForm.$invalid">
     <span class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></span>
-    {{ strings.FORM_ERROR }}
+    {{ forms.createForm.err }}
   </div>
 
 
@@ -15,28 +15,22 @@
     </select>
   </div>
 
-  <div class="form-group" ng-class="{'has-error': createForm.username.$touched && createForm.username.$invalid }">
+  <div class="form-group">
     <label>{{ strings.USERNAME }}</label>
     <input type="text" class="form-control" name="username" placeholder="{{ strings.ALPHANUM_SPACES }}"
            ng-model="create.username" ng-pattern="'^[a-zA-Z0-9\-\s]+$'" required>
-    <span class="help-block" ng-show="createErrorUsername">{{ createErrorUsername }}</span>
   </div>
 
-  <div class="form-group" ng-class="{'has-error': createForm.password1.$touched && createForm.password1.$invalid }">
+  <div class="form-group">
     <label>{{ strings.PASSWORD }}</label>
     <input type="password" class="form-control" name="password1" placeholder="{{ strings.MINLENGTH_10 }}"
            ng-model="create.password1" ng-minlength="10" required>
-    <span class="help-block" ng-show="createErrorPassword1">{{ createErrorPassword1 }}</span>
   </div>
 
-  <div class="form-group"
-        ng-class="{'has-error': createForm.password2.$touched &&
-                                (createForm.password2.$invalid || !createForm.password2.$match )
-                  }">
+  <div class="form-group">
     <label>{{ strings.PASSWORD_REPEAT }}</label>
     <input type="password" class="form-control" name="password2" placeholder=""
            ng-model="create.password2" ng-minlength="10" required>
-    <span class="help-block" ng-show="createErrorPassword2">{{ createErrorPassword2 }}</span>
   </div>
 
 
