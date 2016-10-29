@@ -60,7 +60,8 @@
     <input type="text" class="form-control" name="electrumPort" placeholder="Port" size="5"
            ng-model="login.electrum.port" required />
 
-    <a href="#" type="button" class="btn btn-large btn-default" data-toggle="modal" data-target="#serverListElectrum">
+    <a href="#" type="button" class="btn btn-large btn-default" data-toggle="modal" data-target="#serverListElectrum"
+       ng-click="showingServerList()">
       <span class="icon icon-list"></span> &nbsp;
     </a>
 
@@ -94,7 +95,8 @@
     <input type="text" class="form-control" name="nxtPort" placeholder="Port" size="5"
            ng-model="login.nxt.port" required>
 
-    <a href="#" type="button" class="btn btn-large btn-default" data-toggle="modal" data-target="#serverListNxt">
+    <a href="#" type="button" class="btn btn-large btn-default" data-toggle="modal" data-target="#serverListNxt"
+       ng-click="showingServerList()">
       <span class="icon icon-list"></span>&nbsp;
     </a>
 

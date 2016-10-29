@@ -5,8 +5,9 @@
     ['ngSanitize']
   );
 
-  app.controller('MainCtrl', ['$scope', '$timeout', function($scope, $timeout) {
+  app.controller('MainCtrl', function($scope, $timeout) {
 
+    let serverData = {};
     $scope.strings = {};
     $scope.languages = Relief.env.languages;
     $scope.selectedTab = 'login';
@@ -71,28 +72,38 @@
         : Relief.env.defaultLanguage;
       $scope.create.language = $scope.login.language;
 
+      // Put serverlist in scope only when needed to prevent
+      // Performance issues
+      $scope.showingServerList = function() {
+        $scope.servers = serverData;
+      };
+      $(document.body).on('hidden.bs.modal', function() {
+        $scope.servers = {};
+      });
+
       // Get server lists
       Relief.persistence.db.servers.getDoc(function(err, data) {
         if (err) {
           return Relief.log.error(err);
         }
         if (data) {
-          $scope.servers = data;
+          //$scope.servers = data;
+          serverData = data;
         }
         // Remembered servers
         if (Object.keys(appData.servers.electrum) > 0) {
           $scope.login.electrum = appData.servers.electrum;
         } else {
           // TODO Server selection logic
-          var key = Object.keys($scope.servers.electrum)[0];
-          $scope.login.electrum = $scope.servers.electrum[key];
+          var key = Object.keys(serverData.electrum)[0];
+          $scope.login.electrum = serverData.electrum[key];
         }
         if (Object.keys(appData.servers.nxt) > 0) {
           $scope.login.nxt = appData.servers.nxt;
         } else {
           // TODO Server selection logic
-          var key = Object.keys($scope.servers.nxt)[0];
-          $scope.login.nxt = $scope.servers.nxt[key];
+          var key = Object.keys(serverData.nxt)[0];
+          $scope.login.nxt = serverData.nxt[key];
         }
         $scope.$apply();
         // Wait for language strings to load
@@ -172,7 +183,7 @@
           $scope.showAdvSettingsLogin = true;
         }
       }
-
+      console.log($scope.forms.loginForm.$valid)
       // Client-side validation passed
       if ($scope.forms.loginForm.$valid) {
         // Do stuff
@@ -180,6 +191,7 @@
           $scope.login.username,
           $scope.login.password,
           function(err) {
+            console.log('ok')
             if (err) {
               alert('fail');
               return;
@@ -234,6 +246,6 @@
       }
     };
 
-  },]);
+  });
 
 })();
