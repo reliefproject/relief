@@ -25,10 +25,8 @@ const getPath = function(filename) {
 };
 
 const init = function(callback) {
-
   const appDbPath = getPath(env.appDbName);
   const serverDbPath = getPath(env.serverDbName);
-
   db.app = new Storage({
     id: 'app',
     filename: appDbPath,
@@ -39,25 +37,13 @@ const init = function(callback) {
     filename: serverDbPath,
     createIfNotExists: true,
   });
-
   if (db.app instanceof Error) {
     return callback(db.app);
   }
   if (db.servers instanceof Error) {
     return callback(db.servers);
   }
-
-  db.app.getDoc(function(err, doc) {
-    if (err) {
-      return callback(err);
-    }
-    db.servers.getDoc(function(err, doc) {
-      if (err) {
-        return callback(err);
-      }
-      callback();
-    });
-  });
+  callback();
 };
 
 const initUserDb = function(username, key, callback) {
