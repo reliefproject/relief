@@ -65,10 +65,12 @@ module.exports = function(options) {
   };
 
   this.updateDoc = function(doc, callback) {
+    doc._id = options.id;
     db.update({ _id: options.id }, doc, {}, callback);
   };
 
   this.upsert = function(doc, callback) {
+    doc._id = options.id;
     db.update({ _id: options.id }, doc, { upsert: true }, callback);
   };
 
