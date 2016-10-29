@@ -6,7 +6,7 @@ const createWindow = function() {
   const { screen } = require('electron');
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   mainWindow = new BrowserWindow({
-    show: true,
+    show: false,
     width: width,
     height: height,
   });

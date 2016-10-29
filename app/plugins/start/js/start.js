@@ -7,15 +7,9 @@
 
   app.controller('MainCtrl', ['$scope', '$timeout', function($scope, $timeout) {
 
-    $scope.finishedLoading = false;
-    angular.element(document).ready(function() {
-      $scope.finishedLoading = true;
-      $scope.$apply();
-    });
-
     $scope.strings = {};
     $scope.languages = Relief.env.languages;
-    $scope.selectedTab = 'start';
+    $scope.selectedTab = 'login';
     $scope.forms = {};
     $scope.createAccountSuccess = false;
     $scope.showAdvSettingsLogin = false;
@@ -101,8 +95,10 @@
           $scope.login.nxt = $scope.servers.nxt[key];
         }
         $scope.$apply();
-
-        //Relief.event.emit('startUpDone');
+        // Wait for language strings to load
+        $timeout(function() {
+          Relief.events.emit('loadingComplete');
+        }, 500);
       });
     });
 
@@ -155,7 +151,6 @@
      * Submit Login Form
      */
     $scope.submitLoginForm = function() {
-      console.log($scope.forms.loginForm)
       // Set all fields to "touched"
       angular.forEach($scope.forms.loginForm.$error.required, function(field) {
         field.$setTouched();
@@ -181,14 +176,15 @@
       // Client-side validation passed
       if ($scope.forms.loginForm.$valid) {
         // Do stuff
-        Relief.session.login(
+        Relief.user.login(
           $scope.login.username,
           $scope.login.password,
-          function(success) {
-            if (success) {
-              // TODO servers
-              Relief.event.emit('loggedIn');
+          function(err) {
+            if (err) {
+              alert('fail');
+              return;
             }
+            alert('ok')
           }
         );
       }
@@ -221,7 +217,20 @@
       // Client-side validation passed
       if ($scope.forms.createForm.$valid) {
         $scope.forms.createForm.password2.$setUntouched();
-        console.log('ok')
+        Relief.user.createAccount({
+          username: $scope.create.username,
+          password: $scope.create.password1,
+          // Set other things here
+        }, function(err) {
+          if (err) {
+            alert('Unexpected error; See log for details.')
+            Relief.log.error(err);
+            return;
+          }
+          $scope.selectedTab = 'login';
+          $scope.createAccountSuccess = true;
+          $scope.$apply();
+        });
       }
     };
 
