@@ -35,5 +35,6 @@
       "id" : "de",
       "name" : "Deutsch"
     }
-  ]
+  ],
+  "defaultLanguage":"en"
 }

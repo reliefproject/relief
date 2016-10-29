@@ -26,8 +26,15 @@
       "port": 7876
     }
   },
-  "languages": {
-    "en": "English",
-    "de": "Deutsch"
-  }
+  "languages": [
+    {
+      "id" : "en",
+      "name" : "English"
+    },
+    {
+      "id" : "de",
+      "name" : "Deutsch"
+    }
+  ],
+  "defaultLanguage":"en"
 }
