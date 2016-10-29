@@ -8,26 +8,33 @@ module.exports = function(Relief) {
     nxt: {},
   };
 
-  this.init = function(callback) {
+  this.setServers = function(params, callback) {
+    if (params.electrum) {
+      bc.btc = new Btc(params.electrum);
+      Relief.log.info('Set server:', params.electrum);
+    }
+    if (params.nxt) {
+      bc.nxt = new Nxt(params.nxt);
+      Relief.log.info('Set server:', params.nxt);
+    }
+  };
 
+  this.init = function(callback) {
     let serverList = {};
     const onGetDoc = function(err, doc) {
       if (err) {
         return callback(err);
       }
-      doc = !doc
-        ? { servers: { electrum: {}, nxt: {}, }, }
-        : doc;
-
-      let initServers = {};
-      initServers.electrum = Object.keys(doc.servers.electrum).length > 0
-        ? doc.servers.electrum
-        : Relief.env.bootstrapServers.electrum;
-      initServers.nxt = Object.keys(doc.servers.nxt).length > 0
-        ? doc.servers.nxt
-        : Relief.env.bootstrapServers.nxt;
-      bc.btc = new Btc(initServers.electrum);
-      bc.nxt = new Nxt(initServers.nxt);
+      if (!doc) {
+        doc = Relief.env.bootstrapServers;
+      }
+      if (!doc.electrum) {
+        doc.electrum = Relief.env.bootstrapServers.electrum;
+      }
+      if (!doc.nxt) {
+        doc.nxt = Relief.env.bootstrapServers.nxt;
+      }
+      this.setServers(doc);
       bc.btc.getServerList(onGetElectrumServerList);
     };
 

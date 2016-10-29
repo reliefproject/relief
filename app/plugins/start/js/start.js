@@ -183,6 +183,10 @@
               $scope.$apply();
               return Relief.log.error(err);
             }
+            Relief.blockchain.setServers({
+              electrum: $scope.login.electrum,
+              nxt: $scope.login.nxt,
+            });
             Relief.events.emit('loggedIn');
           }
         );
