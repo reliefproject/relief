@@ -102,26 +102,34 @@ app.controller(
 
     Relief.events.on('loggedIn', function() {
       $scope.isLoggedIn = true;
+      let newTabs = {};
       const onWalletLoad = function(err, data) {
         if (err) {
           return Relief.log.error(err);
         }
-        delete $scope.tabs['start'];
-        $scope.tabs['wallet'] = data;
+        newTabs['wallet'] = data;
         Relief.plugin.loadPlugin('apps', onAppsLoad);
       };
       const onAppsLoad = function(err, data) {
         if (err) {
           return Relief.log.error(err);
         }
-        $scope.tabs['apps'] = data;
+        newTabs['apps'] = data;
         Relief.plugin.loadPlugin('transact', onTransactLoad);
       };
       const onTransactLoad = function(err, data) {
         if (err) {
           return Relief.log.error(err);
         }
-        $scope.tabs['transact'] = data;
+        newTabs['transact'] = data;
+        delete $scope.tabs['start'];
+        // Put the new tabs first, in case another tab
+        // e.g. "help" is already open
+        const oldTabs = $scope.tabs;
+        $scope.tabs = newTabs;
+        for (var k in oldTabs) {
+          $scope.tabs[k] = oldTabs[k];
+        }
         updateTabData();
         $scope.selectTab('wallet');
         $scope.$apply();
