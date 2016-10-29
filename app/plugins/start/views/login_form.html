@@ -2,9 +2,10 @@
       ng-submit="submitLoginForm()">
 
   <div class="alert alert-danger" role="alert"
-       ng-show="loginForm.$submitted && loginForm.$invalid">
+       ng-show="forms.loginForm.$submitted && forms.loginForm.$invalid">
     <span class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></span>
-    {{ strings.FORM_ERROR }}
+    <!--{{ strings.FORM_ERROR }}-->
+    {{ forms.loginForm.err }}
   </div>
 
   <div class="alert alert-success" role="alert"
@@ -21,18 +22,16 @@
     </select>
   </div>
 
-  <div class="form-group" ng-class="{'has-error': loginForm.username.$touched && loginForm.username.$invalid }">
+  <div class="form-group">
     <label>{{ strings.USERNAME }}</label>
     <input type="text" class="form-control" name="username"
            ng-model="login.username" ng-pattern="'^[a-zA-Z0-9\-\s]+$'" required>
-    <span class="help-block" ng-show="loginErrorUsername">{{ loginErrorUsername }}</span>
   </div>
 
-  <div class="form-group" ng-class="{'has-error': loginForm.password.$touched && loginForm.password.$invalid }">
+  <div class="form-group">
     <label>{{ strings.PASSWORD }}</label>
     <input type="password" class="form-control" name="password"
            ng-model="login.password" ng-minlength="10" required>
-    <span class="help-block" ng-show="loginErrorPassword">{{ loginErrorPassword }}</span>
   </div>
 
   <div class="form-group">
@@ -43,10 +42,7 @@
 
   <label ng-show="showAdvSettingsLogin == true">{{ strings.ELECTRUM }}</label>
 
-  <div class="form-group form-inline"
-       ng-show="showAdvSettingsLogin == true"
-       ng-class="{'has-error': (loginForm.electrumHost.$touched && loginForm.electrumHost.$invalid) ||
-                               (loginForm.electrumPort.$touched && loginForm.electrumPort.$invalid) }">
+  <div class="form-group form-inline" ng-show="showAdvSettingsLogin == true">
 
     <select class="form-control" name="electrumProtocol" style="min-width:90px"
             ng-model='login.electrum.protocol' required>
@@ -73,15 +69,11 @@
         </label>
       </div>
     </div>
-    <span class="help-block" ng-show="loginErrorElectrum">{{ loginErrorElectrum }}</span>
 
   </div>
 
   <label ng-show="showAdvSettingsLogin == true">{{ strings.NXT }}</label>
-  <div class="form-group form-inline"
-       ng-show="showAdvSettingsLogin == true"
-       ng-class="{'has-error': (loginForm.nxtHost.$touched && loginForm.nxtHost.$invalid) ||
-                               (loginForm.nxtPort.$touched && loginForm.nxtPort.$invalid) }">
+  <div class="form-group form-inline" ng-show="showAdvSettingsLogin == true">
 
     <select class="form-control" name="nxtProtocol"
             ng-model='login.nxt.protocol' required>
@@ -108,7 +100,6 @@
         </label>
       </div>
     </div>
-    <span class="help-block" ng-show="loginErrorNxt">{{ loginErrorNxt }}</span>
 
   </div>
 

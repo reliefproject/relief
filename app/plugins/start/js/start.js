@@ -137,17 +137,6 @@
     $scope.$watch('create.language', languageChanged);
 
     /**
-     * Reset "submitted" state when user corrects form input
-     */
-    $scope.$watch('forms.loginForm.$valid', function(validity) {
-      $timeout(function() {
-        if (validity) {
-          $scope.forms.loginForm.$submitted = false;
-        }
-      });
-    });
-
-    /**
      * Select servers
      */
     $scope.selectElectrumServer = function(server) {
@@ -161,12 +150,7 @@
      * Submit Login Form
      */
     $scope.submitLoginForm = function() {
-      // Set all fields to "touched"
-      angular.forEach($scope.forms.loginForm.$error.required, function(field) {
-        field.$setTouched();
-      });
 
-      // Open 'server settings' if one of the fields has an error
       var serverFields = [
         'electrumProtocol',
         'electrumHost',
@@ -175,24 +159,29 @@
         'nxtHost',
         'nxtPort',
       ];
-      for (var i in serverFields) {
-        var key = serverFields[i];
+      for (let i in serverFields) {
+        const key = serverFields[i];
         if ($scope.forms.loginForm[key].$invalid) {
-          $scope.showAdvSettingsLogin = true;
+          $scope.forms.loginForm.err = $scope.strings.LOGIN_ERROR_SERVER;
+          return;
         }
+      }
+
+      if (!$scope.forms.loginForm.$valid) {
+        $scope.forms.loginForm.err = $scope.strings.LOGIN_ERROR_FAILED;
       }
 
       // Client-side validation passed
       if ($scope.forms.loginForm.$valid) {
-        // Do stuff
         Relief.user.login(
           $scope.login.username,
           $scope.login.password,
           function(err) {
-            console.log('ok')
             if (err) {
-              alert('fail');
-              return;
+              $scope.forms.loginForm.$invalid = true;
+              $scope.forms.loginForm.err = $scope.strings.LOGIN_ERROR_FAILED;
+              $scope.$apply();
+              return Relief.log.error(err);
             }
             Relief.events.emit('loggedIn');
           }
