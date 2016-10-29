@@ -1,7 +1,7 @@
 (function() {
 
   const app = angular.module(
-    'Account',
+    'Start',
     ['ngSanitize']
   );
 
