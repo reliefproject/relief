@@ -2,16 +2,14 @@ module.exports = function(Relief) {
 
   const crypto = require('crypto');
   const uuid = require('node-uuid');
-  const env = require('./env')
-  const persistence = require('./persistence/persistence');
 
   const getHash = function(password, salt) {
     return crypto.pbkdf2Sync(
       password,
       salt,
-      env.pbkdf2Iterations,
-      env.pbkdf2Keylen,
-      env.pbkdf2Digest
+      Relief.env.pbkdf2Iterations,
+      Relief.env.pbkdf2Keylen,
+      Relief.env.pbkdf2Digest
     );
   };
 
@@ -26,7 +24,7 @@ module.exports = function(Relief) {
       }
       const salt = doc.users[username].salt;
       const key = getHash(password, salt);
-      persistence.initUserDb(username, key, onInitUserDb);
+      Relief.persistence.initUserDb(username, key, onInitUserDb);
     };
 
     const onInitUserDb = function(err) {
@@ -36,15 +34,15 @@ module.exports = function(Relief) {
       callback();
     };
 
-    persistence.db.app.getDoc(onGetDoc);
+    Relief.persistence.db.app.getDoc(onGetDoc);
   };
 
   this.logout = function(callback) {
-    persistence.unsetUserDb(callback);
+    Relief.persistence.unsetUserDb(callback);
   };
 
   this.isLoggedIn = function() {
-    return Object.keys(persistence.db.user).length > 0;
+    return Object.keys(Relief.persistence.db.user).length > 0;
   };
 
   this.createAccount = function(userData, callback) {
@@ -64,7 +62,7 @@ module.exports = function(Relief) {
       }
 
       const key = getHash(userData.password, salt);
-      persistence.createUserDb(userData.username, key, onCreateUserDb);
+      Relief.persistence.createUserDb(userData.username, key, onCreateUserDb);
     };
 
     const onCreateUserDb = function(err) {
@@ -76,7 +74,7 @@ module.exports = function(Relief) {
         salt: salt,
       };
       appData.users[userData.username] = user;
-      persistence.db.app.updateDoc(appData, onUpdateDoc);
+      Relief.persistence.db.app.updateDoc(appData, onUpdateDoc);
     };
 
     const onUpdateDoc = function(err) {
@@ -84,10 +82,10 @@ module.exports = function(Relief) {
         return callback(err);
       }
       delete userData.password;
-      persistence.db.user.insertDoc(userData, callback);
+      Relief.persistence.db.user.insertDoc(userData, callback);
     };
 
-    persistence.db.app.getDoc(onGetDoc);
+    Relief.persistence.db.app.getDoc(onGetDoc);
   };
 
   return this;
