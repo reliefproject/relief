@@ -1,0 +1,35 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">{{ strings.LIST_ELECTRUM_TITLE }}</h4>
+    </div>
+    <div class="modal-body">
+
+      <table class="table table-condensed table-hover table-fixed">
+        <thead>
+          <tr>
+            <th class="col-xs-2">{{ strings.PROTOCOL }}</th>
+            <th class="col-xs-6">{{ strings.HOSTNAME }}</th>
+            <th class="col-xs-2">{{ strings.PORT }}</th>
+            <th class="col-xs-2">{{ strings.LIMIT }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="(key, server) in servers.electrum"
+              ng-click="selectElectrumServer(server)"
+              data-dismiss="modal">
+            <td class="col-xs-2">{{ server.protocol }}</td>
+            <td class="col-xs-6">{{ server.host }}</td>
+            <td class="col-xs-2">{{ server.port }}</td>
+            <td class="col-xs-2">{{ server.limit }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">{{ strings.BTN_CLOSE }}</button>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

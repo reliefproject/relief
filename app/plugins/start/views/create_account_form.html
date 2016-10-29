@@ -1,0 +1,44 @@
+<form name="forms.createForm" novalidate
+      ng-submit="submitCreateForm()">
+
+  <div class="alert alert-danger" role="alert"
+       ng-show="createForm.$submitted && createForm.$invalid">
+    <span class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></span>
+    {{ strings.FORM_ERROR }}
+  </div>
+
+
+  <div class="form-group">
+    <label>{{ strings.LANGUAGE }}</label>
+    <select class="form-control"
+    ng-options="language.id as language.name for language in languages" ng-model='create.language' required>
+    </select>
+  </div>
+
+  <div class="form-group" ng-class="{'has-error': createForm.username.$touched && createForm.username.$invalid }">
+    <label>{{ strings.USERNAME }}</label>
+    <input type="text" class="form-control" name="username" placeholder="{{ strings.ALPHANUM_SPACES }}"
+           ng-model="create.username" ng-pattern="'^[a-zA-Z0-9\-\s]+$'" required>
+    <span class="help-block" ng-show="createErrorUsername">{{ createErrorUsername }}</span>
+  </div>
+
+  <div class="form-group" ng-class="{'has-error': createForm.password1.$touched && createForm.password1.$invalid }">
+    <label>{{ strings.PASSWORD }}</label>
+    <input type="password" class="form-control" name="password1" placeholder="{{ strings.MINLENGTH_10 }}"
+           ng-model="create.password1" ng-minlength="10" required>
+    <span class="help-block" ng-show="createErrorPassword1">{{ createErrorPassword1 }}</span>
+  </div>
+
+  <div class="form-group"
+        ng-class="{'has-error': createForm.password2.$touched &&
+                                (createForm.password2.$invalid || !createForm.password2.$match )
+                  }">
+    <label>{{ strings.PASSWORD_REPEAT }}</label>
+    <input type="password" class="form-control" name="password2" placeholder=""
+           ng-model="create.password2" ng-minlength="10" required>
+    <span class="help-block" ng-show="createErrorPassword2">{{ createErrorPassword2 }}</span>
+  </div>
+
+
+  <button type="submit" class="btn btn-default">{{ strings.BTN_CONTINUE }}</button>
+</form>

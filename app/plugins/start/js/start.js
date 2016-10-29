@@ -1,13 +1,5 @@
 (function() {
 
-  let appData = {
-    users: {},
-    servers: {
-      electrum: {},
-      nxt: {},
-    },
-  };
-
   const app = angular.module(
     'Account',
     ['ngSanitize']
@@ -24,10 +16,9 @@
     $scope.strings = {};
     $scope.languages = Relief.env.languages;
     $scope.selectedTab = 'start';
-    $scope.createFormStep = 1;
+    $scope.forms = {};
     $scope.createAccountSuccess = false;
     $scope.showAdvSettingsLogin = false;
-    $scope.showAdvSettingsCreate = false;
     $scope.servers = {
       electrum: {},
       nxt: {},
@@ -58,18 +49,15 @@
       username: '',
       password1: '',
       password2: '',
-      btcSeed1: '',
-      btcSeed2: '',
-      nxtPhrase1: '',
-      nxtPhrase2: '',
     };
     $scope.createErrorUsername = '';
     $scope.createErrorPassword1 = '';
     $scope.createErrorPassword2 = '';
-    $scope.createErrorBtcSeed1 = '';
-    $scope.createErrorBtcSeed2 = '';
-    $scope.createErrorNxtPhrase1 = '';
-    $scope.createErrorNxtPhrase2 = '';
+
+    let appData = {
+      users: {},
+      servers: $scope.servers,
+    };
 
     Relief.persistence.db.app.getDoc(function(err, data) {
       if (err) {
@@ -119,30 +107,6 @@
     });
 
     /**
-     * Generate Passphrases
-     */
-    Relief.passphrase.generate(12, function(phrase) {
-      $scope.create.btcSeed1 = phrase;
-    });
-    Relief.passphrase.generate(12, function(phrase) {
-      $scope.create.nxtPhrase1 = phrase;
-    });
-    $scope.generateBtcSeed = function() {
-      Relief.passphrase.generate(12, function(phrase) {
-        $timeout(function() {
-          $scope.create.btcSeed1 = phrase;
-        });
-      });
-    };
-    $scope.generateNxtPhrase = function() {
-      Relief.passphrase.generate(12, function(phrase) {
-        $timeout(function() {
-          $scope.create.nxtPhrase1 = phrase;
-        });
-      });
-    };
-
-    /**
      * Load lanuage strings when user switches language
      */
     var languageChanged = function(language) {
@@ -169,10 +133,10 @@
     /**
      * Reset "submitted" state when user corrects form input
      */
-    $scope.$watch('loginForm.$valid', function(validity) {
+    $scope.$watch('forms.loginForm.$valid', function(validity) {
       $timeout(function() {
         if (validity) {
-          $scope.loginForm.$submitted = false;
+          $scope.forms.loginForm.$submitted = false;
         }
       });
     });
@@ -191,9 +155,9 @@
      * Submit Login Form
      */
     $scope.submitLoginForm = function() {
-
+      console.log($scope.forms.loginForm)
       // Set all fields to "touched"
-      angular.forEach($scope.loginForm.$error.required, function(field) {
+      angular.forEach($scope.forms.loginForm.$error.required, function(field) {
         field.$setTouched();
       });
 
@@ -209,13 +173,13 @@
 
       for (var i in serverFields) {
         var key = serverFields[i];
-        if ($scope.loginForm[key].$invalid) {
+        if ($scope.forms.loginForm[key].$invalid) {
           $scope.showAdvSettingsLogin = true;
         }
       }
 
       // Client-side validation passed
-      if ($scope.loginForm.$valid) {
+      if ($scope.forms.loginForm.$valid) {
         // Do stuff
         Relief.session.login(
           $scope.login.username,
@@ -231,149 +195,36 @@
     };
 
     /**
-     * Submit Create Account Form Step 1
+     * Submit Create Account Form
      */
-    $scope.submitCreateFormStep1 = function() {
+    $scope.submitCreateForm = function() {
 
       // Set all fields to "touched"
-      angular.forEach($scope.createFormStep1.$error.required, function(field) {
+      angular.forEach($scope.forms.createForm.$error.required, function(field) {
         field.$setTouched();
       });
 
       // Passwords do not match
       if ($scope.create.password1 !== $scope.create.password2) {
-        $scope.createFormStep1.password2.$setValidity(
-          'createFormStep1.password2.$error.match',
+        $scope.forms.createForm.password2.$setValidity(
+          'forms.createForm.password2.$error.match',
           false
         );
-        $scope.createFormStep1.password2.$setTouched();
+        $scope.forms.createForm.password2.$setTouched();
       } else {
-        $scope.createFormStep1.password2.$setValidity(
-          'createFormStep1.password2.$error.match',
+        $scope.forms.createForm.password2.$setValidity(
+          'forms.createForm.password2.$error.match',
           true
         );
       }
 
       // Client-side validation passed
-      if ($scope.createFormStep1.$valid) {
-        $scope.createFormStep1.password2.$setUntouched();
-        $scope.createFormStep++;
-      }
-
-    };
-
-    /**
-     * Submit Create Account Form Step 2
-     */
-    $scope.submitCreateFormStep2 = function() {
-
-      // Set all fields to "touched"
-      angular.forEach($scope.createFormStep2.$error.required, function(field) {
-        field.$setTouched();
-      });
-
-      // Client-side validation passed
-      if ($scope.createFormStep2.$valid) {
-        $scope.createFormStep++;
+      if ($scope.forms.createForm.$valid) {
+        $scope.forms.createForm.password2.$setUntouched();
+        console.log('ok')
       }
     };
 
-    /**
-     * Submit Create Account Form Step 3
-     */
-    $scope.submitCreateFormStep3 = function() {
-
-      // Set all fields to "touched"
-      angular.forEach($scope.createFormStep3.$error.required, function(field) {
-        field.$setTouched();
-      });
-
-      // Passphrases do not match
-      if ($scope.create.btcSeed1 !== $scope.create.btcSeed2) {
-        $scope.createFormStep3.btcSeed.$setValidity(
-          'createFormStep3.btcSeed.$error.match',
-          false
-        );
-        $scope.createFormStep3.btcSeed.$setTouched();
-      } else {
-        $scope.createFormStep3.btcSeed.$setValidity(
-          'createFormStep3.btcSeed.$error.match',
-          true
-        );
-      }
-
-      // Client-side validation passed
-      if ($scope.createFormStep3.$valid) {
-        $scope.createFormStep++;
-      }
-    };
-
-    /**
-     * Submit Create Account Form Step 4
-     */
-    $scope.submitCreateFormStep4 = function() {
-
-      // Set all fields to "touched"
-      angular.forEach($scope.createFormStep4.$error.required, function(field) {
-        field.$setTouched();
-      });
-
-      // Client-side validation passed
-      if ($scope.createFormStep4.$valid) {
-        $scope.createFormStep++;
-      }
-
-    };
-
-    /**
-     * Submit Create Account Form Step 5
-     */
-    $scope.submitCreateFormStep5 = function() {
-
-      // Set all fields to "touched"
-      angular.forEach($scope.createFormStep5.$error.required, function(field) {
-        field.$setTouched();
-      });
-
-      // Passphrases do not match
-      if ($scope.create.nxtPhrase1 !== $scope.create.nxtPhrase2) {
-        $scope.createFormStep5.nxtPhrase.$setValidity(
-          'createFormStep5.nxtPhrase.$error.match',
-          false
-        );
-        $scope.createFormStep5.nxtPhrase.$setTouched();
-      } else {
-        $scope.createFormStep5.nxtPhrase.$setValidity(
-          'createFormStep5.nxtPhrase.$error.match',
-          true
-        );
-      }
-
-      // Client-side validation passed
-      if ($scope.createFormStep5.$valid) {
-        $scope.createFormStep++;
-      }
-    };
-
-    /**
-     * Account Creation Wizard End
-     */
-    $scope.createAccountEnd = function() {
-      // TODO BTC/NXT accs
-      Relief.session.createUser(
-        $scope.create.username,
-        $scope.create.password1,
-        function(success) {
-          if (!success) {
-            // TODO error handling
-          }
-          $timeout(function() {
-            $scope.createAccountSuccess = true;
-            $scope.selectedTab = 'login';
-          });
-        }
-      );
-    };
   },]);
 
 })();
