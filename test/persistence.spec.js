@@ -27,7 +27,7 @@ describe('persistence init', function() {
     });
   });
   it('can write to server DB', function(done) {
-    persistence.db.servers.insertDoc({ nxt: 'rocks' }, function(err) {
+    persistence.db.servers.upsert({ nxt: 'rocks' }, function(err) {
       assert.equal(err, undefined);
       done();
     }) ;
