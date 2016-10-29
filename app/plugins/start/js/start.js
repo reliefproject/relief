@@ -35,19 +35,12 @@
         remember: false,
       },
     };
-    $scope.loginErrorUsername = '';
-    $scope.loginErrorPassword = '';
-    $scope.loginErrorElectrum = '';
-    $scope.loginErrorNxt = '';
     $scope.create = {
       language: '',
       username: '',
       password1: '',
       password2: '',
     };
-    $scope.createErrorUsername = '';
-    $scope.createErrorPassword1 = '';
-    $scope.createErrorPassword2 = '';
 
     let appData = {
       users: {},
@@ -90,19 +83,25 @@
           serverData = data;
         }
         // Remembered servers
-        if (Object.keys(appData.servers.electrum) > 0) {
+        if (Object.keys(appData.servers.electrum).length > 0) {
           $scope.login.electrum = appData.servers.electrum;
         } else {
           // TODO Server selection logic
           var key = Object.keys(serverData.electrum)[0];
           $scope.login.electrum = serverData.electrum[key];
         }
-        if (Object.keys(appData.servers.nxt) > 0) {
+        if (Object.keys(appData.servers.nxt).length > 0) {
           $scope.login.nxt = appData.servers.nxt;
         } else {
           // TODO Server selection logic
           var key = Object.keys(serverData.nxt)[0];
           $scope.login.nxt = serverData.nxt[key];
+        }
+        // Stupid, TODO fix
+        if ($scope.login.nxt.hostname) {
+          $scope.login.nxt.host = $scope.login.nxt.hostname;
+          delete $scope.login.nxt.hostname;
+          $scope.login.nxt.protocol = $scope.login.nxt.protocol.slice(0, -1);
         }
         $scope.$apply();
         // This will trigger the main window to show
@@ -169,28 +168,43 @@
 
       if (!$scope.forms.loginForm.$valid) {
         $scope.forms.loginForm.err = $scope.strings.LOGIN_ERROR_FAILED;
+        return;
       }
 
       // Client-side validation passed
-      if ($scope.forms.loginForm.$valid) {
-        Relief.user.login(
-          $scope.login.username,
-          $scope.login.password,
-          function(err) {
-            if (err) {
-              $scope.forms.loginForm.$invalid = true;
-              $scope.forms.loginForm.err = $scope.strings.LOGIN_ERROR_FAILED;
-              $scope.$apply();
-              return Relief.log.error(err);
-            }
-            Relief.blockchain.setServers({
-              electrum: $scope.login.electrum,
-              nxt: $scope.login.nxt,
-            });
-            Relief.events.emit('loggedIn');
+      Relief.user.login(
+        $scope.login.username,
+        $scope.login.password,
+        function(err) {
+          if (err) {
+            $scope.forms.loginForm.$invalid = true;
+            $scope.forms.loginForm.err = $scope.strings.LOGIN_ERROR_FAILED;
+            $scope.$apply();
+            return Relief.log.error(err);
           }
-        );
-      }
+          // Set servers for current session
+          Relief.blockchain.setServers({
+            electrum: $scope.login.electrum,
+            nxt: $scope.login.nxt,
+          });
+          // Remember servers
+          let updateServers = {};
+          if ($scope.login.electrum.remember) {
+            updateServers['servers.electrum'] = $scope.login.electrum;
+          }
+          if ($scope.login.nxt.remember) {
+            updateServers['servers.nxt'] = $scope.login.nxt;
+          }
+          if (Object.keys(updateServers).length > 0) {
+            Relief.persistence.db.app.update(updateServers, function(err) {
+              if (err) {
+                Relief.log.error(err);
+              }
+            });
+          }
+          Relief.events.emit('loggedIn');
+        }
+      );
     };
 
     /**

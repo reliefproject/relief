@@ -11,11 +11,9 @@ module.exports = function(Relief) {
   this.setServers = function(params, callback) {
     if (params.electrum) {
       bc.btc = new Btc(params.electrum);
-      Relief.log.info('Set server:', params.electrum);
     }
     if (params.nxt) {
       bc.nxt = new Nxt(params.nxt);
-      Relief.log.info('Set server:', params.nxt);
     }
   };
 
