@@ -1,65 +1,25 @@
 module.exports = function(Relief) {
 
+  const path = require('path');
+  const jetpack = require('fs-jetpack');
   const Btc = require('./btc_electrum');
   const Nxt = require('./nxt_nrs');
 
-  let bc = {
-    btc: {},
-    nxt: {},
-  };
+  this.btc = {};
+  this.nxt = {};
 
-  this.setServers = function(params, callback) {
-    if (params.electrum) {
-      bc.btc = new Btc(params.electrum);
-    }
-    if (params.nxt) {
-      bc.nxt = new Nxt(params.nxt);
-    }
-  };
+  this.init = function() {
 
-  this.init = function(callback) {
-    let serverList = {};
-    const onGetDoc = function(err, doc) {
-      if (err) {
-        return callback(err);
-      }
-      if (!doc) {
-        doc = Relief.env.bootstrapServers;
-      }
-      if (!doc.electrum) {
-        doc.electrum = Relief.env.bootstrapServers.electrum;
-      }
-      if (!doc.nxt) {
-        doc.nxt = Relief.env.bootstrapServers.nxt;
-      }
-      this.setServers(doc);
-      bc.btc.getServerList(onGetElectrumServerList);
-    };
+    const dataDir = path.join(__dirname, '..', '..', 'data');
+    const electrumFile = path.join(dataDir, 'servers_electrum.json');
+    const nxtFile = path.join(dataDir, 'servers_nxt.json');
 
-    const onGetElectrumServerList = function(err, list) {
-      if (err) {
-        return callback(err);
-      }
-      serverList.electrum = list.electrum;
-      bc.nxt.getServerList(onGetNxtServerList);
-    };
+    const electrumList = jetpack.read(electrumFile);
+    const nxtList = jetpack.read(nxtFile);
 
-    const onGetNxtServerList = function(err, list) {
-      if (err) {
-        return callback(err);
-      }
-      serverList.nxt = list.nxt;
-      Relief.persistence.db.servers.upsert(serverList, onUpdateServerList);
-    };
-
-    const onUpdateServerList = function(err) {
-      if (err) {
-        return callback(err);
-      }
-      callback();
-    };
-
-    Relief.persistence.db.app.getDoc(onGetDoc);
+    //Console.log(nxtList)
+    this.btc = new Btc(electrumList);
+    this.nxt = new Nxt(nxtList);
   };
 
   return this;

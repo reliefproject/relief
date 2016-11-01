@@ -149,5 +149,13 @@ app.controller(
         updateTabData();
       }
     });
+
+    Relief.events.on('btc.numBlocks', function(height) {
+      alert(height);
+    });
+
+    Relief.events.on('nxt.numBlocks', function(height) {
+      alert(height);
+    });
   },
 ]);

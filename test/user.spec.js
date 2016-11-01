@@ -5,6 +5,9 @@ const App = {
   log: require('../app/lib/log'),
   window: require('../app/lib/window'),
   persistence: require('../app/lib/persistence/persistence'),
+  get blockchain() {
+    return require('../app/lib/blockchain/blockchain')(App);
+  },
 };
 
 const user = require('../app/lib/user')(App);
@@ -35,6 +38,7 @@ describe('user', function() {
       assert.equal(isLoggedIn, true);
       done();
     });
+
   });
   it('logs out', function(done) {
     user.logout(function(err) {

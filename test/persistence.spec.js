@@ -7,7 +7,7 @@ const env = require('../app/lib/env');
 const persistence = require('../app/lib/persistence/persistence');
 
 describe('persistence init', function() {
-  it('create application and server DB', function(done) {
+  it('create application DB', function(done) {
     persistence.init(function(err) {
       assert.equal(err, undefined);
       done();
@@ -23,19 +23,6 @@ describe('persistence init', function() {
     persistence.db.app.getDoc(function(err, doc) {
       assert.equal(err, undefined);
       assert.equal(doc.language, 'en');
-      done();
-    });
-  });
-  it('can write to server DB', function(done) {
-    persistence.db.servers.upsert({ nxt: 'rocks' }, function(err) {
-      assert.equal(err, undefined);
-      done();
-    }) ;
-  });
-  it('can read from server DB', function(done) {
-    persistence.db.servers.getDoc(function(err, doc) {
-      assert.equal(err, undefined);
-      assert.equal(doc.nxt, 'rocks');
       done();
     });
   });

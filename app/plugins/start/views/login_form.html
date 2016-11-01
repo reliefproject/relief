@@ -4,7 +4,6 @@
   <div class="alert alert-danger" role="alert"
        ng-show="forms.loginForm.$submitted && forms.loginForm.$invalid">
     <span class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></span>
-    <!--{{ strings.FORM_ERROR }}-->
     {{ forms.loginForm.err }}
   </div>
 
@@ -32,75 +31,6 @@
     <label>{{ strings.PASSWORD }}</label>
     <input type="password" class="form-control" name="password"
            ng-model="login.password" ng-minlength="10" required>
-  </div>
-
-  <div class="form-group">
-    <a href="#" ng-click="showAdvSettingsLogin = (showAdvSettingsLogin == true) ? false : true">
-      <span class="caret"></span> {{ strings.SERVER_SETTINGS }}
-    </a>
-  </div>
-
-  <label ng-show="showAdvSettingsLogin == true">{{ strings.ELECTRUM }}</label>
-
-  <div class="form-group form-inline" ng-show="showAdvSettingsLogin == true">
-
-    <select class="form-control" name="electrumProtocol" style="min-width:90px"
-            ng-model='login.electrum.protocol' required>
-      <option value="tls">TLS</option>
-      <option value="tcp">TCP</option>
-    </select>
-
-    <input type="text" class="form-control" name="electrumHost" placeholder="Hostname" size="12"
-           ng-model="login.electrum.host" required />
-
-    <input type="text" class="form-control" name="electrumPort" placeholder="Port" size="5"
-           ng-model="login.electrum.port" required />
-
-    <a href="#" type="button" class="btn btn-large btn-default" data-toggle="modal" data-target="#serverListElectrum"
-       ng-click="showingServerList()">
-      <span class="icon icon-list"></span> &nbsp;
-    </a>
-
-    <div class="help-block">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" ng-model="login.electrum.remember">
-          {{ strings.REMEMBER_SERVER }}
-        </label>
-      </div>
-    </div>
-
-  </div>
-
-  <label ng-show="showAdvSettingsLogin == true">{{ strings.NXT }}</label>
-  <div class="form-group form-inline" ng-show="showAdvSettingsLogin == true">
-
-    <select class="form-control" name="nxtProtocol"
-            ng-model='login.nxt.protocol' required>
-      <option value="https">HTTPS</option>
-      <option value="http">HTTP</option>
-    </select>
-
-    <input type="text" class="form-control" name="nxtHost" placeholder="Hostname" size="12"
-           ng-model="login.nxt.host" required>
-
-    <input type="text" class="form-control" name="nxtPort" placeholder="Port" size="5"
-           ng-model="login.nxt.port" required>
-
-    <a href="#" type="button" class="btn btn-large btn-default" data-toggle="modal" data-target="#serverListNxt"
-       ng-click="showingServerList()">
-      <span class="icon icon-list"></span>&nbsp;
-    </a>
-
-    <div class="help-block">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" ng-model="login.nxt.remember">
-          {{ strings.REMEMBER_SERVER }}
-        </label>
-      </div>
-    </div>
-
   </div>
 
   <button type="submit" class="btn btn-default">{{ strings.BTN_CONTINUE }}</button>

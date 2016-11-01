@@ -10,7 +10,6 @@ const Storage = require('./storage');
 let db = {
   user: {},
   app: {},
-  servers: {},
 };
 
 const dbDir = path.join(
@@ -26,22 +25,13 @@ const getPath = function(filename) {
 
 const init = function(callback) {
   const appDbPath = getPath(env.appDbName);
-  const serverDbPath = getPath(env.serverDbName);
   db.app = new Storage({
     id: 'app',
     filename: appDbPath,
     createIfNotExists: true,
   });
-  db.servers = new Storage({
-    id: 'servers',
-    filename: serverDbPath,
-    createIfNotExists: true,
-  });
   if (db.app instanceof Error) {
     return callback(db.app);
-  }
-  if (db.servers instanceof Error) {
-    return callback(db.servers);
   }
   callback();
 };
@@ -63,7 +53,6 @@ const initUserDb = function(username, key, callback) {
     callback();
   });
 };
-
 
 const createUserDb = function(username, key, callback) {
   const dbPath = getPath(env.userDbPrefix + username);

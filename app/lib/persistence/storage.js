@@ -9,7 +9,7 @@ module.exports = function(options) {
 
   /**
    * Options:
-   * id (app, servers, user)
+   * id ("app", "user")
    * filename (required)
    * createIfNotExists (default false)
    * encryptionKey

@@ -31,13 +31,7 @@
         Relief.log.error(err);
         process.exit();
       }
-      Relief.blockchain.init(onBlockchainInit);
-    };
-
-    const onBlockchainInit = function(err) {
-      if (err) {
-        Relief.log.error(err);
-      }
+      Relief.blockchain.init();
       const mainWindow = Relief.window.createWindow();
       Relief.events.on('loadingComplete', function() {
         mainWindow.show();

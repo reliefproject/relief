@@ -7,33 +7,15 @@
 
   app.controller('MainCtrl', function($scope, $timeout) {
 
-    let serverData = {};
     $scope.strings = {};
     $scope.languages = Relief.env.languages;
     $scope.selectedTab = 'login';
     $scope.forms = {};
     $scope.createAccountSuccess = false;
-    $scope.showAdvSettingsLogin = false;
-    $scope.servers = {
-      electrum: {},
-      nxt: {},
-    };
     $scope.login = {
       language: '',
       username: '',
       password: '',
-      electrum: {
-        protocol: '',
-        host: '',
-        port: '',
-        remember: false,
-      },
-      nxt: {
-        protocol: '',
-        host: '',
-        port: '',
-        remember: false,
-      },
     };
     $scope.create = {
       language: '',
@@ -44,7 +26,6 @@
 
     let appData = {
       users: {},
-      servers: $scope.servers,
     };
 
     Relief.persistence.db.app.getDoc(function(err, data) {
@@ -65,50 +46,8 @@
         : Relief.env.defaultLanguage;
       $scope.create.language = $scope.login.language;
 
-      // Put serverlist in scope only when needed to prevent
-      // Performance issues
-      $scope.showingServerList = function() {
-        $scope.servers = serverData;
-      };
-      $(document.body).on('hidden.bs.modal', function() {
-        $scope.servers = {};
-      });
-
-      // Get server lists
-      Relief.persistence.db.servers.getDoc(function(err, data) {
-        if (err) {
-          return Relief.log.error(err);
-        }
-        if (data) {
-          serverData = data;
-        }
-        // Remembered servers
-        if (Object.keys(appData.servers.electrum).length > 0) {
-          $scope.login.electrum = appData.servers.electrum;
-        } else {
-          // TODO Server selection logic
-          var key = Object.keys(serverData.electrum)[0];
-          $scope.login.electrum = serverData.electrum[key];
-        }
-        if (Object.keys(appData.servers.nxt).length > 0) {
-          $scope.login.nxt = appData.servers.nxt;
-        } else {
-          // TODO Server selection logic
-          var key = Object.keys(serverData.nxt)[0];
-          $scope.login.nxt = serverData.nxt[key];
-        }
-        // Stupid, TODO fix
-        if ($scope.login.nxt.hostname) {
-          $scope.login.nxt.host = $scope.login.nxt.hostname;
-          delete $scope.login.nxt.hostname;
-          $scope.login.nxt.protocol = $scope.login.nxt.protocol.slice(0, -1);
-        }
-        $scope.$apply();
-        // This will trigger the main window to show
-        $timeout(function() {
-          Relief.events.emit('loadingComplete');
-        }, 500);
-      });
+      // Let the main window show
+      Relief.events.emit('loadingComplete');
     });
 
     /**
@@ -136,35 +75,9 @@
     $scope.$watch('create.language', languageChanged);
 
     /**
-     * Select servers
-     */
-    $scope.selectElectrumServer = function(server) {
-      $scope.login.electrum = server;
-    };
-    $scope.selectNxtServer = function(server) {
-      $scope.login.nxt = server;
-    };
-
-    /**
      * Submit Login Form
      */
     $scope.submitLoginForm = function() {
-
-      var serverFields = [
-        'electrumProtocol',
-        'electrumHost',
-        'electrumPort',
-        'nxtProtocol',
-        'nxtHost',
-        'nxtPort',
-      ];
-      for (let i in serverFields) {
-        const key = serverFields[i];
-        if ($scope.forms.loginForm[key].$invalid) {
-          $scope.forms.loginForm.err = $scope.strings.LOGIN_ERROR_SERVER;
-          return;
-        }
-      }
 
       if (!$scope.forms.loginForm.$valid) {
         $scope.forms.loginForm.err = $scope.strings.LOGIN_ERROR_FAILED;
@@ -181,26 +94,6 @@
             $scope.forms.loginForm.err = $scope.strings.LOGIN_ERROR_FAILED;
             $scope.$apply();
             return Relief.log.error(err);
-          }
-          // Set servers for current session
-          Relief.blockchain.setServers({
-            electrum: $scope.login.electrum,
-            nxt: $scope.login.nxt,
-          });
-          // Remember servers
-          let updateServers = {};
-          if ($scope.login.electrum.remember) {
-            updateServers['servers.electrum'] = $scope.login.electrum;
-          }
-          if ($scope.login.nxt.remember) {
-            updateServers['servers.nxt'] = $scope.login.nxt;
-          }
-          if (Object.keys(updateServers).length > 0) {
-            Relief.persistence.db.app.update(updateServers, function(err) {
-              if (err) {
-                Relief.log.error(err);
-              }
-            });
           }
           Relief.events.emit('loggedIn');
         }

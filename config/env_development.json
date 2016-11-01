@@ -4,28 +4,17 @@
   "logFilePrefix":"relief_",
   "logFileSuffix":".log",
   "logsDir":"logs",
-  "storages":["app","servers","user"],
+  "storages":["app","user"],
   "dbDir":"databases",
   "appDbName":"application",
-  "serverDbName":"servers",
   "userDbPrefix":"user_",
   "dbSuffix":".db",
   "pbkdf2Iterations":100000,
   "pbkdf2Keylen":32,
   "pbkdf2Digest":"sha512",
   "pluginManifest":"manifest.json",
-  "bootstrapServers":{
-    "electrum":{
-      "protocol": "tcp",
-      "host": "electrum.online",
-      "port": 50001
-    },
-    "nxt":{
-      "protocol": "http",
-      "host": "23.92.52.49",
-      "port": 7876
-    }
-  },
+  "electrumNumSources":3,
+  "nxtNumSources":3,
   "languages": [
     {
       "id" : "en",
