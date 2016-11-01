@@ -8,7 +8,6 @@ module.exports = function(Relief) {
   this.btc = {};
   this.nxt = {};
   this.tasks = [];
-  this.lastTaskRun = 0;
 
   this.init = function() {
     const dataDir = path.join(__dirname, '..', '..', 'data');
