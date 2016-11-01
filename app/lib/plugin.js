@@ -3,7 +3,6 @@ const jetpack = require('fs-jetpack');
 const env = require('./env');
 
 const pluginDir = path.join('app', 'plugins');
-
 const getPluginList = function() {
   return jetpack.list(pluginDir);
 };

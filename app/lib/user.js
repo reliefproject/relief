@@ -14,7 +14,6 @@ module.exports = function(Relief) {
   };
 
   this.login = function(username, password, callback) {
-
     const onGetDoc = function(err, doc) {
       if (err) {
         return callback(err);
@@ -26,14 +25,12 @@ module.exports = function(Relief) {
       const key = getHash(password, salt);
       Relief.persistence.initUserDb(username, key, onInitUserDb);
     };
-
     const onInitUserDb = function(err) {
       if (err) {
         return callback(err);
       }
       callback();
     };
-
     Relief.persistence.db.app.getDoc(onGetDoc);
   };
 
@@ -48,7 +45,6 @@ module.exports = function(Relief) {
   this.createAccount = function(userData, callback) {
     let appData = {};
     const salt = uuid.v4();
-
     const onGetDoc = function(err, doc) {
       if (err) {
         return callback(err);
@@ -60,11 +56,13 @@ module.exports = function(Relief) {
       if (appData.users[userData.username] !== undefined) {
         return callback(new Error('User already exists'));
       }
-
       const key = getHash(userData.password, salt);
-      Relief.persistence.createUserDb(userData.username, key, onCreateUserDb);
+      Relief.persistence.createUserDb(
+        userData.username,
+        key,
+        onCreateUserDb
+      );
     };
-
     const onCreateUserDb = function(err) {
       if (err) {
         return callback(err);
@@ -76,7 +74,6 @@ module.exports = function(Relief) {
       appData.users[userData.username] = user;
       Relief.persistence.db.app.updateDoc(appData, onUpdateDoc);
     };
-
     const onUpdateDoc = function(err) {
       if (err) {
         return callback(err);
@@ -84,7 +81,6 @@ module.exports = function(Relief) {
       delete userData.password;
       Relief.persistence.db.user.insertDoc(userData, callback);
     };
-
     Relief.persistence.db.app.getDoc(onGetDoc);
   };
 
