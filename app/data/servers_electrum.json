@@ -13,19 +13,6 @@
     }
   },
   {
-    "transport": "tcp",
-    "host": "electrum.stoff-sammlung.de",
-    "port": 50001
-  },
-  {
-    "transport": "tls",
-    "host": "electrum.stoff-sammlung.de",
-    "port": 50002,
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
     "transport": "tls",
     "host": "btc.smsys.me",
     "port": "995",
