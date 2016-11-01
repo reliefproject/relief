@@ -7,6 +7,8 @@ app.controller(
 
     let appData = {};
     $scope.tabs = {};
+    $scope.btcBlockHeight = '';
+    $scope.nxtBlockHeight = '';
 
     $scope.selectTab = function(tabId) {
       $scope.selectedTab = tabId;
@@ -150,12 +152,14 @@ app.controller(
       }
     });
 
-    Relief.events.on('btc.numBlocks', function(height) {
-      alert(height);
+    Relief.events.on('btc.BlockHeight', function(height) {
+      $scope.btcBlockHeight = height;
+      $scope.$apply();
     });
 
-    Relief.events.on('nxt.numBlocks', function(height) {
-      alert(height);
+    Relief.events.on('nxt.BlockHeight', function(height) {
+      $scope.nxtBlockHeight = height;
+      $scope.$apply();
     });
   },
 ]);

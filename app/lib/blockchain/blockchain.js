@@ -27,8 +27,7 @@ module.exports = function(Relief) {
       command: 'blockchain.numblocks.subscribe',
       params: [],
       callback: function(err, resp) {
-        console.log(resp);
-        Relief.events.emit('btcNumBlocks', resp.data.result);
+        Relief.events.emit('btc.BlockHeight', resp.data.result);
       },
     });
     this.tasks.push({
@@ -38,8 +37,7 @@ module.exports = function(Relief) {
       command: 'getBlockchainStatus',
       params: {},
       callback: function(err, resp) {
-        console.log(resp);
-        Relief.events.emit('nxtNumBlocks', resp.data.numberOfBlocks);
+        Relief.events.emit('nxt.BlockHeight', (resp.data.numberOfBlocks - 1));
       },
     });
     this.runTasks();
