@@ -7,12 +7,12 @@ module.exports = function(servers) {
   const client = new DoubleChecker({
     numUseSources: env.electrumNumSources,
     dataType: 'json',
-    ignoreJSONKeys: ['id'],
+    ignoreJSONKeys: env.electrumIgnoreJSONKeys,
     sources: servers,
   });
 
   // Passthrough function
-  this.request = client.request;
+  this.client = client;
 
   return this;
 };

@@ -7,12 +7,12 @@ module.exports = function(servers) {
   const client = new DoubleChecker({
     numUseSources: env.nxtNumSources,
     dataType: 'json',
-    ignoreJSONKeys: ['requestProcessingTime'],
+    ignoreJSONKeys: env.nxtIgnoreJSONKeys,
     sources: servers,
   });
 
   // Passthrough function
-  this.request = client.request;
+  this.client = client;
 
   return this;
 };

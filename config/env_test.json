@@ -15,6 +15,8 @@
   "pluginManifest":"manifest.json",
   "electrumNumSources":3,
   "nxtNumSources":3,
+  "electrumIgnoreJSONKeys":["id"],
+  "nxtIgnoreJSONKeys":["requestProcessingTime", "apiProxy", "correctInvalidFees", "ledgerTrimKeep", "maxAPIRecords", "includeExpiredPrunable", "services", "version", "application", "isScanning", "isDownloading", "maxPrunableLifetime", "time", "lastBlockchainFeeder"],
   "languages": [
     {
       "id" : "en",
