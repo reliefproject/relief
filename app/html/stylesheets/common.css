@@ -1,0 +1,15 @@
+* {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}
+html {
+  overflow:auto;
+}
+.container {
+  padding-top:10px;
+}
+
+.tab-content {
+  padding:10px;
+}

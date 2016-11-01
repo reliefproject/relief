@@ -4,7 +4,7 @@
     "en":"Wallet",
     "de":"Brieftasche"
   },
-  "description":"Addresses and Balances",
+  "description":"Bitcoin- and Nxt Wallet",
   "version":"0.0.0",
   "icon":"icon-home",
   "main":"wallet.html"
