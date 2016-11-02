@@ -13,3 +13,27 @@ html {
 .tab-content {
   padding:10px;
 }
+
+/* Override blue bg color */
+tr:active {
+  color: #333;
+  background-color:#fff;
+}
+
+/* '' */
+.icon-red:before {
+  content: '\e89a';
+  color:#fc605b;
+}
+.icon-blue:before {
+  content: '\e89a';
+  color:#57acf5;
+}
+.icon-orange:before {
+  content: '\e89a';
+  color:#fdbc40;
+}
+.icon-green:before {
+  content: '\e89a';
+  color:#34c84a;
+}
