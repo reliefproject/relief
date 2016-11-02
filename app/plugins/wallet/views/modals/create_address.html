@@ -3,39 +3,39 @@
 
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <h5 class="modal-title">Create Address</h5>
+      <h5 class="modal-title">{{ strings.NEW_ADDRESS }}</h5>
     </div>
 
     <div class="modal-body" ng-show="forms.createAddress.step == 1">
-      <p class="small">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+      <p class="small">{{ strings.NEW_ADDRESS_TEXT }}</p>
       <div class="row">
         <div class="col-md-6">
-          <label>Type</label>
+          <label>{{ strings.TYPE }}</label>
           <select class="form-control" ng-model="forms.createAddress.type">
-            <option value="btc">BTC</option>
-            <option value="nxt">NXT</option>
+            <option value="btc">{{ strings.BTC }}</option>
+            <option value="nxt">{{ strings.NXT }}</option>
           </select>
         </div>
         <div class="col-md-6">
-          <label>Category</label>
+          <label>{{ strings.CATEGORY }}</label>
           <div class="input-group">
             <div class="input-group-addon">
               <span class="icon" ng-class="forms.createAddress.category.icon"></span>
             </div>
             <select class="form-control"
                     ng-model="forms.createAddress.category"
-                    ng-options="category.name for category in addressCategories">
+                    ng-options="category.title for category in addressCategories">
             </select>
           </div>
         </div>
       </div>
-      <label>Label</label>
+      <label>{{ strings.LABEL }}</label>
       <input type="text" class="form-control" ng-model="forms.createAddress.label">
-      <label>Passphrase</label>
+      <label>{{ strings.PASSPHRASE }}</label>
       <textarea class="form-control" ng-model="forms.createAddress.passphrase" rows="3"></textarea>
       <button class="btn btn-default">
         <span class="icon icon-arrows-ccw icon-text"></span>
-        Generate
+        {{ strings.BTN_GENERATE }}
       </button>
     </div>
 
@@ -45,23 +45,23 @@
       <table class="table table-condensed">
         <tbody>
           <tr>
-            <td>Type</td>
+            <td>{{ strings.TYPE }}</td>
             <td>{{ forms.createAddress.type }}</td>
           </tr>
           <tr>
-            <td>Category</td>
+            <td>{{ strings.CATEGORY }}</td>
             <td>{{ forms.createAdddress.category }}</td>
           </tr>
           <tr>
-            <td>Address</td>
+            <td>{{ strings.ADDRESS }}</td>
             <td>{{ forms.createAdddress.address }}</td>
           </tr>
           <tr>
-            <td>Public Key</td>
+            <td>{{ strings.PUBLIC_KEY }}</td>
             <td>{{ forms.createAdddress.publicKey }}</td>
           </tr>
           <tr>
-            <td>Private Key</td>
+            <td>{{ strings.PRIVATE_KEY }}</td>
             <td>{{ forms.createAdddress.privateKey }}</td>
           </tr>
           <tr>
@@ -75,21 +75,23 @@
 
 
     <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-default" data-dismiss="modal">
+        {{ strings.BTN_CLOSE }}
+      </button>
       <button type="button" class="btn btn-default"
               ng-click="forms.createAddress.step = forms.createAddress.step - 1"
               ng-show="forms.createAddress.step > 1">
-        Back
+        {{ strings.BTN_BACK }}
       </button>
       <button type="button" class="btn btn-default"
               ng-click="forms.createAddress.step = forms.createAddress.step + 1"
               ng-show="forms.createAddress.step == 1">
-        Continue
+        {{ strings.BTN_CONTINUE }}
       </button>
       <button type="button" class="btn btn-default"
               ng-click=""
               ng-show="forms.createAddress.step == 2">
-        Save Address
+        {{ strings.BTN_SAVE }}
       </button>
     </div>
 

@@ -3,18 +3,18 @@
         ng-click="setPage('balances')"
         ng-class="{'active': page == 'balances' }">
     <span class="icon icon-chart-pie"></span>
-    Balances
+    {{ strings.BALANCES }}
   </span>
   <span class="nav-group-item"
         ng-click="setPage('keys')"
         ng-class="{'active': page == 'keys' }">
     <span class="icon icon-key"></span>
-    Keys
+    {{ strings.KEYS }}
   </span>
 </nav>
 
 <nav class="nav-group">
-  <h5 class="nav-group-title">Addresses</h5>
+  <h5 class="nav-group-title">{{ strings.ADDRESSES }}</h5>
   <span class="nav-group-item" href="#">
     <span class="icon icon-red"></span>
     NXT-ASDF-ASDF-ASDF-GLEFU

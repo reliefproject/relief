@@ -14,51 +14,42 @@
       $scope.page = page;
     }
 
+    $scope.addressCategories = Relief.env.addressCategories;
+
     $scope.forms = {
       createAddress: {
         step: 1,
         type: 'btc',
-        category: { icon: 'icon-record' },
+        category: $scope.addressCategories[0],
         label: '',
         passphrase: '',
       },
     };
 
 
-    $scope.addressCategories = [
-      { name: 'default', icon: 'icon-record' },
-      { name: 'red', icon: 'icon-red' },
-      { name: 'blue', icon: 'icon-blue' },
-      { name: 'orange', icon: 'icon-orange' },
-      { name: 'green', icon: 'icon-green' },
-      { name: 'personal', icon: 'icon-user' },
-      { name: 'public', icon: 'icon-megaphone' },
-      { name: 'work', icon: 'icon-briefcase' },
-      { name: 'trading', icon: 'icon-chart-area' },
-      { name: 'favourite', icon: 'icon-heart' },
-      { name: 'shopping', icon: 'icon-basket' },
-      { name: 'rewards', icon: 'icon-trophy' },
-    ];
+    Relief.persistence.db.app.getDoc(function(err, data) {
+      if (err) {
+        return Relief.log.error(err);
+      }
+      if (data) {
+        appData = data;
+      }
+      Relief.i18n.loadStrings(appData.language, function(err, strings) {
+        if (err) {
+          return Relief.log.error(err);
+        }
+        $scope.strings = strings.wallet;
 
-    //$timeout(function() { $scope.page = 'keys'; }, 5000)
-    /*
-        Relief.persistence.db.app.getDoc(function(err, data) {
-          if (err) {
-            return Relief.log.error(err);
-          }
-          if (data) {
-            appData = data;
-          }
+        for (let i in $scope.addressCategories) {
+          const category = $scope.addressCategories[i];
+          const key = 'CATEGORY_' + category.name.toUpperCase();
+          const title = strings.wallet[key];
+          $scope.addressCategories[i].title = title;
+        }
 
-          // Get data
-        });
-
-        Relief.i18n.loadStrings(language, function(err, strings) {
-          if (err) {
-            return Relief.log.error(err);
-          }
-        });
-    */
+        $scope.$apply();
+      });
+    });
   });
 
 })();
