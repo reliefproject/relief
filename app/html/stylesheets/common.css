@@ -6,7 +6,7 @@
 html {
   overflow:auto;
 }
-.container {
+.container, .sidebar {
   padding-top:10px;
 }
 

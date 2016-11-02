@@ -1,31 +1,38 @@
 (function() {
 
   const app = angular.module(
-    'Wallet',
+    'Wallet', []
   );
 
   app.controller('MainCtrl', function($scope, $timeout) {
 
     let appData;
     $scope.strings = {};
+    $scope.page = 'balances';
 
-    Relief.persistence.db.app.getDoc(function(err, data) {
-      if (err) {
-        return Relief.log.error(err);
-      }
-      if (data) {
-        appData = data;
-      }
+    $scope.setPage = function(page) {
+      $scope.page = page;
+    }
 
-      // Get data
-    });
+    //$timeout(function() { $scope.page = 'keys'; }, 5000)
+    /*
+        Relief.persistence.db.app.getDoc(function(err, data) {
+          if (err) {
+            return Relief.log.error(err);
+          }
+          if (data) {
+            appData = data;
+          }
 
-    Relief.i18n.loadStrings(language, function(err, strings) {
-      if (err) {
-        return Relief.log.error(err);
-      }
-    });
+          // Get data
+        });
 
+        Relief.i18n.loadStrings(language, function(err, strings) {
+          if (err) {
+            return Relief.log.error(err);
+          }
+        });
+    */
   });
 
 })();
