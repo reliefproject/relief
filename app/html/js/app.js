@@ -62,7 +62,7 @@ app.controller(
 
         setTimeout(function() {
               const webview = document.getElementById('start');
-              webview.openDevTools();
+              //        Webview.openDevTools();
             }, 1000);
       });
     };

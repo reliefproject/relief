@@ -10,10 +10,6 @@
     $scope.strings = {};
     $scope.page = 'balances';
 
-    $scope.setPage = function(page) {
-      $scope.page = page;
-    }
-
     $scope.addressCategories = Relief.env.addressCategories;
 
     $scope.forms = {
@@ -50,6 +46,20 @@
         $scope.$apply();
       });
     });
+
+
+
+    $scope.setPage = function(page) {
+      $scope.page = page;
+    }
+
+    $scope.generatePassphrase = function() {
+      Relief.passphrase.generate(12, function(phrase) {
+        $scope.forms.createAddress.passphrase = phrase;
+        $scope.$apply();
+      });
+    };
+
   });
 
 })();

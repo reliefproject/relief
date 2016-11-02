@@ -33,7 +33,7 @@
       <input type="text" class="form-control" ng-model="forms.createAddress.label">
       <label>{{ strings.PASSPHRASE }}</label>
       <textarea class="form-control" ng-model="forms.createAddress.passphrase" rows="3"></textarea>
-      <button class="btn btn-default">
+      <button class="btn btn-default" ng-click="generatePassphrase()">
         <span class="icon icon-arrows-ccw icon-text"></span>
         {{ strings.BTN_GENERATE }}
       </button>
