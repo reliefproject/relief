@@ -1,5 +1,6 @@
 module.exports = function(servers) {
 
+  const nxtjs = require('nxtjs');
   const DoubleChecker = require('doublechecker');
   const log = require('../log');
   const env = require('../env');
@@ -10,6 +11,10 @@ module.exports = function(servers) {
     ignoreJSONKeys: env.nxtIgnoreJSONKeys,
     sources: servers,
   });
+
+  this.generateAddress = function(passphrase) {
+    return nxtjs.secretPhraseToAccountId(passphrase);
+  };
 
   // Passthrough function
   this.client = client;
