@@ -50,19 +50,19 @@
           </tr>
           <tr>
             <td>{{ strings.CATEGORY }}</td>
-            <td>{{ forms.createAdddress.category }}</td>
+            <td>{{ forms.createAddress.category.title }}</td>
           </tr>
           <tr>
             <td>{{ strings.ADDRESS }}</td>
-            <td>{{ forms.createAdddress.address }}</td>
+            <td>{{ forms.createAddress.address }}</td>
           </tr>
           <tr>
             <td>{{ strings.PUBLIC_KEY }}</td>
-            <td>{{ forms.createAdddress.publicKey }}</td>
+            <td>{{ forms.createAddress.publicKey }}</td>
           </tr>
           <tr>
             <td>{{ strings.PRIVATE_KEY }}</td>
-            <td>{{ forms.createAdddress.privateKey }}</td>
+            <td>{{ forms.createAddress.type == 'nxt' ? forms.createAddress.passphrase : forms.createAddress.privateKey }}</td>
           </tr>
           <tr>
             <td>Public Key</td>
