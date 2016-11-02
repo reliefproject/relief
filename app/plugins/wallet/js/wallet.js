@@ -35,14 +35,12 @@
           return Relief.log.error(err);
         }
         $scope.strings = strings.wallet;
-
         for (let i in $scope.addressCategories) {
           const category = $scope.addressCategories[i];
           const key = 'CATEGORY_' + category.name.toUpperCase();
           const title = strings.wallet[key];
           $scope.addressCategories[i].title = title;
         }
-
         $scope.$apply();
       });
     });
@@ -58,6 +56,15 @@
         $scope.forms.createAddress.passphrase = phrase;
         $scope.$apply();
       });
+    };
+
+    $scope.createAddress = function() {
+      const form = $scope.forms.createAddress;
+      if (form.type === 'nxt') {
+        form.address = Relief.blockchain.generateAddress(form.passphrase);
+        Relief.log.info(form.address)
+      }
+      $scope.forms.createAddress.step++;
     };
 
   });
