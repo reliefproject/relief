@@ -15,9 +15,13 @@
 
   </head>
   <body ng-controller="MainCtrl">
+
+    <ng-include class="modal" id="modalCreateAccount" tabindex="-1" role="dialog" data-backdrop="false"
+                src="'views/modals/create_address.html'">
+    </ng-include>
+
     <div class="window">
       <div class="window-content">
-
         <div class="pane-group">
           <ng-include src="'views/sidebar.html'" class="pane pane-sm sidebar"></ng-include>
           <div class="pane container">
@@ -26,8 +30,8 @@
             <ng-include src="'views/address.html'" ng-show="page == 'address'"></ng-include>
           </div>
         </div>
-
       </div>
     </div>
+
   </body>
 </html>
