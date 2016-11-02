@@ -31,10 +31,11 @@
         Relief.log.error(err);
         process.exit();
       }
-      Relief.blockchain.init();
-      const mainWindow = Relief.window.createWindow();
-      Relief.events.on('loadingComplete', function() {
-        mainWindow.show();
+      Relief.blockchain.init(function() {
+        const mainWindow = Relief.window.createWindow();
+        Relief.events.on('loadingComplete', function() {
+          mainWindow.show();
+        });
       });
     };
 

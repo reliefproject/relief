@@ -1,4 +1,4 @@
-module.exports = function(Relief) {
+module.exports = function() {
 
   const path = require('path');
   const jetpack = require('fs-jetpack');
@@ -9,7 +9,7 @@ module.exports = function(Relief) {
   this.nxt = {};
   this.tasks = [];
 
-  this.init = function() {
+  this.init = function(callback) {
     const dataDir = path.join(__dirname, '..', '..', 'data');
     const electrumFile = path.join(dataDir, 'servers_electrum.json');
     const nxtFile = path.join(dataDir, 'servers_nxt.json');
@@ -40,6 +40,7 @@ module.exports = function(Relief) {
       },
     });
     this.runTasks();
+    callback();
   };
 
   this.runTasks = function() {
