@@ -2,8 +2,11 @@
 
   const crypto = require('crypto');
   const uuid = require('node-uuid');
+  const async = require('async');
 
   const env = require('./env');
+  const log = require('./log');
+  const blockchain = require('./blockchain/blockchain');
   const persistence = require('./persistence/persistence');
 
   const getHash = function(password, salt) {
@@ -87,11 +90,81 @@
     persistence.db.app.getDoc(onGetDoc);
   };
 
+  const getBalances = function(callback) {
+
+    const onGetDoc = function(err, doc) {
+      if (err) {
+        return callback(err);
+      }
+      let balances = {
+        btc: [],
+        nxt: [],
+        total: {
+          btc: { confirmed: 0, unconfirmed: 0 },
+          nxt: { confirmed: 0, unconfirmed: 0 },
+        },
+      };
+      async.each(doc.addresses, function(addr, callback) {
+        if (addr.type === 'btc') {
+          const req = {
+            id: 1,
+            method: 'blockchain.address.get_balance',
+            params: [addr.address],
+          };
+          blockchain.bc.btc.client.request(req, function(err, result) {
+            if (err) {
+              return callback(err);
+            }
+            balances.btc.push({
+              address: addr.address,
+              confirmed: result.data.result.confirmed,
+              unconfirmed: result.data.result.unconfirmed,
+            });
+            callback();
+          });
+        } else if (addr.type === 'nxt') {
+          const req = {
+            requestType: 'getBalance',
+            account: addr.address,
+          };
+          blockchain.bc.nxt.client.request(req, function(err, result) {
+            if (err) {
+              return callback(err);
+            }
+            const unconf = (
+              parseInt(result.data.balanceNQT) -
+              parseInt(result.data.unconfirmedBalanceNQT)
+            );
+            balances.nxt.push({
+              address: addr.address,
+              confirmed: parseInt(result.data.balanceNQT),
+              unconfirmed: unconf,
+            });
+            callback();
+          });
+        }
+      }, function(err) {
+        for (let i in balances.btc) {
+          balances.total.btc.confirmed += balances.btc[i].confirmed;
+          balances.total.btc.unconfirmed += balances.btc[i].unconfirmed;
+        }
+        for (let i in balances.nxt) {
+          balances.total.nxt.confirmed += balances.nxt[i].confirmed;
+          balances.total.nxt.unconfirmed += balances.nxt[i].unconfirmed;
+        }
+        callback(err, balances);
+      });
+    };
+
+    persistence.db.user.getDoc(onGetDoc);
+  };
+
   module.exports = {
     login: login,
     logout: logout,
     isLoggedIn, isLoggedIn,
     createAccount: createAccount,
+    getBalances: getBalances,
   };
 
 })();
