@@ -134,22 +134,19 @@
       $scope.forms.createAddress.step++;
     };
 
-    // TODO make this shorter
+
     $scope.saveAddress = function() {
       const form = $scope.forms.createAddress;
       const onGetDoc = function(err, doc) {
         if (err) {
           return Relief.log.error(err);
         }
-
         let addresses = doc.addresses
           ? doc.addresses
           : [];
-
         const privKey = form.type === 'nxt'
           ? form.passphrase
           : form.privateKey;
-
         addresses.push({
           type: form.type,
           label: form.label,
@@ -160,7 +157,6 @@
         });
         Relief.persistence.db.user.update({ addresses: addresses }, onUpdate);
       };
-
       const onUpdate = function(err) {
         if (err) {
           return Relief.log.error(err);
@@ -176,7 +172,6 @@
         updateAddresses();
         updateBalances();
       };
-
       Relief.persistence.db.user.getDoc(onGetDoc);
     };
 
@@ -185,14 +180,13 @@
       $scope.forms.editAddress.category = getCategoryByName(address.category);
     };
 
-    // TODO saner update func
+
     $scope.saveEditedAddress = function() {
       let addr = $scope.forms.editAddress;
       addr.category = addr.category.name;
       const onGetDoc = function(err, doc) {
         if (err) {
-          // TODO error
-          return;
+          return Relief.log.error(err);
         }
         let addresses = doc.addresses;
         for (var i in addresses) {
@@ -204,8 +198,7 @@
       };
       const onUpdate = function(err) {
         if (err) {
-          // TODO
-          return;
+          return Relief.log.error(err);
         }
         angular.element('#modalEditAccount').modal('hide');
         $scope.forms.editAddress = {};
@@ -214,6 +207,33 @@
       Relief.persistence.db.user.getDoc(onGetDoc);
     };
 
+    $scope.setAddressToDelete = function(address) {
+      $scope.addressToDelete = address.address;
+    };
+
+    $scope.deleteAddress = function() {
+      const onGetDoc = function(err, doc) {
+        if (err) {
+          return Relief.log.error(err);
+        }
+        const addresses = doc.addresses;
+        for (let i in addresses) {
+          if (addresses[i].address === $scope.addressToDelete) {
+            delete addresses[i];
+          }
+        }
+        Relief.persistence.db.user.update({ addresses: addresses }, onUpdate);
+      };
+      const onUpdate = function(err) {
+        if (err) {
+          return Relief.log.error(err);
+        }
+        angular.element('#modalDeleteAccount').modal('hide');
+        updateAddresses();
+        updateBalances();
+      };
+      Relief.persistence.db.user.getDoc(onGetDoc);
+    };
   });
 
 })();

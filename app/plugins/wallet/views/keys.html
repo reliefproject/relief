@@ -39,20 +39,15 @@
       <td>{{ address.address }}</td>
       <td>
         <div class="btn-group">
-          <button class="btn btn-mini btn-default">
-            <span class="icon icon-eye"></span>
-          </button>
           <button class="btn btn-mini btn-default" data-toggle="modal" data-target="#modalEditAccount"
                   ng-click="setAddressToEdit(address)">
             <span class="icon icon-pencil"></span>
           </button>
-          <button class="btn btn-mini btn-default">
-            <span class="icon icon-export"></span>
-          </button>
           <button class="btn btn-mini btn-default" ng-click="copyToClipboard(address.address)">
             <span class="icon icon-clipboard"></span>
           </button>
-          <button class="btn btn-mini btn-default">
+          <button class="btn btn-mini btn-default" data-toggle="modal" data-target="#modalDeleteAccount"
+                  ng-click="setAddressToDelete(address)">
             <span class="icon icon-cancel-squared"></span>
           </button>
         </div>
