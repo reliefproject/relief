@@ -15,7 +15,10 @@
     });
 
     this.generateAddress = function(passphrase) {
-      return nxtjs.secretPhraseToAccountId(passphrase);
+      return {
+        address: nxtjs.secretPhraseToAccountId(passphrase),
+        publicKey: nxtjs.secretPhraseToPublicKey(passphrase),
+      };
     };
 
     // Passthrough function

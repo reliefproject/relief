@@ -53,6 +53,10 @@
             <td>{{ forms.createAddress.category.title }}</td>
           </tr>
           <tr>
+            <td>{{ strings.LABEL }}</td>
+            <td>{{ forms.createAddress.label }}</td>
+          </tr>
+          <tr>
             <td>{{ strings.ADDRESS }}</td>
             <td>{{ forms.createAddress.address }}</td>
           </tr>
@@ -60,14 +64,10 @@
             <td>{{ strings.PUBLIC_KEY }}</td>
             <td>{{ forms.createAddress.publicKey }}</td>
           </tr>
-          <tr>
+<!--          <tr>
             <td>{{ strings.PRIVATE_KEY }}</td>
             <td>{{ forms.createAddress.type == 'nxt' ? forms.createAddress.passphrase : forms.createAddress.privateKey }}</td>
-          </tr>
-          <tr>
-            <td>Public Key</td>
-            <td>a663768aaa7457e18b9e265acb608af624e6e304a701ffa6b5c750f6283cef30</td>
-          </tr>
+          </tr>-->
         </tbody>
       </table>
 
@@ -89,7 +89,7 @@
         {{ strings.BTN_CONTINUE }}
       </button>
       <button type="button" class="btn btn-default"
-              ng-click=""
+              ng-click="saveAddress()"
               ng-show="forms.createAddress.step == 2">
         {{ strings.BTN_SAVE }}
       </button>

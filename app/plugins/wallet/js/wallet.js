@@ -47,6 +47,16 @@
 
 
 
+
+    Relief.persistence.db.user.getDoc(function(err, doc) {
+      Relief.log.info(doc);
+    });
+
+
+
+
+
+
     $scope.setPage = function(page) {
       $scope.page = page;
     }
@@ -61,9 +71,45 @@
     $scope.createAddress = function() {
       const form = $scope.forms.createAddress;
       if (form.type === 'nxt') {
-        form.address = Relief.nxt.generateAddress(form.passphrase);
+        const addr = Relief.nxt.generateAddress(form.passphrase);
+        form.address = addr.address;
+        form.publicKey = addr.publicKey;
       }
       $scope.forms.createAddress.step++;
+    };
+
+    $scope.saveAddress = function() {
+      Relief.log.info('save')
+      const form = $scope.forms.createAddress;
+      Relief.persistence.db.user.getDoc(function(err, doc) {
+        Relief.log.info('got')
+        if (err) {
+          return Relief.log.error(err);
+        }
+        if (!doc.addresses) {
+          doc.addresses = {};
+        }
+        if (doc.addresses[form.address]) {
+          // Address already exists
+          // TODO
+          return;
+        }
+        doc.addresses[form.address] = {
+          type: form.type,
+          label: form.label,
+          category: form.category.name,
+          address: form.address,
+          publicKey: form.publicKey,
+          privateKey: form.passphrase,
+        };
+        Relief.log.info(doc.addresses)
+        Relief.persistence.db.user.updateDoc(doc, function(err) {
+          if (err) {
+            return Relief.log.error(err);
+          }
+          Relief.log.info('done')
+        });
+      });
     };
 
   });
