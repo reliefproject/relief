@@ -113,7 +113,7 @@
     };
 
     $scope.copyToClipboard = function(string) {
-      Clipboard.writeText(string);
+      Relief.clipboard.writeText(string);
     };
 
     $scope.createAddress = function() {
