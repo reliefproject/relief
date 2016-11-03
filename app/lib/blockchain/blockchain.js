@@ -5,9 +5,11 @@
   const Btc = require('./btc_electrum');
   const Nxt = require('./nxt_nrs');
 
-  let btc = {};
-  let nxt = {};
   let tasks = [];
+  let bc = {
+    btc: {},
+    nxt: {},
+  };
 
   const init = function(callback) {
     const dataDir = path.join(__dirname, '..', '..', 'data');
@@ -16,8 +18,8 @@
 
     const electrumList = jetpack.read(electrumFile, 'json');
     const nxtList = jetpack.read(nxtFile, 'json');
-    btc = new Btc(electrumList);
-    nxt = new Nxt(nxtList);
+    bc.btc = new Btc(electrumList);
+    bc.nxt = new Nxt(nxtList);
 
     tasks.push({
       name: 'btcNumBlocks',
@@ -57,13 +59,13 @@
             method: task.command,
             params: task.params,
           });
-          btc.client.request(data, task.callback);
+          bc.btc.client.request(data, task.callback);
           tasks[i].lastRun = now;
           break;
         }
         case 'nxt': {
           task.params.requestType = task.command;
-          nxt.client.request(task.params, task.callback);
+          bc.nxt.client.request(task.params, task.callback);
           tasks[i].lastRun = now;
           break;
         }
@@ -76,8 +78,7 @@
 
   module.exports = {
     init: init,
-    btc: btc,
-    nxt: nxt,
+    bc: bc,
   };
 
 })();
