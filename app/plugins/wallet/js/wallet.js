@@ -34,8 +34,8 @@
         label: '',
         passphrase: '',
       },
+      editAddress: {},
     };
-
 
     Relief.persistence.db.app.getDoc(function(err, data) {
       if (err) {
@@ -57,6 +57,13 @@
         }
         $scope.$apply();
       });
+
+      updateBalances();
+      updateAddresses();
+
+    });
+
+    const updateAddresses = function() {
       Relief.persistence.db.user.getDoc(function(err, doc) {
         if (err) {
           return Relief.log.error(err);
@@ -64,16 +71,26 @@
         $scope.addresses = doc.addresses;
         $scope.$apply();
       });
-    });
+    };
 
-    Relief.user.getBalances(function(err, data) {
-      if (err) {
-        return Relief.log.info(err);
+    const updateBalances = function() {
+      Relief.user.getBalances(function(err, data) {
+        if (err) {
+          return Relief.log.info(err);
+        }
+        $scope.balances = data;
+        $scope.$apply();
+      });
+    };
+
+    const getCategoryByName = function(cat) {
+      for (var i in $scope.addressCategories) {
+        if ($scope.addressCategories[i].name === cat) {
+          return $scope.addressCategories[i];
+        }
       }
-      $scope.balances = data;
-      Relief.log.info(JSON.stringify(data, null, 2));
-      $scope.$apply();
-    });
+      return {};
+    };
 
     $scope.setPage = function(page) {
       $scope.page = page;
@@ -113,6 +130,7 @@
       $scope.forms.createAddress.step++;
     };
 
+    // TODO make this shorter
     $scope.saveAddress = function() {
       const form = $scope.forms.createAddress;
       const onGetDoc = function(err, doc) {
@@ -143,9 +161,52 @@
         if (err) {
           return Relief.log.error(err);
         }
-        // TODO
+        angular.element('#modalCreateAccount').modal('hide');
+        $scope.forms.createAddress = {
+          step: 1,
+          type: 'btc',
+          category: $scope.addressCategories[0],
+          label: '',
+          passphrase: '',
+        };
+        updateAddresses();
+        updateBalances();
       };
 
+      Relief.persistence.db.user.getDoc(onGetDoc);
+    };
+
+    $scope.setAddressToEdit = function(address) {
+      $scope.forms.editAddress = angular.copy(address);
+      $scope.forms.editAddress.category = getCategoryByName(address.category);
+    };
+
+    // TODO saner update func
+    $scope.saveEditedAddress = function() {
+      let addr = $scope.forms.editAddress;
+      addr.category = addr.category.name;
+      const onGetDoc = function(err, doc) {
+        if (err) {
+          // TODO error
+          return;
+        }
+        let addresses = doc.addresses;
+        for (var i in addresses) {
+          if (addresses[i].address === addr.address) {
+            addresses[i] = addr;
+          }
+        }
+        Relief.persistence.db.user.update({ addresses: addresses }, onUpdate);
+      };
+      const onUpdate = function(err) {
+        if (err) {
+          // TODO
+          return;
+        }
+        angular.element('#modalEditAccount').modal('hide');
+        $scope.forms.editAddress = {};
+        updateAddresses();
+      };
       Relief.persistence.db.user.getDoc(onGetDoc);
     };
 

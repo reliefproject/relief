@@ -1,0 +1,36 @@
+<form class="modal-dialog" role="document" novalidate>
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h5 class="modal-title">{{ strings.EDIT_ADDRESS }}</h5>
+    </div>
+
+    <div class="modal-body">
+      <label>{{ strings.CATEGORY }}</label>
+      <div class="input-group">
+        <div class="input-group-addon">
+          <span class="icon" ng-class="forms.editAddress.category.icon"></span>
+        </div>
+        <select class="form-control"
+                ng-model="forms.editAddress.category"
+                ng-options="category.title for category in addressCategories">
+        </select>
+      </div>
+      <label>{{ strings.LABEL }}</label>
+      <input type="text" class="form-control" ng-model="forms.editAddress.label">
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">
+        {{ strings.BTN_CLOSE }}
+      </button>
+      <button type="button" class="btn btn-default"
+              ng-click="saveEditedAddress()">
+        {{ strings.BTN_SAVE }}
+      </button>
+    </div>
+
+  </div><!-- /.modal-content -->
+
+</form><!-- /.modal-dialog -->
