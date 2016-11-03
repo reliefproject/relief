@@ -14,53 +14,9 @@
 </nav>
 
 <nav class="nav-group">
-  <h5 class="nav-group-title">{{ strings.ADDRESSES }}</h5>
-  <span class="nav-group-item" href="#">
-    <span class="icon icon-red"></span>
-    NXT-ASDF-ASDF-ASDF-GLEFU
-  </span>
-  <span class="nav-group-item" href="#">
-    <span class="icon icon-orange"></span>
-    1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L
-  </span>
-  <span class="nav-group-item" href="#">
-    <span class="icon icon-green"></span>
-    NXT-QWER-ASDF-YXCV-ABCDE
-  </span>
-  <span class="nav-group-item" href="#">
-    <span class="icon icon-user"></span>
-    Personal äüö Æ§ÐΩΩÐªŊEÐ
-  </span>
-  <span class="nav-group-item" href="#">
-    <span class="icon icon-blue"></span>
-    1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L
-  </span>
-  <span class="nav-group-item" href="#">
-    <span class="icon icon-trophy"></span>
-    Rewards
-  </span>
-  <span class="nav-group-item" href="#">
-    <span class="icon icon-megaphone"></span>
-    Public
-  </span>
-  <span class="nav-group-item" href="#">
-    <span class="icon icon-briefcase"></span>
-    Work
-  </span>
-  <span class="nav-group-item" href="#">
-    <span class="icon icon-basket"></span>
-    Shopping
-  </span>
-  <span class="nav-group-item" href="#">
-    <span class="icon icon-chart-area"></span>
-    Trading
-  </span>
-  <span class="nav-group-item" href="#">
-    <span class="icon icon-heart"></span>
-    Favourite
-  </span>
-  <span class="nav-group-item" href="#">
-    <span class="icon icon-record"></span>
-    Default
+  <h5 class="nav-group-title" ng-show="addresses.length > 0">{{ strings.ADDRESSES }}</h5>
+  <span class="nav-group-item" href="#" ng-repeat="address in addresses">
+    <span class="icon" ng-class="getIconClass(address.category)"></span>
+    {{ address.label ? address.label : address.address }}
   </span>
 </nav>

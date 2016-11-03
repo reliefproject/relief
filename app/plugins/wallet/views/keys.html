@@ -30,61 +30,13 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>BTC</td>
-      <td><span class="icon icon-record" style="color:#fdbc40"></span></td>
-      <td>Whatever i use this for</td>
-      <td>1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L</td>
+    <tr ng-repeat="address in addresses">
+      <td>{{ address.type }}</td>
       <td>
-        <div class="btn-group">
-          <button class="btn btn-mini btn-default">
-            <span class="icon icon-eye"></span>
-          </button>
-          <button class="btn btn-mini btn-default">
-            <span class="icon icon-pencil"></span>
-          </button>
-          <button class="btn btn-mini btn-default">
-            <span class="icon icon-export"></span>
-          </button>
-          <button class="btn btn-mini btn-default">
-            <span class="icon icon-clipboard"></span>
-          </button>
-          <button class="btn btn-mini btn-default">
-            <span class="icon icon-cancel-squared"></span>
-          </button>
-        </div>
+        <span class="icon" ng-class="getIconClass(address.category)"></span>
       </td>
-    </tr>
-    <tr>
-      <td>NXT</td>
-      <td><span class="icon icon-user"></span></td>
-      <td>Personal Account</td>
-      <td>NXT-ASDF-ASDF-ASDF-GLEFU</td>
-      <td>
-        <div class="btn-group">
-          <button class="btn btn-mini btn-default">
-            <span class="icon icon-eye"></span>
-          </button>
-          <button class="btn btn-mini btn-default">
-            <span class="icon icon-pencil"></span>
-          </button>
-          <button class="btn btn-mini btn-default">
-            <span class="icon icon-export"></span>
-          </button>
-          <button class="btn btn-mini btn-default">
-            <span class="icon icon-clipboard"></span>
-          </button>
-          <button class="btn btn-mini btn-default">
-            <span class="icon icon-cancel-squared"></span>
-          </button>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>BTC</td>
-      <td><span class="icon icon-record" style="color:#fdbc40"></span></td>
-      <td>Whatever i use this for</td>
-      <td>1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L</td>
+      <td>{{ address.label }}</td>
+      <td>{{ address.address }}</td>
       <td>
         <div class="btn-group">
           <button class="btn btn-mini btn-default">

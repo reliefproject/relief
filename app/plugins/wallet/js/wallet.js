@@ -8,6 +8,7 @@
 
     let appData;
     $scope.strings = {};
+    $scope.addresses = [];
     $scope.page = 'balances';
 
     $scope.addressCategories = Relief.env.addressCategories;
@@ -43,23 +44,27 @@
         }
         $scope.$apply();
       });
+      Relief.persistence.db.user.getDoc(function(err, doc) {
+        if (err) {
+          return Relief.log.error(err);
+        }
+        $scope.addresses = doc.addresses;
+        $scope.$apply();
+      });
     });
-
-
-
-
-    Relief.persistence.db.user.getDoc(function(err, doc) {
-      Relief.log.info(doc);
-    });
-
-
-
-
-
 
     $scope.setPage = function(page) {
       $scope.page = page;
     }
+
+    $scope.getIconClass = function(category) {
+      for (let i in $scope.addressCategories) {
+        const cat = $scope.addressCategories[i];
+        if (cat.name === category) {
+          return cat.icon;
+        }
+      }
+    };
 
     $scope.generatePassphrase = function() {
       Relief.passphrase.generate(12, function(phrase) {
@@ -79,37 +84,35 @@
     };
 
     $scope.saveAddress = function() {
-      Relief.log.info('save')
       const form = $scope.forms.createAddress;
-      Relief.persistence.db.user.getDoc(function(err, doc) {
-        Relief.log.info('got')
+      const onGetDoc = function(err, doc) {
         if (err) {
           return Relief.log.error(err);
         }
-        if (!doc.addresses) {
-          doc.addresses = {};
-        }
-        if (doc.addresses[form.address]) {
-          // Address already exists
-          // TODO
-          return;
-        }
-        doc.addresses[form.address] = {
+
+        let addresses = doc.addresses
+          ? doc.addresses
+          : [];
+
+        addresses.push({
           type: form.type,
           label: form.label,
           category: form.category.name,
           address: form.address,
           publicKey: form.publicKey,
           privateKey: form.passphrase,
-        };
-        Relief.log.info(doc.addresses)
-        Relief.persistence.db.user.updateDoc(doc, function(err) {
-          if (err) {
-            return Relief.log.error(err);
-          }
-          Relief.log.info('done')
         });
-      });
+        Relief.persistence.db.user.update({ addresses: addresses }, onUpdate);
+      };
+
+      const onUpdate = function(err) {
+        if (err) {
+          return Relief.log.error(err);
+        }
+        // TODO
+      };
+
+      Relief.persistence.db.user.getDoc(onGetDoc);
     };
 
   });
