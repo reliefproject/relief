@@ -11,6 +11,7 @@
   "dependencies": {
     "angular": "^1.5.8",
     "angular-sanitize": "^1.5.8",
+    "async": "^2.1.2",
     "bigi": "^1.4.2",
     "bitcoinjs-lib": "^2.3.0",
     "bootstrap": "^3.3.7",
