@@ -60,10 +60,8 @@
 
     $scope.createAddress = function() {
       const form = $scope.forms.createAddress;
-      //Relief.log.info(Relief.blockchain)
       if (form.type === 'nxt') {
-        form.address = Relief.blockchain.nxt.generateAddress(form.passphrase);
-        Relief.log.info(form.address)
+        form.address = Relief.nxt.generateAddress(form.passphrase);
       }
       $scope.forms.createAddress.step++;
     };
