@@ -22,11 +22,12 @@
         log.error(err);
         process.exit();
       }
-      blockchain.init(function() {
-        const mainWindow = window.createWindow();
-        Relief.on('loadingComplete', function() {
-          mainWindow.show();
-        });
+      blockchain.init(onBlockchainInit);
+    };
+    const onBlockchainInit = function() {
+      const mainWindow = window.createWindow();
+      Relief.on('loadingComplete', function() {
+        mainWindow.show();
       });
     };
 
