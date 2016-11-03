@@ -1,5 +1,6 @@
 const { remote } = require('electron');
 
+global.Clipboard = remote.require('electron').clipboard;
 global.Relief = remote.getGlobal('Relief');
 
 Relief.env = remote.require('./lib/env');

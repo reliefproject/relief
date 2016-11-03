@@ -112,6 +112,10 @@
       });
     };
 
+    $scope.copyToClipboard = function(string) {
+      Clipboard.writeText(string);
+    };
+
     $scope.createAddress = function() {
       const form = $scope.forms.createAddress;
       if (form.type === 'nxt') {
