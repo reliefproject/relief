@@ -1,9 +1,17 @@
 (function() {'use strict';
 
-  const events = require('events');
+  const EventEmitter = require('events').EventEmitter;
   const { app } = require('electron');
 
-  global.Relief = {
+  global.Relief = new EventEmitter();
+
+  const env = require('./lib/env');
+  const log = require('./lib/log');
+  const window = require('./lib/window');
+  const persistence = require('./lib/persistence/persistence');
+  const blockchain = require('./lib/blockchain/blockchain');
+
+  /*  Global.Relief = {
     events: new events.EventEmitter(),
     env: require('./lib/env'),
     log: require('./lib/log'),
@@ -19,27 +27,27 @@
       return require('./lib/blockchain/blockchain')(Relief);
     },
   };
-
+*/
   app.on('ready', function() {
 
-    Relief.log.info('Starting application...');
-    Relief.log.info('Environment: ', Relief.env.name);
-    Relief.log.info('Version: ', Relief.env.version);
+    log.info('Starting application...');
+    log.info('Environment: ', env.name);
+    log.info('Version: ', env.version);
 
     const onPersistenceInit = function(err) {
       if (err) {
-        Relief.log.error(err);
+        log.error(err);
         process.exit();
       }
-      Relief.blockchain.init(function() {
-        const mainWindow = Relief.window.createWindow();
-        Relief.events.on('loadingComplete', function() {
-          mainWindow.show();
-        });
+      blockchain.init(function() {
+        const mainWindow = window.createWindow();
+        //Relief.on('loadingComplete', function() {
+        mainWindow.show();
+        //});
       });
     };
 
-    Relief.persistence.init(onPersistenceInit);
+    persistence.init(onPersistenceInit);
   });
 
   app.on('window-all-closed', function() {

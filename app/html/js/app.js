@@ -62,7 +62,7 @@ app.controller(
 
         setTimeout(function() {
               const webview = document.getElementById('start');
-              //        Webview.openDevTools();
+              webview.openDevTools();
             }, 1000);
       });
     };
@@ -108,7 +108,7 @@ app.controller(
       $scope.loggedOut();
     });
 
-    Relief.events.on('loggedIn', function() {
+    Relief.on('loggedIn', function() {
       $scope.isLoggedIn = true;
       let newTabs = {};
       const onWalletLoad = function(err, data) {
@@ -145,19 +145,19 @@ app.controller(
       Relief.plugin.loadPlugin('wallet', onWalletLoad);
     });
 
-    Relief.events.on('languageChanged', function(lang) {
+    Relief.on('languageChanged', function(lang) {
       if (lang !== appData.language) {
         appData.language = lang;
         updateTabData();
       }
     });
 
-    Relief.events.on('btc.BlockHeight', function(height) {
+    Relief.on('btc.BlockHeight', function(height) {
       $scope.btcBlockHeight = height;
       $scope.$apply();
     });
 
-    Relief.events.on('nxt.BlockHeight', function(height) {
+    Relief.on('nxt.BlockHeight', function(height) {
       $scope.nxtBlockHeight = height;
       $scope.$apply();
     });

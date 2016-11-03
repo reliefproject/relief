@@ -47,7 +47,7 @@
       $scope.create.language = $scope.login.language;
 
       // Let the main window show
-      Relief.events.emit('loadingComplete');
+      Relief.emit('loadingComplete');
     });
 
     /**
@@ -67,7 +67,7 @@
           $scope.create.language = language;
           $scope.strings = strings.start;
           $scope.$apply();
-          Relief.events.emit('languageChanged', language);
+          Relief.emit('languageChanged', language);
         });
       });
     };
@@ -95,7 +95,7 @@
             $scope.$apply();
             return Relief.log.error(err);
           }
-          Relief.events.emit('loggedIn');
+          Relief.emit('loggedIn');
         }
       );
     };
