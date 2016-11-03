@@ -76,9 +76,17 @@
     $scope.createAddress = function() {
       const form = $scope.forms.createAddress;
       if (form.type === 'nxt') {
+
         const addr = Relief.nxt.generateAddress(form.passphrase);
         form.address = addr.address;
         form.publicKey = addr.publicKey;
+
+      } else if (form.type === 'btc') {
+
+        const addr = Relief.btc.generateAddress(form.passphrase);
+        form.address = addr.address;
+        form.privateKey = addr.privateKey;
+
       }
       $scope.forms.createAddress.step++;
     };
@@ -94,13 +102,17 @@
           ? doc.addresses
           : [];
 
+        const privKey = form.type === 'nxt'
+          ? form.passphrase
+          : form.privateKey;
+
         addresses.push({
           type: form.type,
           label: form.label,
           category: form.category.name,
           address: form.address,
           publicKey: form.publicKey,
-          privateKey: form.passphrase,
+          privateKey: privKey,
         });
         Relief.persistence.db.user.update({ addresses: addresses }, onUpdate);
       };
