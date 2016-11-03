@@ -116,7 +116,7 @@
               return callback(err);
             }
             balances.btc.push({
-              address: addr.address,
+              address: addr,
               confirmed: result.data.result.confirmed,
               unconfirmed: result.data.result.unconfirmed,
             });
@@ -136,7 +136,7 @@
               parseInt(result.data.unconfirmedBalanceNQT)
             );
             balances.nxt.push({
-              address: addr.address,
+              address: addr,
               confirmed: parseInt(result.data.balanceNQT),
               unconfirmed: unconf,
             });

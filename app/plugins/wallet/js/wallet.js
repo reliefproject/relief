@@ -9,6 +9,7 @@
     let appData;
     $scope.strings = {};
     $scope.addresses = [];
+    $scope.balances = {};
     $scope.page = 'balances';
 
     $scope.addressCategories = Relief.env.addressCategories;
@@ -51,6 +52,14 @@
         $scope.addresses = doc.addresses;
         $scope.$apply();
       });
+    });
+
+    Relief.user.getBalances(function(err, data) {
+      if (err) {
+        return Relief.log.info(err);
+      }
+      $scope.balances = data;
+      $scope.$apply();
     });
 
     $scope.setPage = function(page) {

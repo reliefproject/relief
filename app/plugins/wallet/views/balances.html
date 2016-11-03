@@ -9,17 +9,27 @@
   </thead>
   <tbody>
     <tr>
-    <td>Bitcoin</td>
-                              <td>2</td>
-                              <td>3.45332</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>NXT</td>
-                              <td>4</td>
-                              <td></td>
-                              <td>394738</td>
-                            </tr>
+      <td>{{ strings.BTC }}</td>
+      <td>{{ balances.btc.length }}
+      <td>
+        {{ balances.total.btc.confirmed }}
+        <span ng-show="balances.total.btc.confirmed !== 0">
+          ({{ balances.total.btc.confirmed }})
+        </span>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>{{ strings.NXT }}</td>
+      <td>{{ balances.nxt.length }}</td>
+      <td></td>
+      <td>
+        {{ balances.total.nxt.confirmed }}
+        <span ng-show="balances.total.nxt.confirmed !== 0">
+          ({{ balances.total.nxt.unconfirmed }})
+        </span>
+      </td>
+    </tr>
                             <tr>
                               <td>Asset 123</td>
                               <td></td>
