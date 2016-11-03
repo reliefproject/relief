@@ -1,81 +1,85 @@
-const path = require('path');
-const crypto = require('crypto');
-const electronApp = require('electron').app;
-const uuid = require('uuid');
-const jetpack = require('fs-jetpack');
-const env = require('../env');
-const log = require('../log');
-const Storage = require('./storage');
+(function() {
 
-let db = {
-  user: {},
-  app: {},
-};
+  const path = require('path');
+  const crypto = require('crypto');
+  const electronApp = require('electron').app;
+  const uuid = require('uuid');
+  const jetpack = require('fs-jetpack');
+  const env = require('../env');
+  const log = require('../log');
+  const Storage = require('./storage');
 
-const dbDir = path.join(
-  electronApp.getPath('userData'),
-  env.dbDir
-);
+  let db = {
+    user: {},
+    app: {},
+  };
 
-jetpack.dir(dbDir);
+  const dbDir = path.join(
+    electronApp.getPath('userData'),
+    env.dbDir
+  );
 
-const getPath = function(filename) {
-  return path.join(dbDir, filename + env.dbSuffix);
-};
+  jetpack.dir(dbDir);
 
-const init = function(callback) {
-  const appDbPath = getPath(env.appDbName);
-  db.app = new Storage({
-    id: 'app',
-    filename: appDbPath,
-    createIfNotExists: true,
-  });
-  if (db.app instanceof Error) {
-    return callback(db.app);
-  }
-  callback();
-};
+  const getPath = function(filename) {
+    return path.join(dbDir, filename + env.dbSuffix);
+  };
 
-const initUserDb = function(username, key, callback) {
-  const dbPath = getPath(env.userDbPrefix + username);
-  db.user = new Storage({
-    id: 'user',
-    filename: dbPath,
-    encryptionKey: key,
-  });
-  if (db.user instanceof Error) {
-    return callback(db.user);
-  }
-  db.user.getDoc(function(err, doc) {
-    if (err) {
-      return callback(err);
+  const init = function(callback) {
+    const appDbPath = getPath(env.appDbName);
+    db.app = new Storage({
+      id: 'app',
+      filename: appDbPath,
+      createIfNotExists: true,
+    });
+    if (db.app instanceof Error) {
+      return callback(db.app);
     }
     callback();
-  });
-};
+  };
 
-const createUserDb = function(username, key, callback) {
-  const dbPath = getPath(env.userDbPrefix + username);
-  db.user = new Storage({
-    id: 'user',
-    filename: dbPath,
-    encryptionKey: key,
-    createIfNotExists: true,
-  });
-  return db.user instanceof Error
-    ? callback(db.user)
-    : callback();
-};
+  const initUserDb = function(username, key, callback) {
+    const dbPath = getPath(env.userDbPrefix + username);
+    db.user = new Storage({
+      id: 'user',
+      filename: dbPath,
+      encryptionKey: key,
+    });
+    if (db.user instanceof Error) {
+      return callback(db.user);
+    }
+    db.user.getDoc(function(err, doc) {
+      if (err) {
+        return callback(err);
+      }
+      callback();
+    });
+  };
 
-const unsetUserDb = function(callback) {
-  db.user = {};
-  callback();
-};
+  const createUserDb = function(username, key, callback) {
+    const dbPath = getPath(env.userDbPrefix + username);
+    db.user = new Storage({
+      id: 'user',
+      filename: dbPath,
+      encryptionKey: key,
+      createIfNotExists: true,
+    });
+    return db.user instanceof Error
+      ? callback(db.user)
+      : callback();
+  };
 
-module.exports = {
-  init: init,
-  initUserDb: initUserDb,
-  createUserDb: createUserDb,
-  unsetUserDb: unsetUserDb,
-  db: db,
-};
+  const unsetUserDb = function(callback) {
+    db.user = {};
+    callback();
+  };
+
+  module.exports = {
+    init: init,
+    initUserDb: initUserDb,
+    createUserDb: createUserDb,
+    unsetUserDb: unsetUserDb,
+    db: db,
+  };
+
+})();

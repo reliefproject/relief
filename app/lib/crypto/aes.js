@@ -1,38 +1,41 @@
-const crypto = require('crypto');
-const algorithm = 'aes-256-gcm';
+(function() {
 
-module.exports = {
+  const crypto = require('crypto');
+  const algorithm = 'aes-256-gcm';
 
-  encryptData: function(data, key) {
+  module.exports = {
 
-    const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipheriv(algorithm, key, iv)
-    let encrypted = cipher.update(data, 'utf8', 'hex')
-    encrypted += cipher.final('hex');
-    const tag = cipher.getAuthTag();
+    encryptData: function(data, key) {
 
-    const result = {
-      content: encrypted,
-      tag: tag,
-      iv: iv.toString('hex'),
-    };
+      const iv = crypto.randomBytes(16);
+      const cipher = crypto.createCipheriv(algorithm, key, iv)
+      let encrypted = cipher.update(data, 'utf8', 'hex')
+      encrypted += cipher.final('hex');
+      const tag = cipher.getAuthTag();
 
-    return JSON.stringify(result);
+      const result = {
+        content: encrypted,
+        tag: tag,
+        iv: iv.toString('hex'),
+      };
 
-  },
+      return JSON.stringify(result);
 
-  decryptData: function(data, key) {
+    },
 
-    data = JSON.parse(data);
-    const iv = new Buffer(data.iv, 'hex');
-    const tag = new Buffer(data.tag.data);
+    decryptData: function(data, key) {
 
-    const decipher = crypto.createDecipheriv(algorithm, key, iv);
-    decipher.setAuthTag(tag);
-    let dec = decipher.update(data.content, 'hex', 'utf8')
-    dec += decipher.final('utf8');
+      data = JSON.parse(data);
+      const iv = new Buffer(data.iv, 'hex');
+      const tag = new Buffer(data.tag.data);
 
-    return dec;
+      const decipher = crypto.createDecipheriv(algorithm, key, iv);
+      decipher.setAuthTag(tag);
+      let dec = decipher.update(data.content, 'hex', 'utf8')
+      dec += decipher.final('utf8');
 
-  },
-};
+      return dec;
+    },
+  };
+
+})();

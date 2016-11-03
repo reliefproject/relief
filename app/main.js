@@ -1,4 +1,4 @@
-(function() {'use strict';
+(function() {
 
   const EventEmitter = require('events').EventEmitter;
   const { app } = require('electron');
@@ -11,23 +11,6 @@
   const persistence = require('./lib/persistence/persistence');
   const blockchain = require('./lib/blockchain/blockchain');
 
-  /*  Global.Relief = {
-    events: new events.EventEmitter(),
-    env: require('./lib/env'),
-    log: require('./lib/log'),
-    i18n: require('./lib/i18n'),
-    window: require('./lib/window'),
-    plugin: require('./lib/plugin'),
-    passphrase: require('./lib/crypto/passphrase'),
-    persistence: require('./lib/persistence/persistence'),
-    get user() {
-      return require('./lib/user')(Relief);
-    },
-    get blockchain() {
-      return require('./lib/blockchain/blockchain')(Relief);
-    },
-  };
-*/
   app.on('ready', function() {
 
     log.info('Starting application...');
@@ -41,9 +24,9 @@
       }
       blockchain.init(function() {
         const mainWindow = window.createWindow();
-        //Relief.on('loadingComplete', function() {
-        mainWindow.show();
-        //});
+        Relief.on('loadingComplete', function() {
+          mainWindow.show();
+        });
       });
     };
 

@@ -1,18 +1,22 @@
-module.exports = function(servers) {
+(function() {
 
-  const DoubleChecker = require('doublechecker');
-  const log = require('../log');
-  const env = require('../env');
+  module.exports = function(servers) {
 
-  const client = new DoubleChecker({
-    numUseSources: env.electrumNumSources,
-    dataType: 'json',
-    ignoreJSONKeys: env.electrumIgnoreJSONKeys,
-    sources: servers,
-  });
+    const DoubleChecker = require('doublechecker');
+    const log = require('../log');
+    const env = require('../env');
 
-  // Passthrough function
-  this.client = client;
+    const client = new DoubleChecker({
+      numUseSources: env.electrumNumSources,
+      dataType: 'json',
+      ignoreJSONKeys: env.electrumIgnoreJSONKeys,
+      sources: servers,
+    });
 
-  return this;
-};
+    // Passthrough function
+    this.client = client;
+
+    return this;
+  };
+
+})();
