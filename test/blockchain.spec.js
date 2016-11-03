@@ -7,9 +7,10 @@ describe('blockchain', function() {
     const blockchain = Blockchain({
       events: new events.EventEmitter(),
     });
-    blockchain.init();
-    assert.equal(typeof blockchain.btc.client, 'object');
-    assert.equal(typeof blockchain.nxt.client, 'object');
-    done();
+    blockchain.init(function() {
+      assert.equal(typeof blockchain.btc.client, 'object');
+      assert.equal(typeof blockchain.nxt.client, 'object');
+      done();
+    });
   });
 });

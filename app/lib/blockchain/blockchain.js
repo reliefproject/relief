@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = function(Relief) {
 
   const path = require('path');
   const jetpack = require('fs-jetpack');
