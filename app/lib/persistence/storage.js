@@ -37,10 +37,12 @@
     }
 
     if (options.id === 'user' && !options.createIfNotExists) {
-      const encrypted = jetpack.read(options.filename);
+      const contents = jetpack.read(options.filename);
+      const lines = contents.trim().split('\n');
+      const lastLine = lines.slice(-1)[0];
       try {
         JSON.parse(
-          aes.decryptData(encrypted, options.encryptionKey)
+          aes.decryptData(lastLine, options.encryptionKey)
         );
       } catch (e) {
         return new Error('Cannot decrypt database');
