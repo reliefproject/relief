@@ -4,6 +4,18 @@
     'Wallet', []
   );
 
+  app.filter('formatCurrency', function() {
+    return function(amount, decimals) {
+      if (isNaN(amount)) {
+        return '';
+      }
+      if (decimals === 0 || !decimals) {
+        return amount;
+      }
+      return amount / Math.pow(10, decimals);
+    };
+  });
+
   app.controller('MainCtrl', function($scope, $timeout) {
 
     let appData;
@@ -59,6 +71,7 @@
         return Relief.log.info(err);
       }
       $scope.balances = data;
+      Relief.log.info(JSON.stringify(data, null, 2));
       $scope.$apply();
     });
 

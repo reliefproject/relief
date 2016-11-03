@@ -60,6 +60,10 @@ describe('user', function() {
         type: 'nxt',
         address: 'NXT-MHJ2-E6M3-H5FY-2NCQ7',
       },
+      {
+        type: 'nxt',
+        address: ' NXT-WSHC-U9Z4-BKN6-543CS',
+      },
     ];
     persistence.db.user.update({ addresses: addresses }, function(err, data) {
       user.getBalances(function(err, data) {

@@ -3,8 +3,7 @@
     <tr>
       <th>{{ strings.ASSET }}</th>
       <th>{{ strings.NUM_ADDRESSES }}</th>
-      <th>{{ strings.BTC_VALUE }}</th>
-      <th>{{ strings.NXT_VALUE }}</th>
+      <th>{{ strings.TOTAL }}</th>
     </tr>
   </thead>
   <tbody>
@@ -12,35 +11,41 @@
       <td>{{ strings.BTC }}</td>
       <td>{{ balances.btc.length }}
       <td>
-        {{ balances.total.btc.confirmed }}
-        <span ng-show="balances.total.btc.confirmed !== 0">
-          ({{ balances.total.btc.confirmed }})
+        {{ balances.total.btc.confirmed | formatCurrency:8 }}
+        <span ng-show="balances.total.btc.unconfirmed !== 0">
+          ({{ balances.total.btc.confirmed | formatCurrency:8 }})
         </span>
       </td>
-      <td></td>
     </tr>
     <tr>
       <td>{{ strings.NXT }}</td>
       <td>{{ balances.nxt.length }}</td>
-      <td></td>
       <td>
-        {{ balances.total.nxt.confirmed }}
-        <span ng-show="balances.total.nxt.confirmed !== 0">
-          ({{ balances.total.nxt.unconfirmed }})
+        {{ balances.total.nxt.confirmed | formatCurrency:8 }}
+        <span ng-show="balances.total.nxt.unconfirmed !== 0">
+          ({{ balances.total.nxt.unconfirmed | formatCurrency:8 }})
         </span>
       </td>
     </tr>
-                            <tr>
-                              <td>Asset 123</td>
-                              <td></td>
-                              <td></td>
-                              <td>84737</td>
-                            </tr>
-                            <tr style="font-weight:bold;">
-                              <td>Total</td>
-                              <td>6</td>
-                              <td>3.45332</td>
-                              <td>472938</td>
-                            </tr>
-                          </tbody>
-                        </table>
+    <tr ng-repeat="(key, asset) in balances.total.assets">
+      <td>{{ balances.assets[key][0].name }}</td>
+      <td>{{ balances.assets[key].length }}</td>
+      <td>
+        {{ asset.confirmed | formatCurrency:balances.assets[key][0].decimals }}
+        <span ng-show="asset.unconfirmed !== 0">
+          ({{ asset.unconfirmed | formatCurrency:balances.assets[key][0].decimals }})
+        </span>
+      </td>
+    </tr>
+    <tr ng-repeat="(key, currency) in balances.total.currencies">
+      <td>{{ balances.currencies[key][0].name }}</td>
+      <td>{{ balances.currencies[key].length }}</td>
+      <td>
+        {{ currency.confirmed | formatCurrency:balances.currencies[key][0].decimals }}
+        <span ng-show="currency.unconfirmed !== 0">
+          ({{ currency.unconfirmed | formatCurrency:balances.currencies[key][0].decimals }})
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>

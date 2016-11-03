@@ -19,6 +19,7 @@
     );
   };
 
+
   const login = function(username, password, callback) {
     const onGetDoc = function(err, doc) {
       if (err) {
@@ -40,13 +41,16 @@
     persistence.db.app.getDoc(onGetDoc);
   };
 
+
   const logout = function(callback) {
     persistence.unsetUserDb(callback);
   };
 
+
   const isLoggedIn = function() {
     return Object.keys(persistence.db.user).length > 0;
   };
+
 
   const createAccount = function(userData, callback) {
     let appData = {};
@@ -90,73 +94,223 @@
     persistence.db.app.getDoc(onGetDoc);
   };
 
-  const getBalances = function(callback) {
 
-    const onGetDoc = function(err, doc) {
+  const getBalances = function(callback) {
+    let balances = {};
+    const onGetBTCBalances = function(err, data) {
       if (err) {
         return callback(err);
       }
-      let balances = {
-        btc: [],
-        nxt: [],
-        total: {
-          btc: { confirmed: 0, unconfirmed: 0 },
-          nxt: { confirmed: 0, unconfirmed: 0 },
-        },
+      balances.btc = data;
+      getNXTBalances(onGetNXTBalances);
+    };
+    const onGetNXTBalances = function(err, data) {
+      if (err) {
+        return callback(err);
+      }
+      balances.nxt = data;
+      getAssetBalances(onGetAssetBalances);
+    };
+    const onGetAssetBalances = function(err, data) {
+      if (err) {
+        return callback(err);
+      }
+      balances.assets = data;
+      getCurrencyBalances(onGetCurrencyBalances);
+    };
+    const onGetCurrencyBalances = function(err, data) {
+      if (err) {
+        return callback(err);
+      }
+      balances.currencies = data;
+      balances.total = {
+        assets: {},
+        currencies: {},
       };
+      // BTC Total
+      for (var i in balances.btc) {
+        if (!balances.total.btc) {
+          balances.total.btc = {
+            confirmed: 0,
+            unconfirmed: 0,
+          };
+        }
+        const bal = balances.btc[i];
+        balances.total.btc.confirmed += bal.confirmed;
+        balances.total.btc.unconfirmed += bal.unconfirmed;
+      }
+      // NXT Total
+      for (var i in balances.nxt) {
+        if (!balances.total.nxt) {
+          balances.total.nxt = {
+            confirmed: 0,
+            unconfirmed: 0,
+          };
+        }
+        const bal = balances.nxt[i];
+        balances.total.nxt.confirmed += bal.confirmed;
+        balances.total.nxt.unconfirmed += bal.unconfirmed;
+      }
+      // Assets Total
+      for (var k in balances.assets) {
+        const asset = balances.assets[k];
+        if (!balances.total.assets[k]) {
+          balances.total.assets[k] = {
+            confirmed: 0,
+            unconfirmed: 0,
+          };
+        }
+        for (var i in asset) {
+          const bal = asset[i];
+          balances.total.assets[k].confirmed += bal.confirmed;
+          balances.total.assets[k].unconfirmed += bal.unconfirmed;
+        }
+      }
+      // Currency Total
+      for (var k in balances.currencies) {
+        const currency = balances.currencies[k];
+        if (!balances.total.currencies[k]) {
+          balances.total.currencies[k] = {
+            confirmed: 0,
+            unconfirmed: 0,
+          };
+        }
+        for (var i in currency) {
+          const bal = currency[i];
+          balances.total.currencies[k].confirmed += bal.confirmed;
+          balances.total.currencies[k].unconfirmed += bal.unconfirmed;
+        }
+      }
+      callback(null, balances);
+    };
+    getBTCBalances(onGetBTCBalances);
+  };
+
+
+  const getBTCBalances = function(callback) {
+    persistence.db.user.getDoc(function(err, doc) {
+      if (err) {
+        return callback(err);
+      }
+      let balances = [];
       async.each(doc.addresses, function(addr, callback) {
-        if (addr.type === 'btc') {
-          const req = {
-            id: 1,
-            method: 'blockchain.address.get_balance',
-            params: [addr.address],
-          };
-          blockchain.bc.btc.client.request(req, function(err, result) {
-            if (err) {
-              return callback(err);
-            }
-            balances.btc.push({
-              address: addr,
-              confirmed: result.data.result.confirmed,
-              unconfirmed: result.data.result.unconfirmed,
-            });
-            callback();
-          });
-        } else if (addr.type === 'nxt') {
-          const req = {
-            requestType: 'getBalance',
-            account: addr.address,
-          };
-          blockchain.bc.nxt.client.request(req, function(err, result) {
-            if (err) {
-              return callback(err);
-            }
-            const unconf = (
-              parseInt(result.data.balanceNQT) -
-              parseInt(result.data.unconfirmedBalanceNQT)
-            );
-            balances.nxt.push({
-              address: addr,
-              confirmed: parseInt(result.data.balanceNQT),
-              unconfirmed: unconf,
-            });
-            callback();
-          });
+        if (addr.type !== 'btc') {
+          return callback();
         }
+        blockchain.getCoinBalance(addr.type, addr.address, function(err, data) {
+          if (err) {
+            return callback(err);
+          }
+          data.address = addr.address;
+          data.label = addr.label;
+          balances.push(data);
+          callback();
+        });
       }, function(err) {
-        for (let i in balances.btc) {
-          balances.total.btc.confirmed += balances.btc[i].confirmed;
-          balances.total.btc.unconfirmed += balances.btc[i].unconfirmed;
-        }
-        for (let i in balances.nxt) {
-          balances.total.nxt.confirmed += balances.nxt[i].confirmed;
-          balances.total.nxt.unconfirmed += balances.nxt[i].unconfirmed;
-        }
         callback(err, balances);
       });
-    };
+    });
+  };
 
-    persistence.db.user.getDoc(onGetDoc);
+  const getNXTBalances = function(callback) {
+    persistence.db.user.getDoc(function(err, doc) {
+      if (err) {
+        return callback(err);
+      }
+      let balances = [];
+      async.each(doc.addresses, function(addr, callback) {
+        if (addr.type !== 'nxt') {
+          return callback();
+        }
+        blockchain.getCoinBalance(addr.type, addr.address, function(err, data) {
+          if (err) {
+            return callback(err);
+          }
+          data.address = addr.address;
+          data.label = addr.label;
+          balances.push(data);
+          callback();
+        });
+      }, function(err) {
+        callback(err, balances);
+      });
+    });
+  };
+
+  const getAssetBalances = function(callback) {
+    persistence.db.user.getDoc(function(err, doc) {
+      if (err) {
+        return callback(err);
+      }
+      let balances = {};
+      async.each(doc.addresses, function(addr, callback) {
+        if (addr.type !== 'nxt') {
+          return callback();
+        }
+        const req = {
+          requestType: 'getAccountAssets',
+          includeAssetInfo: true,
+          account: addr.address,
+        };
+        blockchain.bc.nxt.client.request(req, function(err, result) {
+          if (err || !result.data.accountAssets) {
+            return callback(err);
+          }
+          for (let i in result.data.accountAssets) {
+            const asset = result.data.accountAssets[i];
+            const assetId = asset.asset;
+            if (!balances[assetId]) {
+              balances[assetId] = [];
+            }
+            asset.confirmed = parseInt(asset.quantityQNT);
+            asset.unconfirmed = asset.confirmed - parseInt(asset.unconfirmedQuantityQNT);
+            asset.address = addr.address;
+            balances[assetId].push(asset);
+          }
+          callback();
+        });
+      }, function(err) {
+        callback(err, balances);
+      });
+    });
+  };
+
+  const getCurrencyBalances = function(callback) {
+    persistence.db.user.getDoc(function(err, doc) {
+      if (err) {
+        return callback(err);
+      }
+      let balances = {};
+      async.each(doc.addresses, function(addr, callback) {
+        if (addr.type !== 'nxt') {
+          return callback();
+        }
+        const req = {
+          requestType: 'getAccountCurrencies',
+          includeCurrencyInfo: true,
+          account: addr.address,
+        };
+        blockchain.bc.nxt.client.request(req, function(err, result) {
+          if (err) {
+            return callback(err);
+          }
+          for (let i in result.data.accountCurrencies) {
+            const currency = result.data.accountCurrencies[i];
+            const currencyId = currency.code;
+            if (!balances[currencyId]) {
+              balances[currencyId] = [];
+            }
+            currency.confirmed = parseInt(currency.units);
+            currency.unconfirmed = currency.confirmed - parseInt(currency.unconfirmedUnits);
+            currency.address = addr.address;
+            balances[currencyId].push(currency);
+          }
+          callback();
+        });
+      }, function(err) {
+        callback(err, balances);
+      });
+    });
   };
 
   module.exports = {

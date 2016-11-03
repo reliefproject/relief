@@ -76,9 +76,95 @@
     }, 1000);
   };
 
+
+  const getCoinBalance = function(coin, address, callback) {
+    switch (coin) {
+      case 'btc': {
+        const req = {
+          id: 1,
+          method: 'blockchain.address.get_balance',
+          params: [address],
+        };
+        bc.btc.client.request(req, function(err, result) {
+          if (err) {
+            return callback(err);
+          }
+          callback(null, {
+            confirmed: result.data.result.confirmed,
+            unconfirmed: result.data.result.unconfirmed,
+          });
+        });
+        break;
+      }
+      case 'nxt': {
+        const req = {
+          requestType: 'getBalance',
+          account: address,
+        };
+        bc.nxt.client.request(req, function(err, result) {
+          if (err) {
+            return callback(err);
+          }
+          const conf = parseInt(result.data.balanceNQT);
+          const unconf = (conf - parseInt(result.data.unconfirmedBalanceNQT));
+          callback(null, {
+            confirmed: conf,
+            unconfirmed: unconf,
+          });
+        });
+        break;
+      }
+      default: {
+        return callback(new Error('Unknown coin'));
+      }
+    }
+  };
+
+  const getAssetBalance = function(asset, address, callback) {
+    const req = {
+      requestType: 'getAccountAssets',
+      account: address,
+      asset: asset,
+    };
+    bc.nxt.client.request(req, function(err, result) {
+      if (err) {
+        return callback(err);
+      }
+      const conf = parseInt(result.data.quantityQNT);
+      const unconf = (conf - parseInt(result.data.unconfirmedQuantityQNT));
+      callback(null, {
+        confirmed: conf,
+        unconfirmed: unconf,
+      });
+    });
+  };
+
+  const getCurrencyBalance = function(currency, address, callback) {
+    const req = {
+      requestType: 'getAccountCurrencies',
+      account: address,
+      currency: currency,
+    };
+    bc.nxt.client.request(req, function(err, result) {
+      if (err) {
+        return callback(err);
+      }
+      const conf = parseInt(result.data.units);
+      const unconf = (conf - parseInt(result.data.unconfirmedUnits));
+      callback(null, {
+        confirmed: conf,
+        unconfirmed: unconf,
+      });
+    });
+  };
+
+
   module.exports = {
     init: init,
     bc: bc,
+    getCoinBalance: getCoinBalance,
+    getAssetBalance: getAssetBalance,
+    getCurrencyBalance: getCurrencyBalance,
   };
 
 })();
