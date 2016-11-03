@@ -10,3 +10,7 @@ Relief.passphrase = remote.require('./lib/crypto/passphrase');
 Relief.blockchain = remote.require('./lib/blockchain/blockchain');
 Relief.persistence = remote.require('./lib/persistence/persistence');
 Relief.user = remote.require('./lib/user');
+
+// Shortcuts
+Relief.btc = Relief.blockchain.bc.btc;
+Relief.nxt = Relief.blockchain.bc.nxt;
