@@ -1,0 +1,50 @@
+address goes here
+
+{{ addressToDisplay }}
+
+
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Type</th>
+      <th>From / To</th>
+      <th>Amount</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>31.13.3012</td>
+      <td>in</td>
+      <td>NXT-asdf-asdf-asdf-asdff</td>
+      <td>123.00</td>
+      <td>
+        <button class="btn btn-mini btn-default" data-toggle="modal" data-target="#modalEditAccount"
+                ng-click="setAddressToEdit(address)">
+          <span class="icon icon-eye"></span>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>

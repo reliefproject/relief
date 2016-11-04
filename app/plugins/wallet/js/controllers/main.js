@@ -6,6 +6,7 @@
     $scope.addresses = [];
     $scope.balances = {};
     $scope.page = 'balances';
+    $scope.addressToDisplay = {};
     $scope.addressCategories = Relief.env.addressCategories;
     $scope.forms = {
       createAddress: {
@@ -66,7 +67,10 @@
       return {};
     };
 
-    $scope.setPage = function(page) {
+    $scope.setPage = function(page, args) {
+      if (page === 'address') {
+        $scope.addressToDisplay = args;
+      }
       $scope.page = page;
     }
 
