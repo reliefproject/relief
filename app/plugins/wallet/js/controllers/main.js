@@ -1,10 +1,11 @@
 (function() {
 
-  const mainController = function($scope, i18n, Settings, User) {
+  const mainController = function($scope, i18n, Settings, User, Transactions) {
 
     $scope.strings = {};
     $scope.addresses = [];
     $scope.balances = {};
+    $scope.txList = [];
     $scope.page = 'balances';
     $scope.addressToDisplay = {};
     $scope.addressCategories = Relief.env.addressCategories;
@@ -70,9 +71,16 @@
     $scope.setPage = function(page, args) {
       if (page === 'address') {
         $scope.addressToDisplay = args;
+        Transactions.loadTransactions(args, function(err) {
+          if (err) {
+            return Relief.log.error(err);
+          }
+          $scope.txList = Transactions.transactions;
+          $scope.$apply();
+        });
       }
       $scope.page = page;
-    }
+    };
 
     $scope.getIconClass = function(category) {
       for (let i in $scope.addressCategories) {
@@ -179,7 +187,7 @@
 
   app.controller(
     'MainCtrl',
-    ['$scope', 'i18n', 'Settings', 'User', mainController]
+    ['$scope', 'i18n', 'Settings', 'User', 'Transactions', mainController]
   );
 
 })();

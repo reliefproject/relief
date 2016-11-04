@@ -17,7 +17,8 @@
   <h5 class="nav-group-title" ng-show="addresses.length > 0">{{ strings.ADDRESSES }}</h5>
   <span class="nav-group-item" href="#"
         ng-repeat="address in addresses"
-        ng-click="setPage('address', address)">
+        ng-click="setPage('address', address)"
+        ng-class="{'active': page == 'address' && addressToDisplay.address == address.address }">
     <span class="icon" ng-class="getIconClass(address.category)"></span>
     {{ address.label ? address.label : address.address }}
   </span>

@@ -26,6 +26,20 @@
       };
     };
 
+    this.getTransactionsByAddress = function(address, callback) {
+      const req = {
+        id: 1,
+        method: 'blockchain.address.get_history',
+        params: [address],
+      };
+      this.client.request(req, function(err, result) {
+        if (err) {
+          return callback(err);
+        }
+        callback(null, result);
+      });
+    };
+
     // Passthrough function
     this.client = client;
 
