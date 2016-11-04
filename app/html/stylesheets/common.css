@@ -7,7 +7,7 @@ html {
   overflow:auto;
 }
 .container, .sidebar {
-  padding-top:10px;
+  padding:5px;
 }
 
 .tab-content {
