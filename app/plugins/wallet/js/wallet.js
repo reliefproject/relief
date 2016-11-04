@@ -16,16 +16,107 @@
     };
   });
 
-  app.controller('MainCtrl', function($scope, $timeout) {
+  app.service('i18n', function() {
+    var service = {
+      strings: {},
+      loadStrings: function(language, callback) {
+        Relief.i18n.loadStrings(language, function(err, strings) {
+          if (err) {
+            return callback(err);
+          }
+          service.strings = strings.wallet;
+          callback();
+        });
+      },
+      getCategoryTitle: function(cat) {
+        const key = 'CATEGORY_' + cat.toUpperCase();
+        return service.strings[key];
+      },
+    };
+    return service;
+  });
 
-    let appData;
+  app.service('Settings', function() {
+    var service = {
+      settings: {},
+      loadSettings: function(callback) {
+        Relief.persistence.db.app.getDoc(function(err, data) {
+          if (err) {
+            return callback(err);
+          }
+          service.settings = data;
+          callback();
+        });
+      },
+    };
+    return service;
+  });
+
+  app.service('User', function() {
+    var service = {
+      userData: {},
+      balances: {},
+      getBalances: function(callback) {
+        Relief.user.getBalances(function(err, data) {
+          if (err) {
+            return callback(err);
+          }
+          service.balances = data;
+          callback();
+        });
+      },
+      getUserData: function(callback) {
+        Relief.persistence.db.user.getDoc(function(err, doc) {
+          if (err) {
+            return callback(err);
+          }
+          service.userData = doc;
+          callback();
+        });
+      },
+      addAddress: function(address, callback) {
+        let addresses = angular.copy(service.userData.addresses);
+        addresses.push(address)
+        Relief.persistence.db.user.update(
+          { addresses: addresses },
+          callback
+        );
+      },
+      updateAddress: function(address, callback) {
+        let addresses = angular.copy(service.userData.addresses);
+        for (var i in addresses) {
+          if (addresses[i].address === address.address) {
+            addresses[i] = address;
+          }
+        }
+        Relief.persistence.db.user.update(
+          { addresses: addresses },
+          callback
+        );
+      },
+      deleteAddress: function(address, callback) {
+        let addresses = angular.copy(service.userData.addresses);
+        for (let i in addresses) {
+          if (addresses[i].address === address) {
+            delete addresses[i];
+          }
+        }
+        Relief.persistence.db.user.update(
+          { addresses: addresses },
+          callback
+        );
+      },
+    };
+    return service;
+  });
+
+  const mainController = function($scope, i18n, Settings, User) {
+
     $scope.strings = {};
     $scope.addresses = [];
     $scope.balances = {};
     $scope.page = 'balances';
-
     $scope.addressCategories = Relief.env.addressCategories;
-
     $scope.forms = {
       createAddress: {
         step: 1,
@@ -37,48 +128,41 @@
       editAddress: {},
     };
 
-    Relief.persistence.db.app.getDoc(function(err, data) {
+    Settings.loadSettings(function(err) {
       if (err) {
         return Relief.log.error(err);
       }
-      if (data) {
-        appData = data;
-      }
-      Relief.i18n.loadStrings(appData.language, function(err, strings) {
+      i18n.loadStrings(Settings.settings.language, function(err) {
         if (err) {
           return Relief.log.error(err);
         }
-        $scope.strings = strings.wallet;
         for (let i in $scope.addressCategories) {
           const category = $scope.addressCategories[i];
-          const key = 'CATEGORY_' + category.name.toUpperCase();
-          const title = strings.wallet[key];
-          $scope.addressCategories[i].title = title;
+          $scope.addressCategories[i].title = i18n.getCategoryTitle(category.name);
         }
+        $scope.strings = i18n.strings;
         $scope.$apply();
       });
-
       updateBalances();
       updateAddresses();
-
     });
 
     const updateAddresses = function() {
-      Relief.persistence.db.user.getDoc(function(err, doc) {
+      User.getUserData(function(err) {
         if (err) {
           return Relief.log.error(err);
         }
-        $scope.addresses = doc.addresses;
+        $scope.addresses = User.userData.addresses;
         $scope.$apply();
       });
     };
 
     const updateBalances = function() {
-      Relief.user.getBalances(function(err, data) {
+      User.getBalances(function(err) {
         if (err) {
           return Relief.log.info(err);
         }
-        $scope.balances = data;
+        $scope.balances = User.balances;
         $scope.$apply();
       });
     };
@@ -134,30 +218,20 @@
       $scope.forms.createAddress.step++;
     };
 
-
     $scope.saveAddress = function() {
       const form = $scope.forms.createAddress;
-      const onGetDoc = function(err, doc) {
-        if (err) {
-          return Relief.log.error(err);
-        }
-        let addresses = doc.addresses
-          ? doc.addresses
-          : [];
-        const privKey = form.type === 'nxt'
-          ? form.passphrase
-          : form.privateKey;
-        addresses.push({
-          type: form.type,
-          label: form.label,
-          category: form.category.name,
-          address: form.address,
-          publicKey: form.publicKey,
-          privateKey: privKey,
-        });
-        Relief.persistence.db.user.update({ addresses: addresses }, onUpdate);
+      const privKey = form.type === 'nxt'
+        ? form.passphrase
+        : form.privateKey;
+      const address = {
+        type: form.type,
+        label: form.label,
+        category: form.category.name,
+        address: form.address,
+        publicKey: form.publicKey,
+        privateKey: privKey,
       };
-      const onUpdate = function(err) {
+      User.addAddress(address, function(err) {
         if (err) {
           return Relief.log.error(err);
         }
@@ -171,8 +245,7 @@
         };
         updateAddresses();
         updateBalances();
-      };
-      Relief.persistence.db.user.getDoc(onGetDoc);
+      });
     };
 
     $scope.setAddressToEdit = function(address) {
@@ -180,31 +253,17 @@
       $scope.forms.editAddress.category = getCategoryByName(address.category);
     };
 
-
     $scope.saveEditedAddress = function() {
       let addr = $scope.forms.editAddress;
       addr.category = addr.category.name;
-      const onGetDoc = function(err, doc) {
-        if (err) {
-          return Relief.log.error(err);
-        }
-        let addresses = doc.addresses;
-        for (var i in addresses) {
-          if (addresses[i].address === addr.address) {
-            addresses[i] = addr;
-          }
-        }
-        Relief.persistence.db.user.update({ addresses: addresses }, onUpdate);
-      };
-      const onUpdate = function(err) {
+      User.updateAddress(addr, function(err) {
         if (err) {
           return Relief.log.error(err);
         }
         angular.element('#modalEditAccount').modal('hide');
         $scope.forms.editAddress = {};
         updateAddresses();
-      };
-      Relief.persistence.db.user.getDoc(onGetDoc);
+      });
     };
 
     $scope.setAddressToDelete = function(address) {
@@ -212,28 +271,21 @@
     };
 
     $scope.deleteAddress = function() {
-      const onGetDoc = function(err, doc) {
-        if (err) {
-          return Relief.log.error(err);
-        }
-        const addresses = doc.addresses;
-        for (let i in addresses) {
-          if (addresses[i].address === $scope.addressToDelete) {
-            delete addresses[i];
-          }
-        }
-        Relief.persistence.db.user.update({ addresses: addresses }, onUpdate);
-      };
-      const onUpdate = function(err) {
+      User.deleteAddress($scope.addressToDelete, function(err) {
         if (err) {
           return Relief.log.error(err);
         }
         angular.element('#modalDeleteAccount').modal('hide');
         updateAddresses();
         updateBalances();
-      };
-      Relief.persistence.db.user.getDoc(onGetDoc);
+      });
     };
-  });
+
+  };
+
+  app.controller(
+    'MainCtrl',
+    ['$scope', 'i18n', 'Settings', 'User', mainController]
+  );
 
 })();
