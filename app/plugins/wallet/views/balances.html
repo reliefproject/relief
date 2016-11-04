@@ -8,16 +8,6 @@
   </thead>
   <tbody>
     <tr>
-      <td>{{ strings.BTC }}</td>
-      <td>{{ balances.btc.length }}
-      <td>
-        {{ balances.total.btc.confirmed | formatCurrency:8 }}
-        <span ng-show="balances.total.btc.unconfirmed !== 0">
-          ({{ balances.total.btc.confirmed | formatCurrency:8 }})
-        </span>
-      </td>
-    </tr>
-    <tr>
       <td>{{ strings.NXT }}</td>
       <td>{{ balances.nxt.length }}</td>
       <td>

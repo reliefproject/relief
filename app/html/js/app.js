@@ -7,7 +7,6 @@ app.controller(
 
     let appData = {};
     $scope.tabs = {};
-    $scope.btcBlockHeight = '';
     $scope.nxtBlockHeight = '';
 
     $scope.selectTab = function(tabId) {
@@ -62,7 +61,7 @@ app.controller(
 
         setTimeout(function() {
               const webview = document.getElementById('start');
-              webview.openDevTools();
+              //              Webview.openDevTools();
             }, 1000);
       });
     };
@@ -150,11 +149,6 @@ app.controller(
         appData.language = lang;
         updateTabData();
       }
-    });
-
-    Relief.on('btc.BlockHeight', function(height) {
-      $scope.btcBlockHeight = height;
-      $scope.$apply();
     });
 
     Relief.on('nxt.BlockHeight', function(height) {

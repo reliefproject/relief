@@ -1,17 +1,18 @@
 (function() {
 
-  const mainController = function($scope, i18n, Settings, User) {
+  const mainController = function($scope, i18n, Settings, User, Transactions) {
 
     $scope.strings = {};
     $scope.addresses = [];
     $scope.balances = {};
+    $scope.txList = [];
     $scope.page = 'balances';
     $scope.addressToDisplay = {};
     $scope.addressCategories = Relief.env.addressCategories;
     $scope.forms = {
       createAddress: {
         step: 1,
-        type: 'btc',
+        type: 'nxt',
         category: $scope.addressCategories[0],
         label: '',
         passphrase: '',
@@ -71,8 +72,15 @@
       if (page === 'address') {
         $scope.addressToDisplay = args;
       }
+      Transactions.loadTransactions(args, function(err) {
+        if (err) {
+          return Relief.log.error(err);
+        }
+        $scope.txList = Transactions.transactions;
+        $scope.$apply();
+      });
       $scope.page = page;
-    }
+    };
 
     $scope.getIconClass = function(category) {
       for (let i in $scope.addressCategories) {
@@ -102,12 +110,6 @@
         form.address = addr.address;
         form.publicKey = addr.publicKey;
 
-      } else if (form.type === 'btc') {
-
-        const addr = Relief.btc.generateAddress(form.passphrase);
-        form.address = addr.address;
-        form.privateKey = addr.privateKey;
-
       }
       $scope.forms.createAddress.step++;
     };
@@ -132,7 +134,7 @@
         angular.element('#modalCreateAccount').modal('hide');
         $scope.forms.createAddress = {
           step: 1,
-          type: 'btc',
+          type: 'nxt',
           category: $scope.addressCategories[0],
           label: '',
           passphrase: '',
@@ -179,7 +181,7 @@
 
   app.controller(
     'MainCtrl',
-    ['$scope', 'i18n', 'Settings', 'User', mainController]
+    ['$scope', 'i18n', 'Settings', 'User', 'Transactions', mainController]
   );
 
 })();
