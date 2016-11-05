@@ -6,6 +6,7 @@
     $scope.addresses = [];
     $scope.balances = {};
     $scope.txList = [];
+    $scope.txListPage = 1;
     $scope.page = 'balances';
     $scope.addressToDisplay = {};
     $scope.addressCategories = Relief.env.addressCategories;
@@ -71,15 +72,31 @@
     $scope.setPage = function(page, args) {
       if (page === 'address') {
         $scope.addressToDisplay = args;
+        Transactions.loadTransactions(args, function(err) {
+          if (err) {
+            return Relief.log.error(err);
+          }
+          $scope.txListPage = 1;
+          $scope.txList = Transactions.getSlice(
+            $scope.txListPage,
+            10
+          );
+          $scope.$apply();
+        });
       }
-      Transactions.loadTransactions(args, function(err) {
-        if (err) {
-          return Relief.log.error(err);
-        }
-        $scope.txList = Transactions.transactions;
-        $scope.$apply();
-      });
       $scope.page = page;
+    };
+
+    $scope.showTxListNextButton = function() {
+      return ((Transactions.transactions.length / 10) > ($scope.txListPage));
+    };
+
+    $scope.setTxListPage = function(page) {
+      $scope.txListPage = page;
+      $scope.txList = Transactions.getSlice(
+        page,
+        10
+      );
     };
 
     $scope.getIconClass = function(category) {
