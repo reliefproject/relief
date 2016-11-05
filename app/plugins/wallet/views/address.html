@@ -1,6 +1,21 @@
-address goes here
+<div class="panel panel-default" style="margin-bottom:0">
+  <div class="panel-heading">{{ addressToDisplay.address }}</div>
+  <div class="panel-body small">
 
-{{ addressToDisplay }}
+    <dl class="dl-horizontal">
+      <dt>NXT Balance</dt>
+      <dd>{{ addressToDisplay.balanceNxt | formatCurrency:8 }}</dd>
+      <dt>Public key</dt>
+      <dd>{{ addressToDisplay.publicKey }}</dd>
+      <dt>Assets owned</dt>
+      <dd>{{ addressToDisplay.numAssets }}</dd>
+      <dt>Currencies owned</dt>
+      <dd>{{ addressToDisplay.numCurrencies }}</dd>
+      <dt>Aliases owned</dt>
+      <dd>{{ addressToDisplay.numAliases }}</dd>
+    </dl>
+  </div>
+</div>
 
 <table class="table table-condensed">
   <thead>
@@ -34,7 +49,8 @@ address goes here
   </tbody>
 </table>
 
-{{ txListPage }}
+<p class="text-left">Page {{ txListPage }} / {{ getTxNumPages() }} (Showing max. 100 items)</p>
+
 <nav>
   <ul class="pager">
     <li ng-show="txListPage > 1">

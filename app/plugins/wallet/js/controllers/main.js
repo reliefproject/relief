@@ -1,6 +1,8 @@
 (function() {
 
-  const mainController = function($scope, i18n, Settings, User, Transactions) {
+  const mainController = function(
+    $scope, i18n, Settings, User, Address
+  ) {
 
     $scope.strings = {};
     $scope.addresses = [];
@@ -72,15 +74,42 @@
     $scope.setPage = function(page, args) {
       if (page === 'address') {
         $scope.addressToDisplay = args;
-        Transactions.loadTransactions(args, function(err) {
+        Address.loadTransactions(args, function(err) {
           if (err) {
             return Relief.log.error(err);
           }
           $scope.txListPage = 1;
-          $scope.txList = Transactions.getSlice(
+          $scope.txList = Address.getSlice(
             $scope.txListPage,
             10
           );
+          $scope.$apply();
+        });
+        Address.getNxtBalance(args.address, function(err) {
+          if (err) {
+            Relief.log.error(err);
+          }
+          $scope.addressToDisplay.balanceNxt = Address.balanceNxt;
+        })
+        Address.getNumAssets(args.address, function(err) {
+          if (err) {
+            return Relief.log.error(err);
+          }
+          $scope.addressToDisplay.numAssets = Address.numAssets;
+          $scope.$apply();
+        });
+        Address.getNumCurrencies(args.address, function(err) {
+          if (err) {
+            return Relief.log.error(err);
+          }
+          $scope.addressToDisplay.numCurrencies = Address.numCurrencies;
+          $scope.$apply();
+        });
+        Address.getNumAliases(args.address, function(err) {
+          if (err) {
+            return Relief.log.error(err);
+          }
+          $scope.addressToDisplay.numAliases = Address.numAliases;
           $scope.$apply();
         });
       }
@@ -88,12 +117,16 @@
     };
 
     $scope.showTxListNextButton = function() {
-      return ((Transactions.transactions.length / 10) > ($scope.txListPage));
+      return ((Address.transactions.length / 10) > ($scope.txListPage));
     };
+
+    $scope.getTxNumPages = function() {
+      return Math.ceil((Address.transactions.length / 10));
+    }
 
     $scope.setTxListPage = function(page) {
       $scope.txListPage = page;
-      $scope.txList = Transactions.getSlice(
+      $scope.txList = Address.getSlice(
         page,
         10
       );
@@ -198,7 +231,14 @@
 
   app.controller(
     'MainCtrl',
-    ['$scope', 'i18n', 'Settings', 'User', 'Transactions', mainController]
+    [
+      '$scope',
+      'i18n',
+      'Settings',
+      'User',
+      'Address',
+      mainController,
+    ]
   );
 
 })();
