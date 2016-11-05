@@ -2,6 +2,7 @@
 
   const path = require('path');
   const jetpack = require('fs-jetpack');
+  const env = require('../env');
   const Nxt = require('./nxt_nrs');
 
   let tasks = [];
@@ -10,8 +11,11 @@
   };
 
   const init = function(callback) {
+    const file = env.nxtTestnet
+      ? 'servers_nxt_testnet.json'
+      : 'server_nxt.json';
     const dataDir = path.join(__dirname, '..', '..', 'data');
-    const nxtFile = path.join(dataDir, 'servers_nxt.json');
+    const nxtFile = path.join(dataDir, file);
     const nxtList = jetpack.read(nxtFile, 'json');
     bc.nxt = new Nxt(nxtList);
     tasks.push({
