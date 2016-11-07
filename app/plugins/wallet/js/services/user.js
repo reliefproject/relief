@@ -5,6 +5,7 @@
       userData: {},
       balances: {},
 
+
       getBalances: function(callback) {
         Relief.user.getBalances(function(err, data) {
           if (err) {
@@ -14,6 +15,7 @@
           callback();
         });
       },
+
 
       getUserData: function(callback) {
         Relief.db.user.getDoc(function(err, doc) {
@@ -25,6 +27,7 @@
         });
       },
 
+
       addAddress: function(id, address, callback) {
         let addresses = angular.copy(service.userData.addresses);
         addresses[id] = address;
@@ -33,6 +36,7 @@
           callback
         );
       },
+
 
       updateAddress: function(address, callback) {
         let addresses = angular.copy(service.userData.addresses);
@@ -47,6 +51,7 @@
         );
       },
 
+
       deleteAddress: function(address, callback) {
         let addresses = angular.copy(service.userData.addresses);
         for (let i in addresses) {
@@ -59,6 +64,7 @@
           callback
         );
       },
+
 
     };
     return service;
