@@ -59,7 +59,7 @@
       }
       appData.language = language;
       Relief.persistence.db.app.upsert(appData, function() {
-        Relief.i18n.loadStrings(language, function(err, strings) {
+        Relief.i18n.loadStrings(language, 'start', function(err, strings) {
           if (err) {
             return Relief.log.error(err);
           }

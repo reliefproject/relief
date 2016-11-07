@@ -1,21 +1,14 @@
 (function() {
 
-<<<<<<< HEAD
-  const mainController = function($scope, i18n, Settings, User, Transactions) {
-=======
   const mainController = function(
     $scope, i18n, Settings, User, Address
   ) {
->>>>>>> no_btc
 
     $scope.strings = {};
     $scope.addresses = [];
     $scope.balances = {};
     $scope.txList = [];
-<<<<<<< HEAD
-=======
     $scope.txListPage = 1;
->>>>>>> no_btc
     $scope.page = 'balances';
     $scope.addressToDisplay = {};
     $scope.addressCategories = Relief.env.addressCategories;
@@ -81,13 +74,6 @@
     $scope.setPage = function(page, args) {
       if (page === 'address') {
         $scope.addressToDisplay = args;
-<<<<<<< HEAD
-        Transactions.loadTransactions(args, function(err) {
-          if (err) {
-            return Relief.log.error(err);
-          }
-          $scope.txList = Transactions.transactions;
-=======
         Address.loadTransactions(args, function(err) {
           if (err) {
             return Relief.log.error(err);
@@ -124,14 +110,11 @@
             return Relief.log.error(err);
           }
           $scope.addressToDisplay.numAliases = Address.numAliases;
->>>>>>> no_btc
           $scope.$apply();
         });
       }
       $scope.page = page;
     };
-<<<<<<< HEAD
-=======
 
     $scope.showTxListNextButton = function() {
       return ((Address.transactions.length / 10) > ($scope.txListPage));
@@ -140,7 +123,6 @@
     $scope.getTxNumPages = function() {
       return Math.ceil((Address.transactions.length / 10));
     }
->>>>>>> no_btc
 
     $scope.setTxListPage = function(page) {
       $scope.txListPage = page;
@@ -249,9 +231,6 @@
 
   app.controller(
     'MainCtrl',
-<<<<<<< HEAD
-    ['$scope', 'i18n', 'Settings', 'User', 'Transactions', mainController]
-=======
     [
       '$scope',
       'i18n',
@@ -260,7 +239,6 @@
       'Address',
       mainController,
     ]
->>>>>>> no_btc
   );
 
 })();

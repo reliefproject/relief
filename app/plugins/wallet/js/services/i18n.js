@@ -4,7 +4,7 @@
     var service = {
       strings: {},
       loadStrings: function(language, callback) {
-        Relief.i18n.loadStrings(language, function(err, strings) {
+        Relief.i18n.loadStrings(language, 'wallet', function(err, strings) {
           if (err) {
             return callback(err);
           }
