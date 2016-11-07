@@ -4,3 +4,6 @@
 [submodule "app/plugins/keys"]
 	path = app/plugins/keys
 	url = https://github.com/reliefproject/relief-keys
+[submodule "app/plugins/apps"]
+	path = app/plugins/apps
+	url = https://github.com/reliefproject/relief-apps
