@@ -92,7 +92,7 @@ app.controller(
       $scope.$apply();
     };
 
-    Relief.persistence.db.app.getDoc(function(err, doc) {
+    Relief.db.app.getDoc(function(err, doc) {
       if (err) {
         return Relief.log.error(err);
       }

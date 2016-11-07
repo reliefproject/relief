@@ -4,7 +4,7 @@
     var service = {
       settings: {},
       loadSettings: function(callback) {
-        Relief.persistence.db.app.getDoc(function(err, data) {
+        Relief.db.app.getDoc(function(err, data) {
           if (err) {
             return callback(err);
           }

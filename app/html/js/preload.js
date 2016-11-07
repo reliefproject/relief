@@ -11,7 +11,7 @@ Relief.crypto = {
   generatePassphrase: remote.require('./lib/crypto/passphrase').generate,
 };
 Relief.blockchain = remote.require('./lib/blockchain/blockchain');
-Relief.persistence = remote.require('./lib/persistence/persistence');
+Relief.db = remote.require('./lib/persistence/persistence').db;
 Relief.user = remote.require('./lib/user');
 
 // Shortcuts

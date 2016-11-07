@@ -16,7 +16,7 @@
       },
 
       getUserData: function(callback) {
-        Relief.persistence.db.user.getDoc(function(err, doc) {
+        Relief.db.user.getDoc(function(err, doc) {
           if (err) {
             return callback(err);
           }
@@ -28,7 +28,7 @@
       addAddress: function(address, callback) {
         let addresses = angular.copy(service.userData.addresses);
         addresses.push(address)
-        Relief.persistence.db.user.update(
+        Relief.db.user.update(
           { addresses: addresses },
           callback
         );
@@ -41,7 +41,7 @@
             addresses[i] = address;
           }
         }
-        Relief.persistence.db.user.update(
+        Relief.db.user.update(
           { addresses: addresses },
           callback
         );
@@ -54,7 +54,7 @@
             delete addresses[i];
           }
         }
-        Relief.persistence.db.user.update(
+        Relief.db.user.update(
           { addresses: addresses },
           callback
         );
