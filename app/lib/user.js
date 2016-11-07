@@ -88,8 +88,10 @@
       if (err) {
         return callback(err);
       }
-      delete userData.password;
-      persistence.db.user.insertDoc(userData, callback);
+      persistence.db.user.update(
+        { username: userData.username },
+        callback
+      );
     };
     persistence.db.app.getDoc(onGetDoc);
   };

@@ -64,9 +64,19 @@
       encryptionKey: key,
       createIfNotExists: true,
     });
-    return db.user instanceof Error
-      ? callback(db.user)
-      : callback();
+    if (db.user instanceof Error) {
+      return callback(db.user);
+    }
+    const schemaFile = path.join(
+      __dirname, '..', '..', 'data', 'schema_user.json'
+    );
+    const schema = JSON.parse(
+      jetpack.read(schemaFile)
+    );
+    db.user.insertDoc(schema, callback);
+    //Return db.user instanceof Error
+    //  ? callback(db.user)
+    //  : callback();
   };
 
   const unsetUserDb = function(callback) {

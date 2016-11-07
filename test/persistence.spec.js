@@ -37,7 +37,7 @@ describe('user db', function() {
     });
   });
   it('can write into user db', function(done) {
-    persistence.db.user.insertDoc({ food: 'sandwich' }, function(err) {
+    persistence.db.user.updateDoc({ food: 'sandwich' }, function(err) {
       assert.equal(err, undefined);
       done();
     });
