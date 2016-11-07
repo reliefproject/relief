@@ -67,7 +67,9 @@
 
 
     };
+
     return service;
+
   });
 
 })();
