@@ -73,7 +73,7 @@
       </div>
 
     <div class="window-content">
-        <webview id="{{ tabId }}"
+        <webview id="{{ tabId }}" webviewinit
                  ng-repeat="(tabId, tab) in tabs"
                  ng-class="{ show: tabId == selectedTab }"
                  ng-src="{{ trustUrl(tab) }}"
