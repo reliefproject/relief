@@ -142,7 +142,7 @@
     };
 
     $scope.generatePassphrase = function() {
-      Relief.passphrase.generate(12, function(phrase) {
+      Relief.crypto.generatePassphrase(12, function(phrase) {
         $scope.forms.createAddress.passphrase = phrase;
         $scope.$apply();
       });
