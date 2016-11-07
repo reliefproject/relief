@@ -3,7 +3,6 @@
 
   const crypto = require('crypto');
   const uuid = require('node-uuid');
-  const async = require('async');
   const env = require('./env');
   const log = require('./log');
   const blockchain = require('./blockchain/blockchain');
