@@ -40,7 +40,8 @@ describe('user', function() {
   });
   it('imports keys from file', function(done) {
     const file = path.join(__dirname, 'data', 'relief_keys.json');
-    user.importKeys(file, function(err) {
+    const data = jetpack.read(file);
+    user.importKeys(data, function(err) {
       assert.equal(err, undefined);
       persistence.db.user.getDoc(function(err, doc) {
         assert.equal(

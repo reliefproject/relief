@@ -124,14 +124,10 @@
   };
 
 
-  const importKeys = function(file, callback) {
-    if (!jetpack.exists(file)) {
-      return callback(new Error('File not found'));
-    }
+  const importKeys = function(data, callback) {
     let keys = {};
-    const contents = jetpack.read(file);
     try {
-      keys = JSON.parse(contents);
+      keys = JSON.parse(data);
     } catch (e) {
       log.error(e);
       return callback(new Error('Invalid JSON'));
