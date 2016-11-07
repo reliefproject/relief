@@ -1,3 +1,6 @@
 [submodule "app/plugins/start"]
 	path = app/plugins/start
 	url = https://github.com/reliefproject/relief-start
+[submodule "app/plugins/keys"]
+	path = app/plugins/keys
+	url = https://github.com/reliefproject/relief-keys
