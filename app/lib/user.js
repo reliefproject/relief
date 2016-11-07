@@ -149,12 +149,12 @@
               return callback(new Error('Missing key ' + key));
             }
           }
-        }
-        if (!keys[type].label) {
-          keys[type].label = '';
-        }
-        if (!keys[type].category) {
-          keys[type].category = 'default';
+          if (!keys[type][addressId].label) {
+            keys[type][addressId].label = '';
+          }
+          if (!keys[type][addressId].category) {
+            keys[type][addressId].category = 'default';
+          }
         }
       }
       Object.assign(userData.addresses.nxt, keys.nxt);
