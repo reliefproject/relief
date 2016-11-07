@@ -28,7 +28,7 @@
     "build": "gulp build",
     "prerelease": "gulp build --env=production",
     "release": "build --x64 --publish never",
-    "prestart": "git submodule update --recursive --remote",
+    "prestart": "git submodule update --recursive --remote --init",
     "start": "gulp start",
     "pretest": "gulp build --env=test",
     "test": "electron-mocha test --recursive"
