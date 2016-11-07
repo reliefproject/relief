@@ -8,6 +8,7 @@
     "EXPORT":"Export Keys",
     "CLEAR_TEXT":"Clear text (JSON)",
     "TARGET_FILE":"Target file",
+    "EXPORT_SUCCESS":"Export successful",
     "CURRENCY":"Currency",
     "CATEGORY":"Category",
     "LABEL":"Label",

@@ -8,6 +8,7 @@
     "EXPORT":"Schlüssel exportieren",
     "CLEAR_TEXT":"Klartext (JSON)",
     "TARGET_FILE":"Zieldatei",
+    "EXPORT_SUCCESS":"Export erfolgreich",
     "CURRENCY":"Währung",
     "CATEGORY":"Kategorie",
     "LABEL":"Bezeichnung",
