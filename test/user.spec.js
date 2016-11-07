@@ -28,7 +28,12 @@ describe('user', function() {
       assert.equal(isLoggedIn, true);
       done();
     });
-
+  });
+  it('exports keys json', function(done) {
+    user.exportKeys('json', '/tmp/keys.json', function(err) {
+      assert.equal(err, undefined);
+      done();
+    });
   });
   it('logs out', function(done) {
     user.logout(function(err) {

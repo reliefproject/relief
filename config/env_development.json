@@ -79,5 +79,6 @@
       "name": "rewards",
       "icon": "icon-trophy"
     }
-  ]
+  ],
+  "exportFilename":"relief_keys.json"
 }

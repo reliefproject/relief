@@ -2,7 +2,9 @@ const { remote } = require('electron');
 
 global.Relief = remote.getGlobal('Relief');
 
+Relief.app = remote.require('electron').app;
 Relief.clipboard = remote.require('electron').clipboard;
+
 Relief.env = remote.require('./lib/env');
 Relief.log = remote.require('./lib/log');
 Relief.i18n = remote.require('./lib/i18n');

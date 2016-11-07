@@ -1,8 +1,11 @@
 (function() {
 
 
+  const { app } = require('electron');
   const crypto = require('crypto');
+  const path = require('path');
   const uuid = require('node-uuid');
+  const jetpack = require('fs-jetpack');
   const env = require('./env');
   const log = require('./log');
   const blockchain = require('./blockchain/blockchain');
@@ -97,11 +100,36 @@
   };
 
 
+  const exportKeys = function(format, targetFile, callback) {
+    if (jetpack.exists(targetFile)) {
+      return callback(new Error('File already exists'));
+    }
+    persistence.db.user.getDoc(function(err, userData) {
+      if (err) {
+        return callback(err);
+      }
+      let fileContents;
+      if (format === 'json') {
+        fileContents = userData.addresses;
+      } else {
+        return callback(new Error('Unknown format'));
+      }
+      try {
+        jetpack.write(targetFile, fileContents);
+      } catch (e) {
+        return callback(e);
+      }
+      return callback();
+    });
+  };
+
+
   module.exports = {
     login: login,
     logout: logout,
     isLoggedIn, isLoggedIn,
     createAccount: createAccount,
+    exportKeys: exportKeys,
   };
 
 
