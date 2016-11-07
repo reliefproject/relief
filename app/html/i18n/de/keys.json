@@ -1,11 +1,13 @@
 {
   "keys" : {
     "KEYS":"Schlüssel",
-    "ADDRESSES":"Adressen",
     "NEW_ADDRESS":"Neue Adresse",
     "EDIT_ADDRESS":"Adresse bearbeiten",
     "DELETE_ADDRESS":"Adresse löschen",
     "CONFIRM_DELETE":"Wollen Sie diese Adresse wirklich löschen?",
+    "EXPORT":"Schlüssel exportieren",
+    "CLEAR_TEXT":"Klartext (JSON)",
+    "TARGET_FILE":"Zieldatei",
     "CURRENCY":"Währung",
     "CATEGORY":"Kategorie",
     "LABEL":"Bezeichnung",
@@ -17,6 +19,7 @@
     "BTN_CONFIRM":"Bestätigen",
     "BTN_BACK":"Zurück",
     "BTN_SAVE":"Adresse speichern",
+    "BTN_EXPORT":"Exportieren",
     "NEW_ADDRESS_TEXT":"Lorem Ipsum dolor sit amet",
     "TYPE":"Typ",
     "PASSPHRASE":"Passphrase",
