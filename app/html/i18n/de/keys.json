@@ -1,6 +1,5 @@
 {
   "keys" : {
-    "BALANCES":"Guthaben",
     "KEYS":"Schlüssel",
     "ADDRESSES":"Adressen",
     "NEW_ADDRESS":"Neue Adresse",
@@ -24,9 +23,6 @@
     "PUBLIC_KEY":"Öffentlicher Schlüssel",
     "PRIVATE_KEY":"Privatschlüssel",
     "NXT":"Nxt",
-    "ASSET":"Gegenstand",
-    "NUM_ADDRESSES":"Anzahl Adressen",
-    "TOTAL":"Total",
     "CATEGORY_DEFAULT":"Standard",
     "CATEGORY_RED":"Rot",
     "CATEGORY_BLUE":"Blau",

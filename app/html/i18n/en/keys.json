@@ -1,8 +1,6 @@
 {
   "keys" : {
-    "BALANCES":"Balances",
     "KEYS":"Keys",
-    "ADDRESSES":"Addresses",
     "NEW_ADDRESS":"New Address",
     "EDIT_ADDRESS":"Edit Address",
     "DELETE_ADDRESS":"Delete Address",
@@ -24,9 +22,6 @@
     "PUBLIC_KEY":"Public Key",
     "PRIVATE_KEY":"Private Key",
     "NXT":"Nxt",
-    "ASSET":"Asset",
-    "NUM_ADDRESSES":"Number of addresses",
-    "TOTAL":"Total",
     "CATEGORY_DEFAULT":"Default",
     "CATEGORY_RED":"Red",
     "CATEGORY_BLUE":"Blue",
