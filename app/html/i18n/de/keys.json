@@ -1,5 +1,5 @@
 {
-  "wallet" : {
+  "keys" : {
     "BALANCES":"Guthaben",
     "KEYS":"Schlüssel",
     "ADDRESSES":"Adressen",

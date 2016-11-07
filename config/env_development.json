@@ -29,7 +29,7 @@
     }
   ],
   "defaultLanguage":"en",
-  "fixedTabs":["start", "wallet", "apps", "transact"],
+  "fixedTabs":["start", "keys", "apps"],
   "addressCategories": [
     {
       "name": "default",

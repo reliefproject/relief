@@ -110,11 +110,11 @@ app.controller(
     Relief.on('loggedIn', function() {
       $scope.isLoggedIn = true;
       let newTabs = {};
-      const onWalletLoad = function(err, data) {
+      const onKeysLoad = function(err, data) {
         if (err) {
           return Relief.log.error(err);
         }
-        newTabs['wallet'] = data;
+        newTabs['keys'] = data;
         Relief.plugin.loadPlugin('apps', onAppsLoad);
       };
       const onAppsLoad = function(err, data) {
@@ -122,13 +122,6 @@ app.controller(
           return Relief.log.error(err);
         }
         newTabs['apps'] = data;
-        Relief.plugin.loadPlugin('transact', onTransactLoad);
-      };
-      const onTransactLoad = function(err, data) {
-        if (err) {
-          return Relief.log.error(err);
-        }
-        newTabs['transact'] = data;
         delete $scope.tabs['start'];
         // Put the new tabs first, in case another tab
         // e.g. "help" is already open
@@ -138,10 +131,10 @@ app.controller(
           $scope.tabs[k] = oldTabs[k];
         }
         updateTabData();
-        $scope.selectTab('wallet');
+        $scope.selectTab('keys');
         $scope.$apply();
       };
-      Relief.plugin.loadPlugin('wallet', onWalletLoad);
+      Relief.plugin.loadPlugin('keys', onKeysLoad);
     });
 
     Relief.on('languageChanged', function(lang) {
