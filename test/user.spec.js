@@ -1,4 +1,6 @@
 const assert = require('assert');
+const path = require('path');
+const jetpack = require('fs-jetpack');
 const user = require('../app/lib/user');
 const persistence = require('../app/lib/persistence/persistence');
 
@@ -30,9 +32,23 @@ describe('user', function() {
     });
   });
   it('exports keys json', function(done) {
-    user.exportKeys('json', '/tmp/keys.json', function(err) {
+    jetpack.remove('/tmp/relief_keys.json');
+    user.exportKeys('json', '/tmp/relief_keys.json', function(err) {
       assert.equal(err, undefined);
       done();
+    });
+  });
+  it('imports keys from file', function(done) {
+    const file = path.join(__dirname, 'data', 'relief_keys.json');
+    user.importKeys(file, function(err) {
+      assert.equal(err, undefined);
+      persistence.db.user.getDoc(function(err, doc) {
+        assert.equal(
+          doc.addresses.nxt['4273301882745002507'].privateKey,
+          'test'
+        );
+        done();
+      });
     });
   });
   it('logs out', function(done) {

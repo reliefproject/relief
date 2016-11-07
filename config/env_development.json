@@ -5,6 +5,8 @@
   "logFileSuffix":".log",
   "logsDir":"logs",
   "storages":["app","user"],
+  "addressTypes":["nxt"],
+  "importRequiredKeys":["address","publicKey","privateKey"],
   "dbDir":"databases",
   "appDbName":"application",
   "userDbPrefix":"user_",

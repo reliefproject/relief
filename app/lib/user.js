@@ -124,12 +124,59 @@
   };
 
 
+  const importKeys = function(file, callback) {
+    if (!jetpack.exists(file)) {
+      return callback(new Error('File not found'));
+    }
+    let keys = {};
+    const contents = jetpack.read(file);
+    try {
+      keys = JSON.parse(contents);
+    } catch (e) {
+      log.error(e);
+      return callback(new Error('Invalid JSON'));
+    }
+    persistence.db.user.getDoc(function(err, userData) {
+      if (err) {
+        return callback(err);
+      }
+      for (let i in env.addressTypes) {
+        const type = env.addressTypes[i];
+        if (!keys[type]) {
+          continue;
+        }
+        for (addressId in keys[type]) {
+          const address = keys[type][addressId];
+          for (let k in env.importRequiredKeys) {
+            const key = env.importRequiredKeys[k];
+            if (!(key in address)) {
+              return callback(new Error('Missing key ' + key));
+            }
+          }
+        }
+        if (!keys[type].label) {
+          keys[type].label = '';
+        }
+        if (!keys[type].category) {
+          keys[type].category = 'default';
+        }
+      }
+      Object.assign(userData.addresses.nxt, keys.nxt);
+      persistence.db.user.update(
+        { addresses: userData.addresses },
+        callback
+      );
+    });
+  };
+
+
   module.exports = {
     login: login,
     logout: logout,
     isLoggedIn, isLoggedIn,
     createAccount: createAccount,
     exportKeys: exportKeys,
+    importKeys: importKeys,
   };
 
 

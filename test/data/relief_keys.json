@@ -1,0 +1,20 @@
+{
+  "nxt": {
+    "4273301882745002507": {
+      "type": "nxt",
+      "label": "test1",
+      "category": "default",
+      "address": "NXT-E8JD-FHKJ-CQ9H-5KGMQ",
+      "publicKey": "d9d5c57971eefb085e3abaf7a5a4a6cdb8185f30105583cdb09ad8f61886ec65",
+      "privateKey": "test"
+    },
+    "6578204074179904234": {
+      "type": "nxt",
+      "label": "asdf",
+      "category": "default",
+      "address": "NXT-CJRC-S4QS-9VPZ-7TMLQ",
+      "publicKey": "cf4fe89721acd3d3bb1076e2df4865cd198f18649f85b52bb921b388af758c68",
+      "privateKey": "asdf"
+    }
+  }
+}
