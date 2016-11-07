@@ -97,13 +97,6 @@
 
   const getBalances = function(callback) {
     let balances = {};
-    const onGetBTCBalances = function(err, data) {
-      if (err) {
-        return callback(err);
-      }
-      balances.btc = data;
-      getNXTBalances(onGetNXTBalances);
-    };
     const onGetNXTBalances = function(err, data) {
       if (err) {
         return callback(err);
@@ -127,18 +120,6 @@
         assets: {},
         currencies: {},
       };
-      // BTC Total
-      for (var i in balances.btc) {
-        if (!balances.total.btc) {
-          balances.total.btc = {
-            confirmed: 0,
-            unconfirmed: 0,
-          };
-        }
-        const bal = balances.btc[i];
-        balances.total.btc.confirmed += bal.confirmed;
-        balances.total.btc.unconfirmed += bal.unconfirmed;
-      }
       // NXT Total
       for (var i in balances.nxt) {
         if (!balances.total.nxt) {
@@ -183,34 +164,9 @@
       }
       callback(null, balances);
     };
-    getBTCBalances(onGetBTCBalances);
+    getNXTBalances(onGetNXTBalances);
   };
 
-
-  const getBTCBalances = function(callback) {
-    persistence.db.user.getDoc(function(err, doc) {
-      if (err) {
-        return callback(err);
-      }
-      let balances = [];
-      async.each(doc.addresses, function(addr, callback) {
-        if (addr.type !== 'btc') {
-          return callback();
-        }
-        blockchain.getCoinBalance(addr.type, addr.address, function(err, data) {
-          if (err) {
-            return callback(err);
-          }
-          data.address = addr.address;
-          data.label = addr.label;
-          balances.push(data);
-          callback();
-        });
-      }, function(err) {
-        callback(err, balances);
-      });
-    });
-  };
 
   const getNXTBalances = function(callback) {
     persistence.db.user.getDoc(function(err, doc) {

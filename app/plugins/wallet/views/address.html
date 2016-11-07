@@ -1,7 +1,21 @@
-address goes here
+<div class="panel panel-default" style="margin-bottom:0">
+  <div class="panel-heading">{{ addressToDisplay.address }}</div>
+  <div class="panel-body small">
 
-{{ addressToDisplay }}
-
+    <dl class="dl-horizontal">
+      <dt>NXT Balance</dt>
+      <dd>{{ addressToDisplay.balanceNxt | formatCurrency:8 }}</dd>
+      <dt>Public key</dt>
+      <dd>{{ addressToDisplay.publicKey }}</dd>
+      <dt>Assets owned</dt>
+      <dd>{{ addressToDisplay.numAssets }}</dd>
+      <dt>Currencies owned</dt>
+      <dd>{{ addressToDisplay.numCurrencies }}</dd>
+      <dt>Aliases owned</dt>
+      <dd>{{ addressToDisplay.numAliases }}</dd>
+    </dl>
+  </div>
+</div>
 
 {{ txList }}
 
@@ -12,15 +26,21 @@ address goes here
       <th>Type</th>
       <th>From / To</th>
       <th>Amount</th>
+      <th>Fee</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>31.13.3012</td>
-      <td>in</td>
-      <td>NXT-asdf-asdf-asdf-asdff</td>
-      <td>123.00</td>
+    <tr ng-repeat="tx in txList">
+      <td>{{ tx.timestamp | nxtTime | date }}</td>
+      <td>
+        <span class="icon"
+              ng-class="{'icon-right-open-big': tx.senderRS === addressToDisplay.address, 'icon-left-open-big': tx.senderRS !== addressToDisplay.address}">
+        </span>
+      </td>
+      <td>{{ tx.senderRS === addressToDisplay.address ? tx.recipientRS : tx.senderRS }}</td>
+      <td>{{ tx.amountNQT | formatCurrency:8 }}</td>
+      <td>{{ tx.feeNQT | formatCurrency:8 }}</td>
       <td>
         <button class="btn btn-mini btn-default" data-toggle="modal" data-target="#modalEditAccount"
                 ng-click="setAddressToEdit(address)">
@@ -31,22 +51,15 @@ address goes here
   </tbody>
 </table>
 
-<nav aria-label="Page navigation">
-  <ul class="pagination">
-    <li>
-      <a href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
+<p class="text-left">Page {{ txListPage }} / {{ getTxNumPages() }} (Showing max. 100 items)</p>
+
+<nav>
+  <ul class="pager">
+    <li ng-show="txListPage > 1">
+      <a href="#" ng-click="setTxListPage(txListPage - 1)">Previous</a>
     </li>
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li>
-      <a href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
+    <li ng-show="showTxListNextButton()">
+      <a href="#" ng-click="setTxListPage(txListPage + 1)">Next</a>
     </li>
   </ul>
 </nav>

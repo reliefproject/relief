@@ -13,5 +13,4 @@ Relief.persistence = remote.require('./lib/persistence/persistence');
 Relief.user = remote.require('./lib/user');
 
 // Shortcuts
-Relief.btc = Relief.blockchain.bc.btc;
 Relief.nxt = Relief.blockchain.bc.nxt;

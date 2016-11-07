@@ -24,6 +24,10 @@
     this.getTransactionsByAddress = function(address, callback) {
       const req = {
         requestType: 'getBlockchainTransactions',
+<<<<<<< HEAD
+=======
+        executedOnly: true,
+>>>>>>> no_btc
         account: address,
       };
       this.client.request(req, function(err, result) {

@@ -4,7 +4,7 @@
     "en":"Wallet",
     "de":"Brieftasche"
   },
-  "description":"Bitcoin- and Nxt Wallet",
+  "description":"Nxt Wallet",
   "version":"0.0.0",
   "icon":"icon-home",
   "main":"wallet.html"
