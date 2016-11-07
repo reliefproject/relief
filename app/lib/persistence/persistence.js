@@ -1,5 +1,6 @@
 (function() {
 
+
   const path = require('path');
   const crypto = require('crypto');
   const electronApp = require('electron').app;
@@ -9,21 +10,22 @@
   const log = require('../log');
   const Storage = require('./storage');
 
+
   let db = {
     user: {},
     app: {},
   };
-
   const dbDir = path.join(
     electronApp.getPath('userData'),
     env.dbDir
   );
-
   jetpack.dir(dbDir);
+
 
   const getPath = function(filename) {
     return path.join(dbDir, filename + env.dbSuffix);
   };
+
 
   const init = function(callback) {
     const appDbPath = getPath(env.appDbName);
@@ -37,6 +39,7 @@
     }
     callback();
   };
+
 
   const initUserDb = function(username, key, callback) {
     const dbPath = getPath(env.userDbPrefix + username);
@@ -56,8 +59,15 @@
     });
   };
 
+
   const createUserDb = function(username, key, callback) {
     const dbPath = getPath(env.userDbPrefix + username);
+    const schemaFile = path.join(
+      __dirname, '..', '..', 'data', 'schema_user.json'
+    );
+    const schema = JSON.parse(
+      jetpack.read(schemaFile)
+    );
     db.user = new Storage({
       id: 'user',
       filename: dbPath,
@@ -67,22 +77,15 @@
     if (db.user instanceof Error) {
       return callback(db.user);
     }
-    const schemaFile = path.join(
-      __dirname, '..', '..', 'data', 'schema_user.json'
-    );
-    const schema = JSON.parse(
-      jetpack.read(schemaFile)
-    );
     db.user.insertDoc(schema, callback);
-    //Return db.user instanceof Error
-    //  ? callback(db.user)
-    //  : callback();
   };
+
 
   const unsetUserDb = function(callback) {
     db.user = {};
     callback();
   };
+
 
   module.exports = {
     init: init,
@@ -91,5 +94,6 @@
     unsetUserDb: unsetUserDb,
     db: db,
   };
+
 
 })();

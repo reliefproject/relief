@@ -2,10 +2,12 @@
 
   module.exports = function(servers) {
 
+
     const nxtjs = require('nxtjs');
     const DoubleChecker = require('doublechecker');
     const log = require('../log');
     const env = require('../env');
+
 
     const client = new DoubleChecker({
       numUseSources: env.nxtNumSources,
@@ -14,12 +16,18 @@
       sources: servers,
     });
 
+
     this.generateAddress = function(passphrase) {
+      const address = nxtjs.secretPhraseToAccountId(passphrase);
+      const numeric = nxtjs.convertRS(address).account;
+      const publicKey = nxtjs.secretPhraseToPublicKey(passphrase);
       return {
-        address: nxtjs.secretPhraseToAccountId(passphrase),
-        publicKey: nxtjs.secretPhraseToPublicKey(passphrase),
+        address: address,
+        numeric: numeric,
+        publicKey: publicKey,
       };
     };
+
 
     this.getTransactionsByAddress = function(address, callback) {
       const req = {
@@ -35,10 +43,13 @@
       });
     };
 
+
     // Passthrough function
     this.client = client;
 
+
     return this;
+
   };
 
 })();

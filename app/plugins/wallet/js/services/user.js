@@ -25,9 +25,10 @@
         });
       },
 
-      addAddress: function(address, callback) {
+      addAddress: function(id, address, callback) {
         let addresses = angular.copy(service.userData.addresses);
-        addresses.push(address)
+        addresses[id] = address;
+        alert(addresses)
         Relief.db.user.update(
           { addresses: addresses },
           callback

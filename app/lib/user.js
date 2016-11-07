@@ -3,11 +3,11 @@
   const crypto = require('crypto');
   const uuid = require('node-uuid');
   const async = require('async');
-
   const env = require('./env');
   const log = require('./log');
   const blockchain = require('./blockchain/blockchain');
   const persistence = require('./persistence/persistence');
+
 
   const getHash = function(password, salt) {
     return crypto.pbkdf2Sync(
@@ -271,6 +271,7 @@
     });
   };
 
+
   module.exports = {
     login: login,
     logout: logout,
@@ -278,5 +279,6 @@
     createAccount: createAccount,
     getBalances: getBalances,
   };
+
 
 })();

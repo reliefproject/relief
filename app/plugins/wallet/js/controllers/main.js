@@ -158,6 +158,7 @@
 
         const addr = Relief.nxt.generateAddress(form.passphrase);
         form.address = addr.address;
+        form.addressNumeric = addr.numeric;
         form.publicKey = addr.publicKey;
 
       }
@@ -177,7 +178,7 @@
         publicKey: form.publicKey,
         privateKey: privKey,
       };
-      User.addAddress(address, function(err) {
+      User.addAddress(form.addressNumeric, address, function(err) {
         if (err) {
           return Relief.log.error(err);
         }
