@@ -1,14 +1,18 @@
 (function() {
 
+
   const path = require('path');
   const jetpack = require('fs-jetpack');
   const env = require('../env');
+  const log = require('../log');
   const Nxt = require('./nxt_nrs');
+
 
   let tasks = [];
   let bc = {
     nxt: {},
   };
+
 
   const init = function(callback) {
     const file = env.nxtTestnet
@@ -25,12 +29,16 @@
       command: 'getBlockchainStatus',
       params: {},
       callback: function(err, resp) {
+        if (err) {
+          return log.error(err);
+        }
         Relief.emit('nxt.BlockHeight', (resp.data.numberOfBlocks - 1));
       },
     });
     runTasks();
     callback();
   };
+
 
   const runTasks = function() {
     const now = new Date().getTime();
@@ -54,77 +62,10 @@
   };
 
 
-  const getCoinBalance = function(coin, address, callback) {
-    switch (coin) {
-      case 'nxt': {
-        const req = {
-          requestType: 'getBalance',
-          account: address,
-        };
-        bc.nxt.client.request(req, function(err, result) {
-          if (err) {
-            return callback(err);
-          }
-          const conf = parseInt(result.data.balanceNQT);
-          const unconf = (conf - parseInt(result.data.unconfirmedBalanceNQT));
-          callback(null, {
-            confirmed: conf,
-            unconfirmed: unconf,
-          });
-        });
-        break;
-      }
-      default: {
-        return callback(new Error('Unknown coin'));
-      }
-    }
-  };
-
-  const getAssetBalance = function(asset, address, callback) {
-    const req = {
-      requestType: 'getAccountAssets',
-      account: address,
-      asset: asset,
-    };
-    bc.nxt.client.request(req, function(err, result) {
-      if (err) {
-        return callback(err);
-      }
-      const conf = parseInt(result.data.quantityQNT);
-      const unconf = (conf - parseInt(result.data.unconfirmedQuantityQNT));
-      callback(null, {
-        confirmed: conf,
-        unconfirmed: unconf,
-      });
-    });
-  };
-
-  const getCurrencyBalance = function(currency, address, callback) {
-    const req = {
-      requestType: 'getAccountCurrencies',
-      account: address,
-      currency: currency,
-    };
-    bc.nxt.client.request(req, function(err, result) {
-      if (err) {
-        return callback(err);
-      }
-      const conf = parseInt(result.data.units);
-      const unconf = (conf - parseInt(result.data.unconfirmedUnits));
-      callback(null, {
-        confirmed: conf,
-        unconfirmed: unconf,
-      });
-    });
-  };
-
-
   module.exports = {
     init: init,
     bc: bc,
-    getCoinBalance: getCoinBalance,
-    getAssetBalance: getAssetBalance,
-    getCurrencyBalance: getCurrencyBalance,
   };
+
 
 })();
