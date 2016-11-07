@@ -2,7 +2,9 @@
   "_id": "user",
   "_rwf": "1.0",
   "username": "",
-  "addresses": {},
+  "addresses": {
+    "nxt": {}
+  },
   "settings": {},
   "installedPlugins": {}
 }
