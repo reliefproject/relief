@@ -19,7 +19,7 @@
 
     this.generateAddress = function(passphrase) {
       const address = nxtjs.secretPhraseToAccountId(passphrase);
-      const numeric = nxtjs.convertRS(address).account;
+      const numeric = nxtjs.rsConvert(address).account;
       const publicKey = nxtjs.secretPhraseToPublicKey(passphrase);
       return {
         address: address,
