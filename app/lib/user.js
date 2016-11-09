@@ -81,11 +81,11 @@
 
 
   const exportKeys = function(format, targetFile) {
-    if (jetpack.exists(targetFile)) {
-      throw new Error('File already exists');
-    }
     return persistence.db.user.getDoc()
     .then(function(userData) {
+      if (jetpack.exists(targetFile)) {
+        throw new Error('File already exists');
+      }
       let fileContents;
       if (format === 'json') {
         fileContents = userData.addresses;
