@@ -8,16 +8,17 @@ describe('plugin', function() {
     done();
   });
   it('loads a plugin', function(done) {
-    plugin.loadPlugin('start', function(err, pluginInfo) {
-      assert.equal(err, undefined);
-      assert.equal(pluginInfo.name, 'start');
-      done();
-    });
+    const pluginInfo = plugin.loadPlugin('start')
+    assert.equal(pluginInfo.name, 'start');
+    done();
   });
   it('fails to load plugin', function(done) {
-    plugin.loadPlugin('_start', function(err, pluginInfo) {
-      assert.equal((err instanceof Error), true);
-      done();
-    });
+    assert.throws(
+      () => {
+        plugin.loadPlugin('_start');
+      },
+      Error
+    );
+    done();
   });
 });

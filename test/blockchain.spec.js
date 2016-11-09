@@ -6,9 +6,8 @@ global.Relief = new events.EventEmitter();
 
 describe('blockchain', function() {
   it('inits without error', function(done) {
-    blockchain.init(function() {
-      assert.equal(typeof blockchain.bc.nxt.client, 'object');
-      done();
-    });
+    blockchain.init();
+    assert.equal(typeof blockchain.bc.nxt.client, 'object');
+    done();
   });
 });

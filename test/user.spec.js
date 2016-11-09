@@ -9,8 +9,9 @@ describe('user', function() {
     user.createAccount({
       username: 'dummy',
       password: 'pass',
-    }, function(err) {
-      assert.equal(err, undefined);
+    }).then(function() {
+      console.log('test')
+      assert(true);
       done();
     });
   });
@@ -18,32 +19,34 @@ describe('user', function() {
     user.createAccount({
       username: 'dummy',
       password: 'pass',
-    }, function(err) {
+    }).then(undefined, function(err) {
       assert.equal((err instanceof Error), true);
       done();
     });
   });
   it('logs in', function(done) {
-    user.login('dummy', 'pass', function(err) {
+    user.login('dummy', 'pass')
+    .then(function() {
       const isLoggedIn = user.isLoggedIn();
-      assert.equal(err, undefined);
       assert.equal(isLoggedIn, true);
       done();
     });
   });
   it('exports keys json', function(done) {
     jetpack.remove('/tmp/relief_keys.json');
-    user.exportKeys('json', '/tmp/relief_keys.json', function(err) {
-      assert.equal(err, undefined);
+    user.exportKeys('json', '/tmp/relief_keys.json')
+    .then(function() {
+      assert(true);
       done();
     });
   });
   it('imports keys from file', function(done) {
     const file = path.join(__dirname, 'data', 'relief_keys.json');
     const data = jetpack.read(file);
-    user.importKeys(data, function(err) {
-      assert.equal(err, undefined);
-      persistence.db.user.getDoc(function(err, doc) {
+    user.importKeys(data)
+    .then(function() {
+      assert(true);
+      persistence.db.user.getDoc().then(function(doc) {
         assert.equal(
           doc.addresses.nxt['4273301882745002507'].privateKey,
           'test'
@@ -53,15 +56,14 @@ describe('user', function() {
     });
   });
   it('logs out', function(done) {
-    user.logout(function(err) {
-      const isLoggedIn = user.isLoggedIn();
-      assert.equal(err, undefined);
-      assert.equal(isLoggedIn, false);
-      done();
-    });
+    user.logout();
+    const isLoggedIn = user.isLoggedIn();
+    assert.equal(isLoggedIn, false);
+    done();
   });
   it('fails to login', function(done) {
-    user.login('dummy', 'wrongpass', function(err) {
+    user.login('dummy', 'wrongpass')
+    .then(undefined, function(err) {
       const isLoggedIn = user.isLoggedIn();
       assert.equal((err instanceof Error), true);
       assert.equal(isLoggedIn, false);
