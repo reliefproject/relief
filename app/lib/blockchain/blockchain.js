@@ -14,7 +14,7 @@
   };
 
 
-  const init = function(callback) {
+  const init = function() {
     const file = env.nxtTestnet
       ? 'servers_nxt_testnet.json'
       : 'server_nxt.json';
@@ -36,7 +36,6 @@
       },
     });
     runTasks();
-    callback();
   };
 
 

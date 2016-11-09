@@ -1,14 +1,17 @@
 (function() {
 
+
   const { BrowserWindow } = require('electron');
 
+
   let mainWindow = {};
+
 
   const createWindow = function() {
     const { screen } = require('electron');
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     mainWindow = new BrowserWindow({
-      show: false,
+      show: true,
       width: width,
       height: height,
     });
@@ -16,9 +19,16 @@
     return mainWindow;
   };
 
+
+  Relief.on('loadingComplete', function() {
+    mainWindow.show();
+  });
+
+
   // If (Relief.env.name === 'development') {
   //  mainWindow.openDevTools();
   // }
+
 
   module.exports = {
     createWindow: createWindow,

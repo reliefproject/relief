@@ -9,24 +9,19 @@
     return jetpack.list(pluginDir);
   };
 
-  const loadPlugin = function(name, callback) {
+  const loadPlugin = function(name) {
     const dir = path.join(pluginDir, name);
     if (jetpack.exists(dir) !== 'dir') {
-      return callback(new Error('Plugin not found'));
+      throw new Error('Plugin not found');
     }
     const manifestFile = path.join(dir, env.pluginManifest);
     if (jetpack.exists(manifestFile) !== 'file') {
-      return callback(new Error('Manifest file not found'));
+      throw new Error('Manifest file not found');
     }
     let manifest = {};
-    try {
-      manifest = JSON.parse(
-        jetpack.read(manifestFile)
-      );
-    } catch (e) {
-      return callback(e);
-    }
-    callback(null, manifest);
+    return manifest = JSON.parse(
+      jetpack.read(manifestFile)
+    );
   };
 
   module.exports = {

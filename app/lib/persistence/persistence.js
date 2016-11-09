@@ -27,40 +27,39 @@
   };
 
 
-  const init = function(callback) {
+  const init = function() {
     const appDbPath = getPath(env.appDbName);
     db.app = new Storage({
       id: 'app',
       filename: appDbPath,
       createIfNotExists: true,
     });
-    if (db.app instanceof Error) {
-      return callback(db.app);
-    }
-    callback();
+    return new Promise(function(resolve, reject) {
+      if (db.app instanceof Error) {
+        return reject(db.app);
+      }
+      resolve();
+    });
   };
 
 
-  const initUserDb = function(username, key, callback) {
+  const initUserDb = function(username, key) {
     const dbPath = getPath(env.userDbPrefix + username);
     db.user = new Storage({
       id: 'user',
       filename: dbPath,
       encryptionKey: key,
     });
-    if (db.user instanceof Error) {
-      return callback(db.user);
-    }
-    db.user.getDoc(function(err, doc) {
-      if (err) {
-        return callback(err);
+    return new Promise(function(resolve, reject) {
+      if (db.user instanceof Error) {
+        return reject(db.user);
       }
-      callback();
+      resolve();
     });
   };
 
 
-  const createUserDb = function(username, key, callback) {
+  const createUserDb = function(username, key) {
     const dbPath = getPath(env.userDbPrefix + username);
     const schemaFile = path.join(
       __dirname, '..', '..', 'data', 'schema_user.json'
@@ -74,16 +73,18 @@
       encryptionKey: key,
       createIfNotExists: true,
     });
-    if (db.user instanceof Error) {
-      return callback(db.user);
-    }
-    db.user.insertDoc(schema, callback);
+    return new Promise(function(resolve, reject) {
+      if (db.user instanceof Error) {
+        return reject(db.user);
+      }
+      db.user.insertDoc(schema)
+      .then(resolve, reject);
+    });
   };
 
 
-  const unsetUserDb = function(callback) {
+  const unsetUserDb = function() {
     db.user = {};
-    callback();
   };
 
 

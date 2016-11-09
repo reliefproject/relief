@@ -29,21 +29,6 @@
     };
 
 
-    this.getTransactionsByAddress = function(address, callback) {
-      const req = {
-        requestType: 'getBlockchainTransactions',
-        executedOnly: true,
-        account: address,
-      };
-      this.client.request(req, function(err, result) {
-        if (err) {
-          return callback(err);
-        }
-        callback(null, result);
-      });
-    };
-
-
     // Passthrough function
     this.client = client;
 

@@ -17,21 +17,12 @@
     log.info('Environment: ', env.name);
     log.info('Version: ', env.version);
 
-    const onPersistenceInit = function(err) {
-      if (err) {
-        log.error(err);
-        process.exit();
-      }
-      blockchain.init(onBlockchainInit);
-    };
-    const onBlockchainInit = function() {
-      const mainWindow = window.createWindow();
-      Relief.on('loadingComplete', function() {
-        mainWindow.show();
-      });
-    };
-
-    persistence.init(onPersistenceInit);
+    persistence.init()
+    .then(blockchain.init)
+    .then(window.createWindow, function(err) {
+      log.error(err);
+      process.exit();
+    });
   });
 
   app.on('window-all-closed', function() {

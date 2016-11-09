@@ -23,30 +23,21 @@
   };
 
 
-  const login = function(username, password, callback) {
-    const onGetDoc = function(err, doc) {
-      if (err) {
-        return callback(err);
-      }
+  const login = function(username, password) {
+    return persistence.db.app.getDoc()
+    .then(function(doc) {
       if (!doc.users[username]) {
-        return callback(new Error('Unknown user'));
+        throw new Error('Unknown user');
       }
       const salt = doc.users[username].salt;
       const key = getHash(password, salt);
-      persistence.initUserDb(username, key, onInitUserDb);
-    };
-    const onInitUserDb = function(err) {
-      if (err) {
-        return callback(err);
-      }
-      callback();
-    };
-    persistence.db.app.getDoc(onGetDoc);
+      return persistence.initUserDb(username, key);
+    });
   };
 
 
-  const logout = function(callback) {
-    persistence.unsetUserDb(callback);
+  const logout = function() {
+    persistence.unsetUserDb();
   };
 
 
@@ -55,87 +46,60 @@
   };
 
 
-  const createAccount = function(userData, callback) {
+  const createAccount = function(userData) {
     let appData = {};
     const salt = uuid.v4();
-    const onGetDoc = function(err, doc) {
-      if (err) {
-        return callback(err);
-      }
+
+    return persistence.db.app.getDoc()
+    .then(function(doc) {
       appData = doc;
       if (!appData.users) {
         appData.users = {};
       }
       if (appData.users[userData.username] !== undefined) {
-        return callback(new Error('User already exists'));
+        throw new Error('User already exists');
       }
       const key = getHash(userData.password, salt);
-      persistence.createUserDb(
-        userData.username,
-        key,
-        onCreateUserDb
-      );
-    };
-    const onCreateUserDb = function(err) {
-      if (err) {
-        return callback(err);
-      }
+      return persistence.createUserDb(userData.username, key);
+    })
+
+    .then(function() {
       const user = {
         username: userData.username,
         salt: salt,
       };
       appData.users[userData.username] = user;
-      persistence.db.app.updateDoc(appData, onUpdateDoc);
-    };
-    const onUpdateDoc = function(err) {
-      if (err) {
-        return callback(err);
-      }
-      persistence.db.user.update(
-        { username: userData.username },
-        callback
-      );
-    };
-    persistence.db.app.getDoc(onGetDoc);
-  };
+      return persistence.db.app.updateDoc(appData);
+    })
 
-
-  const exportKeys = function(format, targetFile, callback) {
-    if (jetpack.exists(targetFile)) {
-      return callback(new Error('File already exists'));
-    }
-    persistence.db.user.getDoc(function(err, userData) {
-      if (err) {
-        return callback(err);
-      }
-      let fileContents;
-      if (format === 'json') {
-        fileContents = userData.addresses;
-      } else {
-        return callback(new Error('Unknown format'));
-      }
-      try {
-        jetpack.write(targetFile, fileContents);
-      } catch (e) {
-        return callback(e);
-      }
-      return callback();
+    .then(function() {
+      return persistence.db.user.update({
+        username: userData.username,
+      });
     });
   };
 
 
-  const importKeys = function(data, callback) {
-    let keys = {};
-    try {
-      keys = JSON.parse(data);
-    } catch (e) {
-      log.error(e);
-      return callback(new Error('Invalid JSON'));
+  const exportKeys = function(format, targetFile) {
+    if (jetpack.exists(targetFile)) {
+      throw new Error('File already exists');
     }
-    persistence.db.user.getDoc(function(err, userData) {
-      if (err) {
-        return callback(err);
+    return persistence.db.user.getDoc()
+    .then(function(userData) {
+      let fileContents;
+      if (format === 'json') {
+        fileContents = userData.addresses;
+      } else {
+        throw new Error('Unknown format');
       }
+      jetpack.write(targetFile, fileContents);
+    });
+  };
+
+
+  const importKeys = function(data) {
+    let keys = JSON.parse(data);
+    return persistence.db.user.getDoc().then(function(userData) {
       for (let i in env.addressTypes) {
         const type = env.addressTypes[i];
         if (!keys[type]) {
@@ -146,7 +110,7 @@
           for (let k in env.importRequiredKeys) {
             const key = env.importRequiredKeys[k];
             if (!(key in address)) {
-              return callback(new Error('Missing key ' + key));
+              throw new Error('Missing key ' + key);
             }
           }
           if (!keys[type][addressId].label) {
@@ -156,12 +120,11 @@
             keys[type][addressId].category = 'default';
           }
         }
+        Object.assign(userData.addresses[type], keys[type]);
       }
-      Object.assign(userData.addresses.nxt, keys.nxt);
-      persistence.db.user.update(
-        { addresses: userData.addresses },
-        callback
-      );
+      return persistence.db.user.update({
+        addresses: userData.addresses,
+      });
     });
   };
 
