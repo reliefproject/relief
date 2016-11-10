@@ -21,18 +21,36 @@
 
         <div class="toolbar-actions">
 
+          <div class="btn-group pull-left">
+            <button class="btn btn-default pull-right" ng-disabled="!isLoggedIn">
+              <span class="icon icon-plus icon-text"></span>
+              Transaction
+            </button>
+
+            <button class="btn btn-default pull-right"
+                    ng-disabled="!isLoggedIn"
+                    ng-click="openTab('keys')">
+              <span class="icon icon-key icon-text"></span>
+              My Keys
+            </button>
+
+            <button class="btn btn-default btn-dropdown pull-right" ng-disabled="!isLoggedIn">
+              <span class="icon icon-layout icon-text"></span>
+              My Apps
+            </button>
+
+          </div>
+
+
           <div class="btn-group pull-right">
             <button class="btn btn-default pull-right" ng-disabled="!isLoggedIn">
               <span class="icon icon-users"></span>
-            </button>
-            <button class="btn btn-default pull-right" ng-disabled="!isLoggedIn">
-              <span class="icon icon-key"></span>
             </button>
             <button class="btn btn-default" ng-disabled="!isLoggedIn">
               <span class="icon icon-cog"></span>
             </button>
             <button class="btn btn-default pull-right"
-                    ng-click="openTab('fuenf', { title: 'Test F&uuml;nf', url: 'http://bitbucket.org' })">
+                    ng-click="openTab('fuenf', { name: 'Test F&uuml;nf', url: 'http://bitbucket.org' })">
               <span class="icon icon-help-circled"></span>
             </button>
             <button class="btn btn-default pull-right" ng-disabled="!isLoggedIn"
@@ -43,12 +61,12 @@
 
           <div class="btn-group pull-right">
             <button class="btn btn-default" ng-disabled="!isLoggedIn">
-              <span class="icon icon-home icon-bell"></span>
-              &nbsp;1
+              <span class="icon icon-home icon-bell icon-text"></span>
+              1
             </button>
             <button class="btn btn-default" ng-disabled="!isLoggedIn">
-              <span class="icon icon-home icon-hourglass"></span>
-              &nbsp;0
+              <span class="icon icon-home icon-hourglass icon-text"></span>
+              0
             </button>
           </div>
 

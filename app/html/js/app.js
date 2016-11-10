@@ -24,10 +24,14 @@
         select = select === undefined
           ? true
           : select;
+        if (!tab) {
+          tab = Relief.plugin.loadPlugin(tabId);
+        }
         $scope.tabs[tabId] = tab;
         if (select) {
           $scope.selectTab(tabId)
         }
+        updateTabData();
       };
 
 
@@ -115,7 +119,7 @@
       Relief.on('loggedIn', function() {
         $scope.isLoggedIn = true;
         let newTabs = {
-          keys: Relief.plugin.loadPlugin('keys'),
+          //keys: Relief.plugin.loadPlugin('keys'),
           apps: Relief.plugin.loadPlugin('apps'),
         };
         delete $scope.tabs['start'];
@@ -126,7 +130,7 @@
           $scope.tabs[k] = oldTabs[k];
         }
         updateTabData();
-        $scope.selectTab('keys');
+        $scope.selectTab('apps');
         $scope.$apply();
       });
 

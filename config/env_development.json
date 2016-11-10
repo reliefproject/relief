@@ -31,7 +31,7 @@
     }
   ],
   "defaultLanguage":"en",
-  "fixedTabs":["start", "keys", "apps"],
+  "fixedTabs":["start", "apps"],
   "addressCategories": [
     {
       "name": "default",
