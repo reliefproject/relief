@@ -28,10 +28,7 @@
       type: 'nxt',
       command: 'getBlockchainStatus',
       params: {},
-      callback: function(err, resp) {
-        if (err) {
-          return log.error(err);
-        }
+      callback: function(resp) {
         Relief.emit('nxt.BlockHeight', (resp.data.numberOfBlocks - 1));
       },
     });
@@ -49,7 +46,7 @@
       switch (task.type) {
         case 'nxt': {
           task.params.requestType = task.command;
-          bc.nxt.client.request(task.params, task.callback);
+          bc.nxt.request(task.params).then(task.callback, log.error);
           tasks[i].lastRun = now;
           break;
         }

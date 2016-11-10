@@ -32,6 +32,18 @@
     // Passthrough function
     this.client = client;
 
+    this.request = function(options) {
+      const parent = this;
+      return new Promise(function(resolve, reject) {
+        parent.client.request(options, function(err, data) {
+          if (err) {
+            return reject(err);
+          }
+          resolve(data);
+        });
+      });
+    };
+
 
     return this;
 
