@@ -66,8 +66,8 @@
         const data = Relief.plugin.loadPlugin('start');
         $scope.tabs = {};
         $scope.tabs['start'] = data;
-        updateTabData();
         $scope.selectedTab = 'start';
+        updateTabData();
         $scope.$apply();
       };
 
