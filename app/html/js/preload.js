@@ -18,3 +18,9 @@ Relief.user = remote.require('./lib/user');
 
 // Shortcuts
 Relief.nxt = Relief.blockchain.bc.nxt;
+
+// External libs
+Relief.lib = {
+  nxtjs: remote.require('nxtjs'),
+  nxtpm: remote.require('nxtpm'),
+};
