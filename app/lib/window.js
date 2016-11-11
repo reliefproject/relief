@@ -11,23 +11,20 @@
     const { screen } = require('electron');
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     mainWindow = new BrowserWindow({
-      show: false,
+      show: true,
       width: width,
       height: height,
     });
     mainWindow.loadURL('file://' + __dirname + '/../html/index.html');
-    return mainWindow;
+    // If (Relief.env.name === 'development') {
+      mainWindow.openDevTools();
+    // }    return mainWindow;
   };
 
 
   Relief.on('loadingComplete', function() {
     mainWindow.show();
   });
-
-
-  // If (Relief.env.name === 'development') {
-  //  mainWindow.openDevTools();
-  // }
 
 
   module.exports = {

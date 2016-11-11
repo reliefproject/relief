@@ -2,7 +2,8 @@
 
   const path = require('path');
   const jetpack = require('fs-jetpack');
-  const i18nDir = path.join('app', 'html', 'i18n');
+  const i18nDir = path.join(__dirname, '..', 'html', 'i18n');
+
 
   const loadStrings = function(lang, filename) {
     return new Promise(function(resolve, reject) {
