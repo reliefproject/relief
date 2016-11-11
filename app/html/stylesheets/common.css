@@ -6,13 +6,6 @@
 html {
   overflow:auto;
 }
-.container, .sidebar {
-  padding:5px;
-}
-
-.tab-content {
-  padding:10px;
-}
 
 /* Override blue bg color */
 tr:active {
