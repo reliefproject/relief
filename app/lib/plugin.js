@@ -5,9 +5,9 @@
   const jetpack = require('fs-jetpack');
   const nxtpm = require('nxtpm');
   const env = require('./env');
-
-
   const pluginDir = path.join('app', 'plugins');
+
+
   const getPluginList = function() {
     return jetpack.list(pluginDir);
   };
@@ -34,10 +34,16 @@
   };
 
 
+  const install = function(packageName) {
+    return nxtpm.Package.install(packageName, pluginDir);
+  };
+
+
   module.exports = {
     getPluginList: getPluginList,
     loadPlugin: loadPlugin,
     getPackageInfo: getPackageInfo,
+    install: install,
   };
 
 })();
