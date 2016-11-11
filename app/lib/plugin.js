@@ -1,13 +1,17 @@
 (function() {
 
+
   const path = require('path');
   const jetpack = require('fs-jetpack');
+  const nxtpm = require('nxtpm');
   const env = require('./env');
+
 
   const pluginDir = path.join('app', 'plugins');
   const getPluginList = function() {
     return jetpack.list(pluginDir);
   };
+
 
   const loadPlugin = function(name) {
     const dir = path.join(pluginDir, name);
@@ -24,9 +28,16 @@
     );
   };
 
+
+  const getPackageInfo = function(packageName) {
+    return nxtpm.Package.getPackageInfo(packageName);
+  };
+
+
   module.exports = {
     getPluginList: getPluginList,
     loadPlugin: loadPlugin,
+    getPackageInfo: getPackageInfo,
   };
 
 })();
