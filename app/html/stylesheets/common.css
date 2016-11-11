@@ -7,6 +7,11 @@ html {
   overflow:auto;
 }
 
+.container {
+   padding-left:0;
+   padding-right:0;
+}
+
 /* Override blue bg color */
 tr:active {
   color: #333;
