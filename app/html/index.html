@@ -11,10 +11,12 @@
     <script src="../node_modules/angular/angular.js" charset="utf-8"></script>
     <script src="js/preload.js" charset="utf-8"></script>
     <script src="js/app.js" charset="utf-8"></script>
+    <script src="js/controllers/main.js" charset="utf-8"></script>
+    <script src="js/directives/webviewinit.js" charset="utf-8"></script>
 
   </head>
-  <body>
-    <div class="window" ng-controller="TabsCtrl">
+  <body ng-controller="MainCtrl">
+    <div class="window">
 
       <!-- .toolbar-header sits at the top of your app -->
       <header class="toolbar toolbar-header">
