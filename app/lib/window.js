@@ -16,9 +16,9 @@
       height: height,
     });
     mainWindow.loadURL('file://' + __dirname + '/../html/index.html');
-    // If (Relief.env.name === 'development') {
+    if (Relief.env.name === 'development') {
       mainWindow.openDevTools();
-    // }    return mainWindow;
+    }    return mainWindow;
   };
 
 
