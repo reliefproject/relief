@@ -1,10 +1,12 @@
 (function() {
 
-  const EventEmitter = require('events').EventEmitter;
-  const { app } = require('electron');
-  const jetpack = require('fs-jetpack');
 
-  global.Relief = new EventEmitter();
+  const { app } = require('electron');
+
+
+  const EventEmitter = require('eventemitter2').EventEmitter2;
+  global.Relief = new EventEmitter({ wildcard: true });
+
 
   const env = require('./lib/env');
   const log = require('./lib/log');
@@ -12,12 +14,14 @@
   const persistence = require('./lib/persistence/persistence');
   const blockchain = require('./lib/blockchain/blockchain');
 
+
   // Someone tried to run a second instance, we should focus our window.
   const shouldQuit = app.makeSingleInstance(window.refocus);
   if (shouldQuit) {
     log.info('Another instance already running. Exiting.');
     app.quit();
   }
+
 
   app.on('ready', function() {
 
@@ -32,9 +36,16 @@
     });
   });
 
+
   app.on('window-all-closed', function() {
     log.info('All windows closed. Exiting.')
     app.quit();
   });
+
+
+  Relief.onAny(function(event, value) {
+    log.info('Event %s, Value %s', event, value);
+  });
+
 
 }());
