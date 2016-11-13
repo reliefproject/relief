@@ -1,9 +1,9 @@
-[submodule "plugins/apps"]
-	path = plugins/apps
-	url = git@github.com:reliefproject/relief-apps.git
-[submodule "plugins/keys"]
-	path = plugins/keys
-	url = git@github.com:reliefproject/relief-keys.git
-[submodule "plugins/start"]
-	path = plugins/start
+[submodule "app/plugins/start"]
+	path = app/plugins/start
 	url = git@github.com:reliefproject/relief-start.git
+[submodule "app/plugins/keys"]
+	path = app/plugins/keys
+	url = git@github.com:reliefproject/relief-keys.git
+[submodule "app/plugins/apps"]
+	path = app/plugins/apps
+	url = git@github.com:reliefproject/relief-apps.git
