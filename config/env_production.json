@@ -15,6 +15,7 @@
   "pbkdf2Keylen":32,
   "pbkdf2Digest":"sha512",
   "configFilename":"relief.json",
+  "configDir":"config",
   "commonDir":"common",
   "pluginDir":"plugins",
   "pluginManifest":"manifest.json",
