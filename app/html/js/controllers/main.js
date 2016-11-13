@@ -94,7 +94,6 @@
           }
           $scope.tabs[k].displayTitle = getTabDisplayTitle($scope.tabs[k]);
         }
-        $scope.$apply();
       };
 
 
