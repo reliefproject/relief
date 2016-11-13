@@ -15,12 +15,7 @@
 
 
   const init = function() {
-    const file = env.nxtTestnet
-      ? 'servers_nxt_testnet.json'
-      : 'server_nxt.json';
-    const dataDir = path.join(__dirname, '..', '..', 'data');
-    const nxtFile = path.join(dataDir, file);
-    const nxtList = jetpack.read(nxtFile, 'json');
+    const nxtList = getServerList('nxt');
     bc.nxt = new Nxt(nxtList);
     tasks.push({
       name: 'nxtNumBlocks',
@@ -58,9 +53,21 @@
   };
 
 
+  const getServerList = function(platform) {
+    if (platform === 'nxt') {
+      const file = env.nxtTestnet
+        ? 'servers_nxt_testnet.json'
+        : 'server_nxt.json';
+      const dataDir = path.join(__dirname, '..', '..', 'data');
+      const nxtFile = path.join(dataDir, file);
+      return jetpack.read(nxtFile, 'json');
+    }
+  };
+
   module.exports = {
     init: init,
     bc: bc,
+    getServerList: getServerList,
   };
 
 

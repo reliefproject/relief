@@ -5,9 +5,16 @@
   const jetpack = require('fs-jetpack');
   const nxtpm = require('nxtpm');
   const env = require('./env');
+  const blockchain = require('./blockchain/blockchain');
 
-  //const pluginDir = path.join(__dirname, '..', 'plugins');
+
   const pluginDir = env.getPath('plugin', env.standalone);
+
+
+  const nxtList = blockchain.getServerList('nxt');
+  nxtpm.setConfig({
+    'nxt:serverList': nxtList
+  });
 
 
   const getPluginList = function() {
