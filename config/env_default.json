@@ -1,0 +1,89 @@
+{
+  "name": "default",
+  "version": "0.0.0",
+  "defaultLanguage":"en",
+  "logFilePrefix":"relief_",
+  "logFileSuffix":".log",
+  "logsDir":"logs",
+  "storages":["app","user"],
+  "addressTypes":["nxt"],
+  "fixedTabs":["start", "apps"],
+  "importRequiredKeys":["address","publicKey","privateKey"],
+  "dbDir":"persistence",
+  "appDbName":"application",
+  "userDbPrefix":"user_",
+  "dbSuffix":".db",
+  "pbkdf2Iterations":100000,
+  "pbkdf2Keylen":32,
+  "pbkdf2Digest":"sha512",
+  "configFilename":"relief.json",
+  "configDir":"config",
+  "commonDir":"common",
+  "pluginDir":"plugins",
+  "pluginManifest":"manifest.json",
+  "defaultPlugins":["start", "apps", "keys"],
+  "exportFilename":"relief_keys.json",
+  "nxtNumSources":3,
+  "nxtTestnet": false,
+  "nxtIgnoreJSONKeys":["requestProcessingTime", "apiProxy", "correctInvalidFees", "ledgerTrimKeep", "maxAPIRecords", "includeExpiredPrunable", "services", "version", "application", "isScanning", "isDownloading", "maxPrunableLifetime", "time", "lastBlockchainFeeder"],
+  "languages": [
+    {
+      "id" : "en",
+      "name" : "English"
+    },
+    {
+      "id" : "de",
+      "name" : "Deutsch"
+    }
+  ],
+  "addressCategories": [
+    {
+      "name": "default",
+      "icon": "icon-record"
+    },
+    {
+      "name": "red",
+      "icon": "icon-red"
+    },
+    {
+      "name": "blue",
+      "icon": "icon-blue"
+    },
+    {
+      "name": "orange",
+      "icon": "icon-orange"
+    },
+    {
+      "name": "green",
+      "icon": "icon-green"
+    },
+    {
+      "name": "personal",
+      "icon": "icon-user"
+    },
+    {
+      "name": "public",
+      "icon": "icon-megaphone"
+    },
+    {
+      "name": "work",
+      "icon": "icon-briefcase"
+    },
+    {
+      "name": "trading",
+      "icon": "icon-chart-area"
+    },
+    {
+      "name": "favourite",
+      "icon": "icon-heart"
+    },
+    {
+      "name": "shopping",
+      "icon": "icon-basket"
+    },
+    {
+      "name": "rewards",
+      "icon": "icon-trophy"
+    }
+  ]
+}

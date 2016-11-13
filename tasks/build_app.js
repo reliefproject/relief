@@ -28,8 +28,16 @@ gulp.task('less', function() {
   });
 
 gulp.task('environment', function() {
-    var configFile = 'config/env_' + utils.getEnvName() + '.json';
-    projectDir.copy(configFile, destDir.path('config/defaults.json'), { overwrite: true });
+    const configFile = 'config/env_' + utils.getEnvName() + '.json';
+    const defaultConf = jetpack.read('config/env_default.json', 'json');
+    const conf = jetpack.read(configFile, 'json');
+    Object.assign(defaultConf, conf);
+    destDir.file('config/defaults.json');
+    destDir.write(
+      'config/defaults.json',
+      JSON.stringify(defaultConf, null, 2)
+    );
+    //projectDir.copy(configFile, destDir.path('config/defaults.json'), { overwrite: true });
   });
 
 gulp.task('watch', function() {
