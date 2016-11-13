@@ -11,6 +11,12 @@
   const persistence = require('./lib/persistence/persistence');
   const blockchain = require('./lib/blockchain/blockchain');
 
+  // Someone tried to run a second instance, we should focus our window.
+  const shouldQuit = app.makeSingleInstance(window.refocus);
+  if (shouldQuit) {
+    app.quit()
+  }
+
   app.on('ready', function() {
 
     log.info('Starting application...');

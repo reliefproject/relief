@@ -22,6 +22,14 @@
   };
 
 
+  const refocus = function() {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore();
+      }
+      mainWindow.focus();
+  };
+
+
   Relief.on('loadingComplete', function() {
     mainWindow.show();
   });
@@ -29,6 +37,7 @@
 
   module.exports = {
     createWindow: createWindow,
+    refocus: refocus,
   };
 
 })();
