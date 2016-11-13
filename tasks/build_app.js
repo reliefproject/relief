@@ -15,8 +15,6 @@ var destDir = jetpack.cwd('./app');
 
 gulp.task('bundle', function() {
     return Promise.all([
-//        Bundle(srcDir.path('background.js'), destDir.path('background.js')),
-//        bundle(srcDir.path('app.js'), destDir.path('app.js')),
     ]);
   });
 
@@ -37,7 +35,6 @@ gulp.task('environment', function() {
       'config/defaults.json',
       JSON.stringify(defaultConf, null, 2)
     );
-    //projectDir.copy(configFile, destDir.path('config/defaults.json'), { overwrite: true });
   });
 
 gulp.task('watch', function() {
