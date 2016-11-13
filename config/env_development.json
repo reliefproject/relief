@@ -14,6 +14,7 @@
   "pbkdf2Iterations":100000,
   "pbkdf2Keylen":32,
   "pbkdf2Digest":"sha512",
+  "pluginDir":"plugins",
   "pluginManifest":"manifest.json",
   "electrumNumSources":3,
   "nxtNumSources":3,
