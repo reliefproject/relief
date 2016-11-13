@@ -3,7 +3,7 @@
   app.directive('webviewinit', function($timeout) {
     return {
       link: function(scope, element, attrs) {
-        element.bind('did-finish-load', function(e) {
+        element.bind('did-start-loading', function(e) {
           this.addEventListener('console-message', function(e) {
             Relief.log.info(
               'Received message from plugin',
