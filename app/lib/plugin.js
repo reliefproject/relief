@@ -5,7 +5,9 @@
   const jetpack = require('fs-jetpack');
   const nxtpm = require('nxtpm');
   const env = require('./env');
-  const pluginDir = path.join(__dirname, '..', 'plugins');
+
+  //const pluginDir = path.join(__dirname, '..', 'plugins');
+  const pluginDir = env.getPath('plugin', env.standalone);
 
 
   const getPluginList = function() {

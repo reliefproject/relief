@@ -24,30 +24,33 @@
    *   - Config  /path/to/userData
    *   - Data    /path/to/userData/dbDir
    *   - Plugins /path/to/userData/pluginDir
+   *   - Common  /path/to/userData/commonDir
    *
    * Production (standalone):
    *   - Config  /path/to/Relief_executable
    *   - Data    /path/to/Relief_executable/resources/dbDir
    *   - Plugins /path/to/Relief_executable/resources/pluginDir
+   *   - Common  /path/to/Relief_executable/resources/commonDir
    *
    * Development:
    *   - Config  /path/to/userData_development
    *   - Data    /path/to/userData_development/dbDir
    *   - Plugins /path/to/userData_development/pluginDir
+   *   - Common  /path/to/userData_development/commonDir
    *
    * Development (standalone):
    *   - Config  /path/to/Relief
    *   - Data    /path/to/Relief/dbDir
    *   - Plugins /path/to/Relief/pluginDir
+   *   - Common  /path/to/Relief/commonDir
   */
   env.getPath = function(name, standalone) {
     switch(name) {
       // Path to config
       case 'config': {
-        return app.getPath('userData');
-      }
-      // Path to local config (standalone mode)
-      case 'config_local': {
+        if (!standalone) {
+          return app.getPath('userData');
+        }
         if (env.name !== 'production') {
           const appPath = app.getAppPath();
           const rootPath = path.join(appPath, '..');
@@ -57,6 +60,9 @@
           app.getPath('exe')
         );
         return exePath.dir;
+      }
+      // Path to local config (standalone mode)
+      case 'config_local': {
       }
       // Path to data dir (persistence)
       case 'data': {
@@ -83,6 +89,19 @@
           env.pluginDir
         );
       }
+      // Path to plugins
+      case 'plugin': {
+        if (!standalone) {
+          return path.join(
+            app.getPath('userData'),
+            env.commonDir
+          );
+        }
+        return path.join(
+          app.getAppPath(),
+          env.commonDir
+        );
+      }
     }
   };
 
@@ -90,13 +109,19 @@
   let localConf = {};
   let conf = {};
   // Load local config
-  let file = env.getPath('config', true);
+  let file = path.join(
+    env.getPath('config', true),
+    env.configFilename
+  );
   let exists = jetpack.exists(file);
   if (exists) {
     localConf = jetpack.read(file, 'json');
   }
   // Load global config
-  file = env.getPath('config');
+  file = path.join(
+    env.getPath('config'),
+    env.configFilename
+  );
   exists = jetpack.exists(file);
   if (exists) {
     conf = jetpack.read(file, 'json');
@@ -105,16 +130,22 @@
   Object.assign(conf, localConf);
   Object.assign(env, conf);
 
-/*
-console.log(env.getPath('config', false));
-console.log(env.getPath('config', true));
-console.log(env.getPath('config_local', false));
-console.log(env.getPath('config_local', true));
-console.log(env.getPath('data', false));
-console.log(env.getPath('data', true));
-console.log(env.getPath('plugin', false));
-console.log(env.getPath('plugin', true));
-*/
+
+  // Copy default plugins to userData folder
+  if (!env.standalone) {
+    for (let i in env.defaultPlugins) {
+      const plg = env.defaultPlugins[i];
+      const path = path.join(
+        env.getPath('plugin', true),
+        plg
+      );
+      jetpack.copy(path, env.getPath('plugin'));
+    }
+    jetpack.copy(
+      env.getPath('common', true),
+      env.getPath('common')
+    );
+  }
 
 
   module.exports = env;

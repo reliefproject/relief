@@ -12,4 +12,6 @@ Thumbs.db
 
 /coverage
 
+/storage
+
 app/env.json
