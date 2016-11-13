@@ -2,7 +2,7 @@
 
   const path = require('path');
   const jetpack = require('fs-jetpack');
-  const i18nDir = path.join(__dirname, '..', 'html', 'i18n');
+  const i18nDir = path.join(__dirname, '..', 'common', 'i18n');
 
 
   const loadStrings = function(lang, filename) {
