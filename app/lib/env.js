@@ -90,8 +90,8 @@
           env.pluginDir
         );
       }
-      // Path to plugins
-      case 'plugin': {
+      // Path to common
+      case 'common': {
         if (!standalone) {
           return path.join(
             app.getPath('userData'),
@@ -100,6 +100,7 @@
         }
         return path.join(
           app.getAppPath(),
+          '..',
           env.commonDir
         );
       }
@@ -135,16 +136,21 @@
   // Copy default plugins to userData folder
   if (!env.standalone) {
     for (let i in env.defaultPlugins) {
-      const plg = env.defaultPlugins[i];
-      const path = path.join(
+      const plugin = env.defaultPlugins[i];
+      const pluginPath = path.join(
         env.getPath('plugin', true),
-        plg
+        plugin
       );
-      jetpack.copy(path, env.getPath('plugin'));
+      const pluginDest = path.join(
+        env.getPath('plugin'),
+        plugin
+      );
+      jetpack.copy(pluginPath, pluginDest, { overwrite: true });
     }
     jetpack.copy(
       env.getPath('common', true),
-      env.getPath('common')
+      env.getPath('common'),
+      { overwrite: true }
     );
   }
 
