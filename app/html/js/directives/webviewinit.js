@@ -6,7 +6,7 @@
         element.bind('did-finish-load', function(e) {
           this.addEventListener('console-message', function(e) {
             Relief.log.info(
-              'Received message from plugin'
+              'Received message from plugin',
               element.attr('id')
             );
             if (e.level === 0) {
