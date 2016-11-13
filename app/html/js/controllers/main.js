@@ -79,7 +79,8 @@
 
 
       const getPluginSrc = function(plugin) {
-        return '../plugins/' + plugin.name + '/' + plugin.main;
+        const dir = Relief.env.getPath('plugin', Relief.env.standalone);
+        return 'file://' + dir + '/' + plugin.name + '/' + plugin.main;
       }
 
 

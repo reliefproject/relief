@@ -86,6 +86,7 @@
         }
         return path.join(
           app.getAppPath(),
+          '..',
           env.pluginDir
         );
       }
