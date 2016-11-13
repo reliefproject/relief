@@ -19,7 +19,7 @@
     bc.nxt = new Nxt(nxtList);
     tasks.push({
       name: 'nxtNumBlocks',
-      interval: 10000,
+      interval: 60000,
       type: 'nxt',
       command: 'getBlockchainStatus',
       params: {},
