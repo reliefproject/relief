@@ -5,6 +5,7 @@
   const jetpack = require('fs-jetpack');
   const nxtpm = require('nxtpm');
   const env = require('./env');
+  const log = require('./log');
   const blockchain = require('./blockchain/blockchain');
 
 
@@ -23,6 +24,7 @@
 
 
   const loadPlugin = function(name) {
+    log.info('Loading plugin', name);
     const dir = path.join(pluginDir, name);
     if (jetpack.exists(dir) !== 'dir') {
       throw new Error('Plugin not found');

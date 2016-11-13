@@ -31,11 +31,13 @@
 
     // Passthrough function
     this.request = function(options) {
+      log.info('Nxt request:', options);
       return new Promise(function(resolve, reject) {
         client.request(options, function(err, data) {
           if (err) {
             return reject(err);
           }
+          log.info('Nxt response:', data);
           resolve(data);
         });
       });

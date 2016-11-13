@@ -2,6 +2,7 @@
 
   const EventEmitter = require('events').EventEmitter;
   const { app } = require('electron');
+  const jetpack = require('fs-jetpack');
 
   global.Relief = new EventEmitter();
 
@@ -14,14 +15,14 @@
   // Someone tried to run a second instance, we should focus our window.
   const shouldQuit = app.makeSingleInstance(window.refocus);
   if (shouldQuit) {
-    app.quit()
+    log.info('Another instance already running. Exiting.');
+    app.quit();
   }
 
   app.on('ready', function() {
 
-    log.info('Starting application...');
-    log.info('Environment: ', env.name);
-    log.info('Version: ', env.version);
+    log.info('Relief', env.version);
+    log.info('Environment', env.name);
 
     persistence.init()
     .then(blockchain.init)
@@ -32,6 +33,7 @@
   });
 
   app.on('window-all-closed', function() {
+    log.info('All windows closed. Exiting.')
     app.quit();
   });
 

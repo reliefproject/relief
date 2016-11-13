@@ -24,6 +24,7 @@
 
 
   const login = function(username, password) {
+    log.info('User login');
     return persistence.db.app.getDoc()
     .then(function(doc) {
       if (!doc.users[username]) {
@@ -37,6 +38,7 @@
 
 
   const logout = function() {
+    log.info('User logout');
     persistence.unsetUserDb();
   };
 
@@ -47,6 +49,7 @@
 
 
   const createAccount = function(userData) {
+    log.info('Creating new account');
     let appData = {};
     const salt = uuid.v4();
 
@@ -81,6 +84,7 @@
 
 
   const exportKeys = function(format, targetFile) {
+    log.info('Exporting keys to', targetFile);
     return persistence.db.user.getDoc()
     .then(function(userData) {
       if (jetpack.exists(targetFile)) {
@@ -98,6 +102,7 @@
 
 
   const importKeys = function(data) {
+    log.info('Importing keys from file');
     let keys = JSON.parse(data);
     return persistence.db.user.getDoc().then(function(userData) {
       for (let i in env.addressTypes) {

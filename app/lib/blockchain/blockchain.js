@@ -38,6 +38,7 @@
       if ((now - task.lastRun) < task.interval) {
         continue;
       }
+      log.info('Running task', task.name)
       switch (task.type) {
         case 'nxt': {
           task.params.requestType = task.command;
