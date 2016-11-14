@@ -1,0 +1,20 @@
+{
+  "WINDOW":"Fenster",
+  "MINIMIZE":"Minimieren",
+  "CLOSE":"Schliessen",
+  "CLOSETAB":"Tab schliessen",
+  "RESETZOOM":"Originalgrösse",
+  "ZOOMIN":"Vergrössern",
+  "ZOOMOUT":"Verkleinern",
+  "FULLSCREEN":"Vollbild",
+  "VIEW": "Ansicht",
+  "RELOAD":"Neu laden",
+  "DEVELOPMENT":"Entwicklung",
+  "DEVTOOLS":"Entwicklerwerkzeuge",
+  "DEVTOOLS_PAGE":"Entwicklerwerkzeuge (Seite)",
+  "HELP":"Hilfe",
+  "ABOUT":"Über",
+  "DOCUMENTATION":"Dokumentation",
+  "FORUM":"Community Forum",
+  "ISSUES":"Probleme suchen"
+}

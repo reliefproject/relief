@@ -6,7 +6,7 @@
         element.bind('did-start-loading', function(e) {
           this.addEventListener('console-message', function(e) {
             Relief.log.info(
-              'Received message from plugin',
+              'Log message from plugin',
               element.attr('id')
             );
             if (e.level === 0) {
@@ -19,9 +19,6 @@
               Relief.log.error(e.message);
             }
           });
-          if (Relief.env.name === 'development') {
-            this.openDevTools();
-          }
         });
       },
     }

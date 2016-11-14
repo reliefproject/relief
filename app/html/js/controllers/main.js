@@ -145,6 +145,30 @@
       });
 
 
+      Relief.on('webview.close', function() {
+        const tabId = $scope.selectedTab;
+        if(!$scope.tabs[tabId].fixed) {
+          $scope.closeTab(tabId);
+          $scope.$apply();
+        }
+      });
+
+
+      Relief.on('webview.reload', function() {
+        const webview = document.getElementById(
+          $scope.selectedTab
+        );
+        webview.reload();
+      });
+
+
+      Relief.on('webview.devtools', function() {
+        const webview = document.getElementById(
+          $scope.selectedTab
+        );
+        webview.openDevTools();
+      });
+
     },
   ]);
 

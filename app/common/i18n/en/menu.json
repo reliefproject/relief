@@ -1,0 +1,20 @@
+{
+  "WINDOW":"Window",
+  "MINIMIZE":"Minimize",
+  "CLOSE":"Close",
+  "CLOSETAB":"Close Tab",
+  "RESETZOOM":"Actual Size",
+  "ZOOMIN":"Zoom In",
+  "ZOOMOUT":"Zoom Out",
+  "FULLSCREEN":"Full Screen",
+  "VIEW": "View",
+  "RELOAD":"Reload",
+  "DEVELOPMENT":"Development",
+  "DEVTOOLS":"Developer Tools",
+  "DEVTOOLS_PAGE":"Developer Tools (Page)",
+  "HELP":"Help",
+  "ABOUT":"About",
+  "DOCUMENTATION":"Documentation",
+  "FORUM":"Community Forum",
+  "ISSUES":"Search Issues"
+}

@@ -1,7 +1,7 @@
 (function() {
 
 
-  const { BrowserWindow } = require('electron');
+  const { BrowserWindow, Menu } = require('electron');
 
 
   let mainWindow = {};
@@ -11,22 +11,20 @@
     const { screen } = require('electron');
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     mainWindow = new BrowserWindow({
-      show: true,
+      show: false,
       width: width,
       height: height,
     });
     mainWindow.loadURL('file://' + __dirname + '/../html/index.html');
-    if (Relief.env.name === 'development') {
-      mainWindow.openDevTools();
-    }    return mainWindow;
+    return mainWindow;
   };
 
 
   const refocus = function() {
-      if (mainWindow.isMinimized()) {
-        mainWindow.restore();
-      }
-      mainWindow.focus();
+    if (mainWindow.isMinimized()) {
+      mainWindow.restore();
+    }
+    mainWindow.focus();
   };
 
 

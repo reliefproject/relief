@@ -10,6 +10,7 @@
 
   const env = require('./lib/env');
   const log = require('./lib/log');
+  const menu = require('./lib/menu');
   const window = require('./lib/window');
   const persistence = require('./lib/persistence/persistence');
   const blockchain = require('./lib/blockchain/blockchain');
@@ -30,6 +31,7 @@
 
     persistence.init()
     .then(blockchain.init)
+    .then(menu.init)
     .then(window.createWindow, function(err) {
       log.error(err);
       process.exit();
