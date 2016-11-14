@@ -7,8 +7,8 @@
   const jetpack = require('fs-jetpack');
   const env = require('./env.js');
 
-  const now = moment().format('YYYYMMDD-hhmm');
-  const filename = env.logFilePrefix + now + env.logFileSuffix;
+  const today = moment().format('YYYYMMDD');
+  const filename = env.logFilePrefix + today + env.logFileSuffix;
   const logFile = path.join(
     app.getPath('userData'),
     env.logsDir,
