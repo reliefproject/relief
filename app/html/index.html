@@ -54,7 +54,7 @@
               <span class="icon icon-cog"></span>
             </button>
             <button class="btn btn-default pull-right"
-                    ng-click="openTab('fuenf', { name: 'Test F&uuml;nf', url: 'http://bitbucket.org' })">
+                    ng-click="openTab('fuenf', { name: 'Test F&uuml;nf', url: 'http://google.com' })">
               <span class="icon icon-help-circled"></span>
             </button>
             <button class="btn btn-default pull-right" ng-disabled="!isLoggedIn"
@@ -99,12 +99,14 @@
                  ng-repeat="(tabId, tab) in tabs"
                  ng-class="{ show: tabId == selectedTab }"
                  ng-src="{{ trustUrl(tab) }}"
-                 preload="js/preload.js">
+                 preload="js/preload.js"
+                 httpreferrer="{{ referrer }}"
+                 user-agent="{{ userAgent }}"
+                 partition="{{ tabId }}">
         </webview>
       </div>
 
       <footer class="toolbar toolbar-footer">
-
         <div class="toolbar-actions pull-right">
           <small>Nxt: </small><span class="icon icon-record" style="color:green"></span> <small>{{ nxtBlockHeight }}</small>
         </div>

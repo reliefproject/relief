@@ -15,7 +15,8 @@
       $scope.strings = {};
       $scope.tabs = {};
       $scope.nxtBlockHeight = '';
-
+      $scope.userAgent = Relief.env.appName + ' ' + Relief.env.version;
+      $scope.referrer = Relief.env.referrer;
 
       $scope.selectTab = function(tabId) {
         $scope.selectedTab = tabId;

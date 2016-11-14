@@ -1,6 +1,8 @@
 {
   "name": "default",
+  "appName":"Relief",
   "version": "0.0.0",
+  "referrer":"http://projectwebsite.com/about",
   "defaultLanguage":"en",
   "logFilePrefix":"relief_",
   "logFileSuffix":".log",
