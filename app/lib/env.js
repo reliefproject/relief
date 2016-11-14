@@ -43,15 +43,27 @@
   };
 
 
-  const conf = {};
-  const file = path.join(
-    env.getPath('config', env.standalone),
+  let localConf = {};
+  const localFile = path.join(
+    env.getPath('config', true),
     env.configFilename
   );
-  if (jetpack.exists(file)) {
-    conf = jetpack.read(file, 'json');
+  if (jetpack.exists(localFile)) {
+    localConf = jetpack.read(localFile, 'json');
   }
-  Object.assign(env, conf);
+  if (!env.standalone) {
+    let globalConf = {};
+    const globalFile = path.join(
+      env.getPath('config', false),
+      env.configFilename
+    );
+    if (jetpack.exists(globalFile)) {
+      globalConf = jetpack.read(globalFile, 'json');
+    }
+    Object.assign(env, globalConf);
+  }
+  // Local conf has precedence
+  Object.assign(env, localConf);
 
 
   // Copy default plugins to userData folder
