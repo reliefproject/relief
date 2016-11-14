@@ -5,6 +5,8 @@
   "logFilePrefix":"relief_",
   "logFileSuffix":".log",
   "logsDir":"logs",
+  "logLevelFile":"silly",
+  "logLevelConsole":"silly",
   "deleteLogsOlderThanDays":30,
   "storages":["app","user"],
   "addressTypes":["nxt"],
