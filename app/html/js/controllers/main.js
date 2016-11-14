@@ -169,7 +169,30 @@
         webview.openDevTools();
       });
 
+
+      Relief.on('webview.switchToNext', function() {
+        const keys = Object.keys($scope.tabs);
+        if (keys.length === 1) {
+          return;
+        }
+        let tabIndex;
+        for (let i = 0; i < keys.length; i++) {
+          if (keys[i] === $scope.selectedTab) {
+            tabIndex = i;
+            break;
+          }
+        }
+        const nextIndex = (tabIndex + 1);
+        const nextTab = keys[nextIndex]
+          ? keys[nextIndex]
+          : keys[0];
+        $scope.selectTab(nextTab);
+        $scope.$apply();
+      });
+
+
     },
+
   ]);
 
 })();

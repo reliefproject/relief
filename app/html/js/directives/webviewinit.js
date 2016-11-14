@@ -1,6 +1,6 @@
 (function() {
 
-  app.directive('webviewinit', function($timeout) {
+  app.directive('webviewinit', function() {
     return {
       link: function(scope, element, attrs) {
         element.bind('did-start-loading', function(e) {

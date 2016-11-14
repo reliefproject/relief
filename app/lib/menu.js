@@ -15,13 +15,15 @@
         role: 'window',
         submenu: [
           {
-            label: strings.MINIMIZE,
-            role: 'minimize'
+            label: strings.NEXTTAB,
+            accelerator: 'CmdOrCtrl+Tab',
+            click: function(item, focusedWindow) {
+              Relief.emit('webview.switchToNext');
+            },
           },
           {
-            label: strings.CLOSE,
-            accelerator: 'CmdOrCtrl+Q',
-            role: 'close'
+            label: strings.MINIMIZE,
+            role: 'minimize'
           },
           {
             label: strings.CLOSETAB,
@@ -29,6 +31,11 @@
             click: function(item, focusedWindow) {
               Relief.emit('webview.close');
             },
+          },
+          {
+            label: strings.CLOSE,
+            accelerator: 'CmdOrCtrl+Q',
+            role: 'close'
           },
         ],
       });
