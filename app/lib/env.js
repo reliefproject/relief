@@ -30,10 +30,14 @@
         return path.join(rootPath, env.dbDir);
       }
       case 'plugin': {
-        return path.join(rootPath, env.pluginDir);
+        return env.name === 'test'
+          ? path.join(__dirname, '..', env.pluginDir)
+          : path.join(rootPath, env.pluginDir);
       }
       case 'common': {
-        return path.join(rootPath, env.commonDir);
+        return env.name === 'test'
+          ? path.join(__dirname, '..', env.commonDir)
+          : path.join(rootPath, env.commonDir);
       }
     }
   };
@@ -51,7 +55,7 @@
 
 
   // Copy default plugins to userData folder
-  if (!env.standalone && env.name !== 'test') {
+  if (!env.standalone) {
     for (let i in env.defaultPlugins) {
       const plugin = env.defaultPlugins[i];
       const pluginPath = path.join(
