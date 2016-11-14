@@ -51,7 +51,7 @@
 
 
   // Copy default plugins to userData folder
-  if (!env.standalone) {
+  if (!env.standalone && env.name !== 'test') {
     for (let i in env.defaultPlugins) {
       const plugin = env.defaultPlugins[i];
       const pluginPath = path.join(
