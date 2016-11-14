@@ -5,6 +5,7 @@
   "logFilePrefix":"relief_",
   "logFileSuffix":".log",
   "logsDir":"logs",
+  "deleteLogsOlderThanDays":30,
   "storages":["app","user"],
   "addressTypes":["nxt"],
   "fixedTabs":["start", "apps"],
