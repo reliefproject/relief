@@ -25,15 +25,26 @@
   jetpack.file(logFile);
 
 
+  const logLevelFile = env.name === 'production'
+    ? 'info'
+    : 'silly';
+  const logLevelConsole = env.name === 'production'
+    ? 'warn'
+    : 'silly';
+
   const logger = new (winston.Logger)({
     transports: [
       new (winston.transports.Console)({
+        level: logLevelConsole,
         colorize: true,
         timestamp: function() {
           return '[' + moment().format('hh:mm:ss') + ']';
         },
       }),
-      new (winston.transports.File)({ filename: logFile }),
+      new (winston.transports.File)({
+        level: logLevelFile,
+        filename: logFile,
+      }),
     ],
   });
 

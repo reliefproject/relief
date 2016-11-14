@@ -44,7 +44,7 @@
 
 
   Relief.onAny(function(event, value) {
-    log.info('Event %s, Value %s', event, value);
+    log.debug('Event %s, Value %s', event, value);
   });
 
 
