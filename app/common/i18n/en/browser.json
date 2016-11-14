@@ -1,0 +1,11 @@
+{
+  "APP_NAME":"Relief",
+  "CUT":"Cut",
+  "COPY":"Copy",
+  "PASTE":"Paste",
+  "SAVE_IMAGE":"Save Image",
+  "COPY_LINK":"Copy Link URL",
+  "COPY_IMAGE_URL":"Copy Image URL",
+  "OPEN_IMAGE":"Open Image in Browser",
+  "OPEN_LINK":"Open Link in Browser"
+}

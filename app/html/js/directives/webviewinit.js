@@ -3,6 +3,7 @@
   app.directive('webviewinit', function() {
     return {
       link: function(scope, element, attrs) {
+
         element.bind('did-start-loading', function(e) {
           this.addEventListener('console-message', function(e) {
             Relief.log.info(
@@ -20,6 +21,11 @@
             }
           });
         });
+
+        element.bind('dom-ready', function(e) {
+          Relief.emit('webview.ready', element.attr('id'));
+        });
+
       },
     }
   });

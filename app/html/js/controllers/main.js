@@ -1,12 +1,18 @@
 (function() {
 
+
+  const { shell } = require('electron');
+  const contextMenu = require('electron-context-menu');
+
+
   app.controller(
     'MainCtrl',
-    ['$scope', '$sce',
-    function($scope, $sce) {
+    ['$scope', '$sce', 'i18n',
+    function($scope, $sce, i18n) {
 
 
       let appData = {};
+      $scope.strings = {};
       $scope.tabs = {};
       $scope.nxtBlockHeight = '';
 
@@ -106,6 +112,11 @@
         }
         // First start, we're not logged in
         $scope.loggedOut();
+        return i18n.loadStrings(appData.language)
+        .then(function(strings) {
+          $scope.strings = strings;
+          $scope.$apply();
+        });
       },
         // Error handler
         Relief.log.error
@@ -135,6 +146,11 @@
         if (lang !== appData.language) {
           appData.language = lang;
           updateTabData();
+          i18n.loadStrings(appData.language)
+          .then(function(strings) {
+            $scope.strings = strings;
+            $scope.$apply();
+          });
         }
       });
 
@@ -142,6 +158,44 @@
       Relief.on('nxt.BlockHeight', function(height) {
         $scope.nxtBlockHeight = height;
         $scope.$apply();
+      });
+
+
+      Relief.on('webview.ready', function(id) {
+        contextMenu({
+          window: document.getElementById(id),
+          showInspectElement: false,
+          append: function(params) {
+            return [{
+              label: i18n.strings.COPY_IMAGE_URL,
+              visible: params.mediaType === 'image',
+              click: function() {
+                Relief.clipboard.writeText(params.srcURL);
+              },
+            },
+            {
+              label: i18n.strings.OPEN_IMAGE,
+              visible: params.mediaType === 'image',
+              click: function() {
+                shell.openExternal(params.srcURL);
+              },
+            },
+            {
+              label: i18n.strings.OPEN_LINK,
+              visible: params.linkURL !== '',
+              click: function() {
+                shell.openExternal(params.linkURL);
+              },
+            }];
+          },
+          labels: {
+            cut: i18n.strings.CUT,
+            copy: i18n.strings.COPY,
+            paste: i18n.strings.PASTE,
+            save: i18n.strings.SAVE_IMAGE,
+            copyLink: i18n.strings.COPY_LINK,
+          },
+        });
       });
 
 
