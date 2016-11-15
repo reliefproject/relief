@@ -7,8 +7,8 @@
 
   app.controller(
     'MainCtrl',
-    ['$scope', '$sce', 'i18n',
-    function($scope, $sce, i18n) {
+    ['$scope', '$sce', 'i18n', 'Notification',
+    function($scope, $sce, i18n, Notification) {
 
 
       let appData = {};
@@ -17,6 +17,7 @@
       $scope.nxtBlockHeight = '';
       $scope.userAgent = Relief.env.appName + ' ' + Relief.env.version;
       $scope.referrer = Relief.env.referrer;
+      $scope.notification = {};
 
       $scope.selectTab = function(tabId) {
         $scope.selectedTab = tabId;
@@ -104,6 +105,29 @@
       };
 
 
+      let notification;
+      const workOffNotificationQueue = function() {
+        if (!notification) {
+           notification = Notification.readQueue();
+        }
+        const options = notification.next();
+        if (options.value) {
+          $scope.notification = options.value;
+          $scope.$apply();
+        } else {
+          $scope.notification = {};
+          $scope.$apply();
+        }
+        if (options.done) {
+          notification = null;
+        }
+        setTimeout(
+          workOffNotificationQueue,
+          (Relief.env.notificationDisplaySeconds * 1000)
+        );
+      };
+
+
       Relief.db.app.getDoc().then(function(doc) {
         appData = doc;
         if (!appData) {
@@ -117,7 +141,8 @@
         .then(function(strings) {
           $scope.strings = strings;
           $scope.$apply();
-        });
+        })
+        .then(workOffNotificationQueue);
       },
         // Error handler
         Relief.log.error
@@ -243,6 +268,11 @@
           : keys[0];
         $scope.selectTab(nextTab);
         $scope.$apply();
+      });
+
+
+      Relief.on('notify', function(options) {
+        Notification.addToQueue(options);
       });
 
 

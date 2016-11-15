@@ -16,5 +16,6 @@
 	"CREATE_ERROR_NAMETAKEN":"Username already taken",
 	"ALPHANUM_SPACES": "Letters, numbers and spaces allowed",
 	"MINLENGTH_10": "Must be at least 10 characters",
-  "CREATE_SUCCESS":"Account created successfully. Please log in."
+  "CREATE_SUCCESS":"Account created successfully. Please log in.",
+	"WELCOME":"Welcome,"
 }

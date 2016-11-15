@@ -16,5 +16,6 @@
 	"CREATE_ERROR_NAMETAKEN":"Benutzername ist schon vergeben",
   "ALPHANUM_SPACES": "Buchstaben, Zahlen und Leerzeichen erlaubt",
 	"MINLENGTH_10": "Muss mindestens 10 Zeichen lang sein",
-  "CREATE_SUCCESS":"Konto erfolgreich erstellen. Sie können sich jetzt einloggen."
+  "CREATE_SUCCESS":"Konto erfolgreich erstellen. Sie können sich jetzt einloggen.",
+  "WELCOME":"Willkommen,"
 }
