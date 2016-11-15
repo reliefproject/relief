@@ -289,7 +289,6 @@
       Relief.on('notify.dataInconsistency', function(data) {
         let message = i18n.strings.WARN_INCONST_DATA_NXT;
         message += ' (Hosts: ' + data.frequency + '/' + data.total + ', Score: ' + data.score + ')';
-        console.log(message)
         Relief.emit('notify', {
           type: 'negative',
           message: message,
