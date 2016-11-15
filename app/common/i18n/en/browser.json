@@ -7,5 +7,6 @@
   "COPY_LINK":"Copy Link URL",
   "COPY_IMAGE_URL":"Copy Image URL",
   "OPEN_IMAGE":"Open Image in Browser",
-  "OPEN_LINK":"Open Link in Browser"
+  "OPEN_LINK":"Open Link in Browser",
+  "WARN_INCONST_DATA_NXT":"Warning: Inconsistent data from Nxt."
 }

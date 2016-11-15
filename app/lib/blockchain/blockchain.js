@@ -58,7 +58,7 @@
     if (platform === 'nxt') {
       const file = env.nxtTestnet
         ? 'servers_nxt_testnet.json'
-        : 'server_nxt.json';
+        : 'servers_nxt.json';
       const dataDir = path.join(__dirname, '..', '..', 'data');
       const nxtFile = path.join(dataDir, file);
       return jetpack.read(nxtFile, 'json');

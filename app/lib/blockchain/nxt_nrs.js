@@ -38,6 +38,13 @@
             return reject(err);
           }
           log.debug('Nxt response:', data);
+          if (data.score < 1) {
+            Relief.emit('notify.dataInconsistency', {
+              frequency: data.frequency,
+              total: Math.round(data.frequency / data.score),
+              score: data.score,
+            });
+          }
           resolve(data);
         });
       });

@@ -3,6 +3,7 @@
 
   const { shell } = require('electron');
   const contextMenu = require('electron-context-menu');
+  const async = require('async');
 
 
   app.controller(
@@ -105,26 +106,32 @@
       };
 
 
-      let notification;
+      let notification = Notification.readQueue();
       const workOffNotificationQueue = function() {
-        if (!notification) {
-           notification = Notification.readQueue();
-        }
-        const options = notification.next();
-        if (options.value) {
-          $scope.notification = options.value;
-          $scope.$apply();
-        } else {
-          $scope.notification.show = false;
-          $scope.$apply();
-          $scope.notification = {};
-        }
-        if (options.done) {
-          notification = null;
-        }
-        setTimeout(
-          workOffNotificationQueue,
-          (Relief.env.notificationDisplaySeconds * 1000)
+        let options;
+        async.whilst(
+          function() {
+            options = notification.next();
+            return options.value;
+          },
+          function(callback) {
+            $scope.notification = options.value;
+            $scope.$apply();
+            setTimeout(function() {
+              $scope.notification.show = false;
+              $scope.$apply();
+              $scope.notification = {};
+              callback();
+            },
+              (Relief.env.notificationDisplaySeconds * 1000)
+            );
+          },
+          function(err) {
+            if (err) {
+              Relief.log.error(err);
+            }
+            setTimeout(workOffNotificationQueue, 1000);
+          }
         );
       };
 
@@ -276,6 +283,17 @@
         options.show = true;
         options.locale = appData.language;
         Notification.addToQueue(options);
+      });
+
+
+      Relief.on('notify.dataInconsistency', function(data) {
+        let message = i18n.strings.WARN_INCONST_DATA_NXT;
+        message += ' (Hosts: ' + data.frequency + '/' + data.total + ', Score: ' + data.score + ')';
+        console.log(message)
+        Relief.emit('notify', {
+          type: 'negative',
+          message: message,
+        });
       });
 
 

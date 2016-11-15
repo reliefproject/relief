@@ -1,6 +1,5 @@
 (function() {
 
-
   const moment = require('moment');
   const uuid = require('uuid');
 
@@ -24,24 +23,22 @@
       },
 
 
-      removeFromQueue: function(id) {
-        for (let i in service.queue) {
-          if (service.queue[i].id === id) {
-            delete service.queue[i];
-            break;
-          }
-        }
+      removeFirstElement: function() {
+        const rest = service.queue.slice(1);
+        service.queue.length = 0;
+        return service.queue.push.apply(service.queue, rest);
       },
 
 
       readQueue: function* () {
-        for (let i = (service.queue.length - 1); i >= 0; i--) {
-          if (service.queue[i]) {
-            yield service.queue[i];
-            this.removeFromQueue(service.queue[i].id);
+        while(true) {
+          if (service.queue[0]) {
+            yield service.queue[0];
+            this.removeFirstElement();
+          } else {
+            yield null;
           }
         }
-        return;
       },
 
 

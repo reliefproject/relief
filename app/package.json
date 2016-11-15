@@ -9,6 +9,7 @@
   "license": "MIT",
   "main": "main.js",
   "dependencies": {
+    "async": "^2.1.2",
     "doublechecker": "0.0.1",
     "electron-context-menu": "^0.7.0",
     "eventemitter2": "^2.1.3",
