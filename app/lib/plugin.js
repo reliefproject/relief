@@ -13,9 +13,8 @@
 
 
   const nxtList = blockchain.getServerList('nxt');
-  nxtpm.setConfig({
-    'nxt:serverList': nxtList
-  });
+  nxtpm.setConfig('nxt:serverList', nxtList);
+  nxtpm.setConfig('nxt:numSources', env.nxtNumSources);
 
 
   const getPluginList = function() {
