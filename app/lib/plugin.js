@@ -46,6 +46,7 @@
 
 
   const install = function(packageName) {
+    const pluginDir = env.getPath('plugin', env.standalone);
     return nxtpm.Package.install(packageName, pluginDir);
   };
 
