@@ -12,10 +12,10 @@
   "LOGIN_ERROR_FAILED":"Anmeldung fehlgeschlagen",
   "CREATE_ERROR_MATCH":"Passwörter stimmen nicht überein",
 	"CREATE_ERROR_USERNAME":"Ungültiger Benutzername",
-	"CREATE_ERROR_PASSWORD":"Ungeültiges Passwort",
+	"CREATE_ERROR_PASSWORD":"Ungültiges Passwort",
 	"CREATE_ERROR_NAMETAKEN":"Benutzername ist schon vergeben",
   "ALPHANUM_SPACES": "Buchstaben, Zahlen und Leerzeichen erlaubt",
 	"MINLENGTH_10": "Muss mindestens 10 Zeichen lang sein",
-  "CREATE_SUCCESS":"Konto erfolgreich erstellen. Sie können sich jetzt einloggen.",
+  "CREATE_SUCCESS":"Konto erfolgreich erstellt. Sie können sich jetzt einloggen.",
   "WELCOME":"Willkommen,"
 }
