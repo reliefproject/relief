@@ -279,6 +279,19 @@
       });
 
 
+      Relief.on('webview.jumpTo', function(number) {
+        const index = (number - 1);
+        const keys = Object.keys($scope.tabs);
+        if (!keys[index]) {
+          return;
+        }
+        $scope.selectTab(
+          keys[index]
+        );
+        $scope.$apply();
+      });
+
+
       Relief.on('notify', function(options) {
         options.show = true;
         options.locale = appData.language;

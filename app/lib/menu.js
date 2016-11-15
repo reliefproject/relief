@@ -37,6 +37,69 @@
             accelerator: 'CmdOrCtrl+Q',
             role: 'close'
           },
+          {
+            accelerator: 'CmdOrCtrl+1',
+            visible: false,
+            click: function(item, focusedWindow) {
+              Relief.emit('webview.jumpTo', 1);
+            },
+          },
+          {
+            accelerator: 'CmdOrCtrl+2',
+            visible: false,
+            click: function(item, focusedWindow) {
+              Relief.emit('webview.jumpTo', 2);
+            },
+          },
+          {
+            accelerator: 'CmdOrCtrl+3',
+            visible: false,
+            click: function(item, focusedWindow) {
+              Relief.emit('webview.jumpTo', 3);
+            },
+          },
+          {
+            accelerator: 'CmdOrCtrl+4',
+            visible: false,
+            click: function(item, focusedWindow) {
+              Relief.emit('webview.jumpTo', 4);
+            },
+          },
+          {
+            accelerator: 'CmdOrCtrl+5',
+            visible: false,
+            click: function(item, focusedWindow) {
+              Relief.emit('webview.jumpTo', 5);
+            },
+          },
+          {
+            accelerator: 'CmdOrCtrl+6',
+            visible: false,
+            click: function(item, focusedWindow) {
+              Relief.emit('webview.jumpTo', 6);
+            },
+          },
+          {
+            accelerator: 'CmdOrCtrl+7',
+            visible: false,
+            click: function(item, focusedWindow) {
+              Relief.emit('webview.jumpTo', 7);
+            },
+          },
+          {
+            accelerator: 'CmdOrCtrl+8',
+            visible: false,
+            click: function(item, focusedWindow) {
+              Relief.emit('webview.jumpTo', 8);
+            },
+          },
+          {
+            accelerator: 'CmdOrCtrl+9',
+            visible: false,
+            click: function(item, focusedWindow) {
+              Relief.emit('webview.jumpTo', 9);
+            },
+          },
         ],
       });
       template.push({
