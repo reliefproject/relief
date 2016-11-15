@@ -12,6 +12,7 @@
 
       addToQueue: function(options) {
         options.id = uuid.v4();
+        moment.locale(options.locale);
         options.time = moment().format('LT');
         options.type = (Relief.env.notificationTypes.indexOf(options.type) !== -1)
           ? options.type

@@ -272,6 +272,7 @@
 
 
       Relief.on('notify', function(options) {
+        options.locale = appData.language;
         Notification.addToQueue(options);
       });
 
