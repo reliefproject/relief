@@ -1,1 +1,1 @@
-const app = angular.module('MainApp', []);
+const app = angular.module('MainApp', ['ngAnimate']);

@@ -9,6 +9,7 @@
 
     <!-- Javascript -->
     <script src="../common/assets/js/angular.js" charset="utf-8"></script>
+    <script src="../common/assets/js/angular-animate.js" charset="utf-8"></script>
 
     <script src="js/preload.js" charset="utf-8"></script>
     <script src="js/app.js" charset="utf-8"></script>
@@ -45,8 +46,8 @@
             </button>
           </div>
 
-          <div class="title notification pull-left"
-               ng-show="notification.type"
+          <div class="title notification pull-left hide-fade"
+               ng-show="notification.show"
                ng-class="{
                  'info': notification.type == 'info',
                  'positive': notification.type == 'positive',

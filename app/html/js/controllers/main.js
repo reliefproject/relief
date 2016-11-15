@@ -115,8 +115,9 @@
           $scope.notification = options.value;
           $scope.$apply();
         } else {
-          $scope.notification = {};
+          $scope.notification.show = false;
           $scope.$apply();
+          $scope.notification = {};
         }
         if (options.done) {
           notification = null;
@@ -272,6 +273,7 @@
 
 
       Relief.on('notify', function(options) {
+        options.show = true;
         options.locale = appData.language;
         Notification.addToQueue(options);
       });
