@@ -30,6 +30,7 @@
       new (winston.transports.Console)({
         level: env.logLevelConsole,
         colorize: true,
+        prettyPrint: true,
         timestamp: function() {
           return '[' + moment().format('hh:mm:ss') + ']';
         },
