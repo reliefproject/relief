@@ -77,6 +77,17 @@
       if (db.user instanceof Error) {
         return reject(db.user);
       }
+      for (let i in env.defaultPlugins) {
+        const plugin = env.defaultPlugins[i];
+        if (plugin === 'start') {
+          continue;
+        }
+        schema.plugins[plugin] = {
+          enabled: true,
+          showInMenu: true,
+          isBuiltIn: true,
+        };
+      }
       db.user.insertDoc(schema)
       .then(resolve, reject);
     });
