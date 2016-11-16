@@ -233,6 +233,12 @@
       });
 
 
+      Relief.on('webview.open', function(plugin) {
+        $scope.openTab(plugin);
+        $scope.$apply();
+      });
+
+
       Relief.on('webview.close', function() {
         const tabId = $scope.selectedTab;
         if(!$scope.tabs[tabId].fixed) {
