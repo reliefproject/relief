@@ -14,6 +14,7 @@
 
       let appData = {};
       $scope.strings = {};
+      $scope.appMenu = {};
       $scope.tabs = {};
       $scope.nxtBlockHeight = '';
       $scope.userAgent = Relief.env.appName + ' ' + Relief.env.version;
@@ -26,6 +27,7 @@
 
 
       $scope.openTab = function(tabId, tab, select) {
+        $scope.showAppMenu = false;
         select = select === undefined
           ? true
           : select;
@@ -160,7 +162,6 @@
       Relief.on('loggedIn', function() {
         $scope.isLoggedIn = true;
         let newTabs = {
-          //keys: Relief.plugin.loadPlugin('keys'),
           apps: Relief.plugin.loadPlugin('apps'),
         };
         delete $scope.tabs['start'];
@@ -173,6 +174,23 @@
         updateTabData();
         $scope.selectTab('apps');
         $scope.$apply();
+        Relief.emit('updateAppMenu');
+      });
+
+
+      Relief.on('updateAppMenu', function() {
+        Relief.db.user.getDoc()
+        .then(function(data) {
+          for(let k in data.plugins) {
+            const plugin = data.plugins[k];
+            if (plugin.showInMenu) {
+              const pluginData = Relief.plugin.loadPlugin(k);
+              $scope.appMenu[k] = pluginData;
+              $scope.appMenu[k].title = getTabDisplayTitle(pluginData);
+            }
+          }
+          $scope.$apply();
+        });
       });
 
 

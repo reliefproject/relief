@@ -19,13 +19,53 @@ webview.show {
   color:#eee;
 }
 
+.dropdown-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-menu > li > button {
+  border-radius: 0px 4px 4px 0px;
+  border-left: 0;
+}
+
+.dropdown-selection {
+  position: absolute;
+  display: block;
+  list-style: none;
+  z-index: 2;
+  width: 100%;
+  margin-top: 24px;
+  margin-left:-1px;
+  padding: 0;
+  background: #fcfcfc;
+}
+
+.dropdown-selection > li {
+  cursor: pointer;
+  padding: 4px 10px 4px 10px;
+  border-style: solid;
+  border-width:1px;
+  border-color:#c2c0c2;
+  border-top:0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.dropdown-selection > li:last-child {
+  border-radius: 0px 0px 4px 4px;
+}
+
+.dropdown-selection > li:hover {
+  background-color:#dcdfe1;
+}
+
 .notification {
-   overflow:hidden;
-   text-overflow:ellipsis;
-   max-width:500px;
-   padding-left: 4px;
-   padding-right: 4px;
-   padding-top: 2px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   max-width: 500px;
+   padding: 2px 4px 0px 4px;
    margin-left: 10px;
    white-space: nowrap;
 }

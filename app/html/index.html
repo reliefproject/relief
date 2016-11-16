@@ -17,6 +17,7 @@
     <script src="js/services/i18n.js" charset="utf-8"></script>
     <script src="js/services/notification.js" charset="utf-8"></script>
     <script src="js/directives/webviewinit.js" charset="utf-8"></script>
+    <script src="js/directives/dropdown.js" charset="utf-8"></script>
 
   </head>
   <body ng-controller="MainCtrl">
@@ -40,10 +41,25 @@
               My Keys
             </button>
 
-            <button class="btn btn-default btn-dropdown pull-right" ng-disabled="!isLoggedIn">
-              <span class="icon icon-layout icon-text"></span>
-              My Apps
-            </button>
+
+            <ul class="dropdown-menu pull-right" closedropdown>
+              <li>
+                <button class="btn btn-default btn-dropdown pull-right"
+                        ng-disabled="!isLoggedIn"
+                        ng-click="showAppMenu = !showAppMenu">
+                  <span class="icon icon-layout icon-text"></span>
+                  My Apps
+                </button>
+              </li>
+              <li>
+                <ul class="dropdown-selection" ng-show="showAppMenu">
+                  <li ng-repeat="(app, data) in appMenu"
+                      ng-click="openTab(app)">{{ data.title }}</li>
+                </ul>
+              </li>
+            </ul>
+
+
           </div>
 
           <div class="title notification pull-left hide-fade"
