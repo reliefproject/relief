@@ -100,11 +100,11 @@
 
 
   module.exports = {
-    init: init,
-    initUserDb: initUserDb,
-    createUserDb: createUserDb,
-    unsetUserDb: unsetUserDb,
-    db: db,
+    init,
+    initUserDb,
+    createUserDb,
+    unsetUserDb,
+    db,
   };
 
 

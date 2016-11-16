@@ -51,10 +51,10 @@
 
 
   module.exports = {
-    getPluginList: getPluginList,
-    loadPlugin: loadPlugin,
-    getPackageInfo: getPackageInfo,
-    install: install,
+    getPluginList,
+    loadPlugin,
+    getPackageInfo,
+    install,
   };
 
 })();

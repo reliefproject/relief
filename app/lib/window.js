@@ -34,8 +34,8 @@
 
 
   module.exports = {
-    createWindow: createWindow,
-    refocus: refocus,
+    createWindow,
+    refocus,
   };
 
 })();

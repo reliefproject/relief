@@ -40,7 +40,7 @@
 
 
   module.exports = {
-    loadStrings: loadStrings,
+    loadStrings,
   };
 
 

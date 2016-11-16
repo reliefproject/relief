@@ -135,12 +135,12 @@
 
 
   module.exports = {
-    login: login,
-    logout: logout,
-    isLoggedIn, isLoggedIn,
-    createAccount: createAccount,
-    exportKeys: exportKeys,
-    importKeys: importKeys,
+    login,
+    logout,
+    isLoggedIn,
+    createAccount,
+    exportKeys,
+    importKeys,
   };
 
 

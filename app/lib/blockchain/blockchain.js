@@ -66,9 +66,9 @@
   };
 
   module.exports = {
-    init: init,
-    bc: bc,
-    getServerList: getServerList,
+    init,
+    bc,
+    getServerList,
   };
 
 
