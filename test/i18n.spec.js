@@ -5,7 +5,7 @@ describe('i18n', function() {
   it('loads the translation strings', function(done) {
     i18n.loadStrings('en', 'app')
     .then(function(strings) {
-      assert.equal(strings.APP_NAME, 'Relief');
+      assert.equal(strings.BTN_CLOSE, 'Close');
       done();
     }, function(err) {
       console.log(err);
