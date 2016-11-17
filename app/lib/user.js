@@ -25,7 +25,7 @@ class User {
   };
 
 
-  static create({ username, password }) {
+  create({ username, password }) {
     log.info('Creating new account');
 
     return appDb.getDoc().then(doc => {
@@ -43,12 +43,29 @@ class User {
 
     .then(() => {
       const userDb = db.get('user');
-      return userDb.update({ username, });
+      const schemaFile = path.join(
+        __dirname, '..', 'data', 'schema_user.json'
+      );
+      let schema = JSON.parse(
+        jetpack.read(schemaFile)
+      );
+      schema.username = username;
+      for (let plugin of env.defaultPlugins) {
+        if (plugin === 'start') {
+          continue;
+        }
+        schema.plugins[plugin] = {
+          enabled: true,
+          showInMenu: true,
+          isBuiltIn: true,
+        };
+      }
+      return userDb.insertDoc(schema);
     });
   };
 
 
-  static getHash(password, salt) {
+  getHash(password, salt) {
     return crypto.pbkdf2Sync(
       password,
       salt,

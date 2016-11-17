@@ -10,6 +10,7 @@ class Store {
   constructor(options) {
     this.db = {};
     const key = options.encryptionKey;
+    console.log(options)
     if (key) {
       options.afterSerialization = data => aes.encryptData(data, key);
       options.beforeDeserialization = data => aes.decryptData(data, key);
@@ -27,7 +28,7 @@ class Store {
   };
 
 
-  static canDecrypt(file, key) {
+  canDecrypt(file, key) {
     const contents = jetpack.read(file);
     const lines = contents.trim().split('\n');
     const lastLine = lines.slice(-1)[0];
