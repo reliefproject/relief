@@ -7,12 +7,6 @@ module.exports = function(options) {
 
 
   let db = {};
-  if (env.storages.indexOf(options.id) == -1) {
-    return new Error('Unknown storage ' + options.id);
-  }
-  if (!jetpack.exists(options.filename) && !options.createIfNotExists) {
-    return new Error('Database does not exist');
-  }
   if (options.encryptionKey) {
     options.afterSerialization = function(data) {
       return aes.encryptData(data, options.encryptionKey);
@@ -30,7 +24,7 @@ module.exports = function(options) {
         aes.decryptData(lastLine, options.encryptionKey)
       );
     } catch (e) {
-      return new Error('Cannot decrypt database');
+      throw new Error('Cannot decrypt database');
     }
   }
   options.autoload = true;

@@ -26,13 +26,11 @@ app.on('ready', () => {
   log.info('Relief', env.version);
   log.info('Environment', env.name);
 
-  persistence.init()
-  .then(blockchain.init)
-  .then(menu.init)
-  .then(window.createWindow, err => {
-    log.error(err.stack);
-    process.exit();
-  });
+  persistence.init();
+  blockchain.init();
+  menu.init();
+  window.createWindow();
+
 });
 
 

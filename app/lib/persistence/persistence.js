@@ -31,12 +31,6 @@ const init = () => {
     filename: appDbPath,
     createIfNotExists: true,
   });
-  return new Promise((resolve, reject) => {
-    if (db.app instanceof Error) {
-      return reject(db.app);
-    }
-    resolve();
-  });
 };
 
 
@@ -46,12 +40,6 @@ const initUserDb = (username, key) => {
     id: 'user',
     filename: dbPath,
     encryptionKey: key,
-  });
-  return new Promise((resolve, reject) => {
-    if (db.user instanceof Error) {
-      return reject(db.user);
-    }
-    resolve();
   });
 };
 

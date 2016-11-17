@@ -28,7 +28,7 @@ const login = (username, password) => {
     }
     const salt = doc.users[username].salt;
     const key = getHash(password, salt);
-    return persistence.initUserDb(username, key);
+    persistence.initUserDb(username, key);
   });
 };
 
