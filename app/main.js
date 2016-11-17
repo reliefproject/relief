@@ -9,8 +9,8 @@ const env = require('./lib/env');
 const log = require('./lib/log');
 const menu = require('./lib/menu');
 const window = require('./lib/window');
-const persistence = require('./lib/persistence/persistence');
-const blockchain = require('./lib/blockchain/blockchain');
+const DbManager = require('./lib/db/db_manager');
+const Nxt = require('./lib/blockchain/nxt');
 
 
 // Someone tried to run a second instance, we should focus our window.
@@ -26,8 +26,8 @@ app.on('ready', () => {
   log.info('Relief', env.version);
   log.info('Environment', env.name);
 
-  persistence.init();
-  blockchain.init();
+  const db = new DbManager().init('app');
+  const nxt = new Nxt();
   menu.init();
   window.createWindow();
 

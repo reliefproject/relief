@@ -1,4 +1,8 @@
 const { remote } = require('electron');
+const User = remote.require('./lib/user');
+const Nxt = remote.require('./lib/blockchain/nxt');
+const DbManager = remote.require('./lib/db/db_manager');
+const db = new DbManager();
 
 global.Relief = remote.getGlobal('Relief');
 
@@ -14,12 +18,9 @@ Relief.plugin = remote.require('./lib/plugin');
 Relief.crypto = {
   generatePassphrase: remote.require('./lib/crypto/passphrase').generate,
 };
-Relief.blockchain = remote.require('./lib/blockchain/blockchain');
-Relief.db = remote.require('./lib/persistence/persistence').db;
-Relief.user = remote.require('./lib/user');
-
-// Shortcuts
-Relief.nxt = Relief.blockchain.bc.nxt;
+Relief.user = new User();
+Relief.nxt = new Nxt();
+Relief.db = { app: db.get('app'), user: db.get('user'), };
 
 // External libs
 Relief.lib = {

@@ -3,138 +3,130 @@ const crypto = require('crypto');
 const path = require('path');
 const uuid = require('node-uuid');
 const jetpack = require('fs-jetpack');
+
 const env = require('./env');
 const log = require('./log');
 const blockchain = require('./blockchain/blockchain');
-const persistence = require('./persistence/persistence');
+const DbManager = require('./db/db_manager');
+
+const db = new DbManager();
+const appDb = db.get('app');
+let instance = null;
 
 
-const getHash = (password, salt) => {
-  return crypto.pbkdf2Sync(
-    password,
-    salt,
-    env.pbkdf2Iterations,
-    env.pbkdf2Keylen,
-    env.pbkdf2Digest
-  );
-};
+class User {
 
 
-const login = (username, password) => {
-  log.info('User login');
-  return persistence.db.app.getDoc().then(doc => {
-    if (!doc.users[username]) {
-      throw new Error('Unknown user');
+  constructor() {
+    if (instance) {
+      return instance;
     }
-    const salt = doc.users[username].salt;
-    const key = getHash(password, salt);
-    persistence.initUserDb(username, key);
-  });
-};
+    instance = this;
+  };
 
 
-const logout = () => {
-  log.info('User logout');
-  persistence.unsetUserDb();
-};
+  static create({ username, password }) {
+    log.info('Creating new account');
 
+    return appDb.getDoc().then(doc => {
+      doc.users = doc.users || {};
+      if (doc.users[username] !== undefined) {
+        throw new Error('User already exists');
+      }
 
-const isLoggedIn = () => {
-  return Object.keys(persistence.db.user).length > 0;
-};
+      const salt = uuid.v4();
+      const key = this.getHash(password, salt);
+      db.init('user', { username, key }, true);
+      doc.users[username] = { username, salt, };
+      return appDb.updateDoc(doc);
+    })
 
-
-const createAccount = userData => {
-  log.info('Creating new account');
-  let appData = {};
-  const salt = uuid.v4();
-
-  return persistence.db.app.getDoc().then(doc => {
-    appData = doc;
-    if (!appData.users) {
-      appData.users = {};
-    }
-    if (appData.users[userData.username] !== undefined) {
-      throw new Error('User already exists');
-    }
-    const key = getHash(userData.password, salt);
-    return persistence.createUserDb(userData.username, key);
-  })
-
-  .then(() => {
-    const user = {
-      username: userData.username,
-      salt: salt,
-    };
-    appData.users[userData.username] = user;
-    return persistence.db.app.updateDoc(appData);
-  })
-
-  .then(() => {
-    return persistence.db.user.update({
-      username: userData.username,
+    .then(() => {
+      const userDb = db.get('user');
+      return userDb.update({ username, });
     });
-  });
-};
+  };
 
 
-const exportKeys = (format, targetFile) => {
-  log.info('Exporting keys to', targetFile);
-  return persistence.db.user.getDoc()
-  .then(userData => {
-    if (jetpack.exists(targetFile)) {
-      throw new Error('File already exists');
-    }
-    let fileContents;
-    if (format === 'json') {
-      fileContents = userData.addresses;
-    } else {
-      throw new Error('Unknown format');
-    }
-    jetpack.write(targetFile, fileContents);
-  });
-};
+  static getHash(password, salt) {
+    return crypto.pbkdf2Sync(
+      password,
+      salt,
+      env.pbkdf2Iterations,
+      env.pbkdf2Keylen,
+      env.pbkdf2Digest
+    );
+  };
 
 
-const importKeys = data => {
-  log.info('Importing keys from file');
-  let keys = JSON.parse(data);
-  return persistence.db.user.getDoc()
-  .then(userData => {
-    for (let i in env.addressTypes) {
-      const type = env.addressTypes[i];
+  login(username, password) {
+    log.info('User login');
+    return appDb.getDoc().then(doc => {
+      if (!doc.users[username]) {
+        throw new Error('Unknown user');
+      }
+      const salt = doc.users[username].salt;
+      const key = this.getHash(password, salt);
+      db.init('user', { username, key });
+    });
+  };
+
+
+  logout() {
+    return db.unset('user');
+  };
+
+
+  isLoggedIn() {
+    return db.get('user') ? true : false;
+  };
+
+
+  exportKeys(format, targetFile) {
+    log.info('Exporting keys to', targetFile);
+    const userDb = db.get('user');
+    return userDb.getDoc().then(doc => {
+      if (jetpack.exists(targetFile)) {
+        throw new Error('File already exists');
+      }
+      let fileContents;
+      if (format !== 'json') {
+        throw new Error('Unknown format');
+      }
+      fileContents = doc.addresses;
+      jetpack.write(targetFile, fileContents);
+    });
+  };
+
+
+  importKeys(data) {
+    log.info('Importing keys from file');
+    let keys = JSON.parse(data);
+    for (type of env.addressTypes) {
       if (!keys[type]) {
         continue;
       }
-      for (addressId in keys[type]) {
-        const address = keys[type][addressId];
-        for (let k in env.importRequiredKeys) {
-          const key = env.importRequiredKeys[k];
+      for (address of keys[type]) {
+        for (key of env.importRequiredKeys) {
           if (!(key in address)) {
             throw new Error('Missing key ' + key);
           }
         }
-        if (!keys[type][addressId].label) {
-          keys[type][addressId].label = '';
-        }
-        if (!keys[type][addressId].category) {
-          keys[type][addressId].category = 'default';
-        }
+        address.label = address.label || '';
+        address.category = address.category || 'default';
       }
-      Object.assign(userData.addresses[type], keys[type]);
     }
-    return persistence.db.user.update({
-      addresses: userData.addresses,
+    const userDb = db.get('user');
+    return userDb.getDoc().then(doc => {
+      Object.assign(doc.addresses, keys);
+      return userDb.update({
+        addresses: doc.addresses,
+      });
     });
-  });
+  };
+
+
 };
 
 
-module.exports = {
-  login,
-  logout,
-  isLoggedIn,
-  createAccount,
-  exportKeys,
-  importKeys,
-};
+module.exports = User;

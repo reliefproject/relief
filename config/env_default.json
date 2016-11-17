@@ -11,7 +11,7 @@
   "logLevelConsole":"silly",
   "logFileMaxSize":5242880,
   "maxLogFiles":5,
-  "storages":["app","user"],
+  "stores":["app","user"],
   "addressTypes":["nxt"],
   "fixedTabs":["start", "apps"],
   "importRequiredKeys":["address","publicKey","privateKey"],

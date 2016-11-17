@@ -3,17 +3,15 @@ const jetpack = require('fs-jetpack');
 const nxtpm = require('nxtpm');
 const env = require('./env');
 const log = require('./log');
-const blockchain = require('./blockchain/blockchain');
+const Nxt = require('./blockchain/nxt');
 
 
-const pluginDir = env.getPath('plugin', env.standalone);
-
-
-const nxtList = blockchain.getServerList('nxt');
+const nxtList = new Nxt().getServerList();
 nxtpm.setConfig('nxt:serverList', nxtList);
 nxtpm.setConfig('nxt:numSources', env.nxtNumSources);
 
 
+const pluginDir = env.getPath('plugin', env.standalone);
 const getPluginList = () => {
   return jetpack.list(pluginDir);
 };
