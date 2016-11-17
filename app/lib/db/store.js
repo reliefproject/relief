@@ -10,7 +10,6 @@ class Store {
   constructor(options) {
     this.db = {};
     const key = options.encryptionKey;
-    console.log(options)
     if (key) {
       options.afterSerialization = data => aes.encryptData(data, key);
       options.beforeDeserialization = data => aes.decryptData(data, key);
