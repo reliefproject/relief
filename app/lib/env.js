@@ -13,16 +13,16 @@
 
   // Save userData in separate folders for each environment.
   if (env.name !== 'production') {
-      let userDataPath = app.getPath('userData');
-      app.setPath('userData', userDataPath + '_' + env.name);
+    let userDataPath = app.getPath('userData');
+    app.setPath('userData', userDataPath + '_' + env.name);
   }
 
 
-  env.getPath = function(name, standalone) {
+  env.getPath = (name, standalone) => {
     const rootPath = standalone
       ? app.getAppPath()
       : app.getPath('userData');
-    switch(name) {
+    switch (name) {
       case 'config': {
         return path.join(rootPath, env.configDir);
       }

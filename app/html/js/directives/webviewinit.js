@@ -1,11 +1,11 @@
 (function() {
 
-  app.directive('webviewinit', function() {
+  app.directive('webviewinit', () => {
     return {
-      link: function(scope, element, attrs) {
+      link: (scope, element, attrs) => {
 
-        element.bind('did-start-loading', function(e) {
-          this.addEventListener('console-message', function(e) {
+        element.bind('did-start-loading', e => {
+          this.addEventListener('console-message', e => {
             Relief.log.info(
               'Log message from plugin',
               element.attr('id')
@@ -22,7 +22,7 @@
           });
         });
 
-        element.bind('dom-ready', function(e) {
+        element.bind('dom-ready', e => {
           Relief.emit('webview.ready', element.attr('id'));
         });
 

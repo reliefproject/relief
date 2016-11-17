@@ -22,19 +22,19 @@
   jetpack.dir(dbDir);
 
 
-  const getPath = function(filename) {
+  const getPath = filename => {
     return path.join(dbDir, filename + env.dbSuffix);
   };
 
 
-  const init = function() {
+  const init = () => {
     const appDbPath = getPath(env.appDbName);
     db.app = new Storage({
       id: 'app',
       filename: appDbPath,
       createIfNotExists: true,
     });
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       if (db.app instanceof Error) {
         return reject(db.app);
       }
@@ -43,14 +43,14 @@
   };
 
 
-  const initUserDb = function(username, key) {
+  const initUserDb = (username, key) => {
     const dbPath = getPath(env.userDbPrefix + username);
     db.user = new Storage({
       id: 'user',
       filename: dbPath,
       encryptionKey: key,
     });
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       if (db.user instanceof Error) {
         return reject(db.user);
       }
@@ -59,7 +59,7 @@
   };
 
 
-  const createUserDb = function(username, key) {
+  const createUserDb = (username, key) => {
     const dbPath = getPath(env.userDbPrefix + username);
     const schemaFile = path.join(
       __dirname, '..', '..', 'data', 'schema_user.json'
@@ -73,7 +73,7 @@
       encryptionKey: key,
       createIfNotExists: true,
     });
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       if (db.user instanceof Error) {
         return reject(db.user);
       }

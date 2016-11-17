@@ -4,9 +4,9 @@
     let service = {
       strings: {},
 
-      loadStrings: function(language) {
+      loadStrings: language => {
         return Relief.i18n.loadStrings(language, 'browser')
-        .then(function(strings) {
+        .then(strings => {
           service.strings = strings;
         });
       },

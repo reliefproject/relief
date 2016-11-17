@@ -9,7 +9,7 @@
       queue: [],
 
 
-      addToQueue: function(options) {
+      addToQueue: options => {
         options.id = uuid.v4();
         moment.locale(options.locale);
         options.time = moment().format('LT');
@@ -23,15 +23,15 @@
       },
 
 
-      removeFirstElement: function() {
+      removeFirstElement: () => {
         const rest = service.queue.slice(1);
         service.queue.length = 0;
         return service.queue.push.apply(service.queue, rest);
       },
 
 
-      readQueue: function* () {
-        while(true) {
+      readQueue: function*() {
+        while (true) {
           if (service.queue[0]) {
             yield service.queue[0];
             this.removeFirstElement();

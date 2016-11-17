@@ -17,12 +17,12 @@
   nxtpm.setConfig('nxt:numSources', env.nxtNumSources);
 
 
-  const getPluginList = function() {
+  const getPluginList = () => {
     return jetpack.list(pluginDir);
   };
 
 
-  const loadPlugin = function(name) {
+  const loadPlugin = name => {
     log.info('Loading plugin', name);
     const dir = path.join(pluginDir, name);
     if (jetpack.exists(dir) !== 'dir') {
@@ -39,12 +39,12 @@
   };
 
 
-  const getPackageInfo = function(packageName) {
+  const getPackageInfo = packageName => {
     return nxtpm.Package.getPackageInfo(packageName);
   };
 
 
-  const install = function(packageName) {
+  const install = packageName => {
     const pluginDir = env.getPath('plugin', env.standalone);
     return nxtpm.Package.install(packageName, pluginDir);
   };

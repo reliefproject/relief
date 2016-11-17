@@ -31,7 +31,7 @@
         level: env.logLevelConsole,
         colorize: true,
         prettyPrint: true,
-        timestamp: function() {
+        timestamp: () => {
           return '[' + moment().format('hh:mm:ss') + ']';
         },
       }),
@@ -46,9 +46,9 @@
   // Clean up log dir
   const options = {
     age: {
-      seconds: (env.deleteLogsOlderThanDays * 86400)
+      seconds: (env.deleteLogsOlderThanDays * 86400),
     },
-    extensions: env.logFileSuffix
+    extensions: env.logFileSuffix,
   };
   const result = findRemoveSync(
     logsDir,

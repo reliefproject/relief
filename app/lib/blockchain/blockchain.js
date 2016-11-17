@@ -14,7 +14,7 @@
   };
 
 
-  const init = function() {
+  const init = () => {
     const nxtList = getServerList('nxt');
     bc.nxt = new Nxt(nxtList);
     tasks.push({
@@ -23,7 +23,7 @@
       type: 'nxt',
       command: 'getBlockchainStatus',
       params: {},
-      callback: function(resp) {
+      callback: resp => {
         Relief.emit('nxt.BlockHeight', (resp.data.numberOfBlocks - 1));
       },
     });
@@ -31,7 +31,7 @@
   };
 
 
-  const runTasks = function() {
+  const runTasks = () => {
     const now = new Date().getTime();
     for (let i in tasks) {
       const task = tasks[i];
@@ -48,13 +48,13 @@
         }
       }
     }
-    setTimeout(function() {
+    setTimeout(() => {
       runTasks();
     }, 1000);
   };
 
 
-  const getServerList = function(platform) {
+  const getServerList = platform => {
     if (platform === 'nxt') {
       const file = env.nxtTestnet
         ? 'servers_nxt_testnet.json'

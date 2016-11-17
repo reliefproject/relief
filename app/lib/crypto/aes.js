@@ -5,7 +5,7 @@
 
   module.exports = {
 
-    encryptData: function(data, key) {
+    encryptData: (data, key) => {
 
       const iv = crypto.randomBytes(16);
       const cipher = crypto.createCipheriv(algorithm, key, iv)
@@ -23,7 +23,7 @@
 
     },
 
-    decryptData: function(data, key) {
+    decryptData: (data, key) => {
 
       data = JSON.parse(data);
       const iv = new Buffer(data.iv, 'hex');

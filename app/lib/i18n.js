@@ -3,11 +3,14 @@
   const path = require('path');
   const jetpack = require('fs-jetpack');
   const env = require('./env');
-  const i18nDir = path.join(__dirname, '..', 'common', 'i18n');
+  const i18nDir = path.join(
+    env.getPath('common', env.standalone),
+    'i18n'
+  );
 
 
-  const loadStrings = function(lang, filename) {
-    return new Promise(function(resolve, reject) {
+  const loadStrings = (lang, filename) => {
+    return new Promise((resolve, reject) => {
 
       let strings = {};
       const defaultMsgDir = path.join(i18nDir, env.defaultLanguage);

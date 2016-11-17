@@ -12,7 +12,7 @@
   const persistence = require('./persistence/persistence');
 
 
-  const getHash = function(password, salt) {
+  const getHash = (password, salt) => {
     return crypto.pbkdf2Sync(
       password,
       salt,
@@ -23,10 +23,9 @@
   };
 
 
-  const login = function(username, password) {
+  const login = (username, password) => {
     log.info('User login');
-    return persistence.db.app.getDoc()
-    .then(function(doc) {
+    return persistence.db.app.getDoc().then(doc => {
       if (!doc.users[username]) {
         throw new Error('Unknown user');
       }
@@ -37,24 +36,23 @@
   };
 
 
-  const logout = function() {
+  const logout = () => {
     log.info('User logout');
     persistence.unsetUserDb();
   };
 
 
-  const isLoggedIn = function() {
+  const isLoggedIn = () => {
     return Object.keys(persistence.db.user).length > 0;
   };
 
 
-  const createAccount = function(userData) {
+  const createAccount = userData => {
     log.info('Creating new account');
     let appData = {};
     const salt = uuid.v4();
 
-    return persistence.db.app.getDoc()
-    .then(function(doc) {
+    return persistence.db.app.getDoc().then(doc => {
       appData = doc;
       if (!appData.users) {
         appData.users = {};
@@ -66,7 +64,7 @@
       return persistence.createUserDb(userData.username, key);
     })
 
-    .then(function() {
+    .then(() => {
       const user = {
         username: userData.username,
         salt: salt,
@@ -75,7 +73,7 @@
       return persistence.db.app.updateDoc(appData);
     })
 
-    .then(function() {
+    .then(() => {
       return persistence.db.user.update({
         username: userData.username,
       });
@@ -83,10 +81,10 @@
   };
 
 
-  const exportKeys = function(format, targetFile) {
+  const exportKeys = (format, targetFile) => {
     log.info('Exporting keys to', targetFile);
     return persistence.db.user.getDoc()
-    .then(function(userData) {
+    .then(userData => {
       if (jetpack.exists(targetFile)) {
         throw new Error('File already exists');
       }
@@ -101,10 +99,11 @@
   };
 
 
-  const importKeys = function(data) {
+  const importKeys = data => {
     log.info('Importing keys from file');
     let keys = JSON.parse(data);
-    return persistence.db.user.getDoc().then(function(userData) {
+    return persistence.db.user.getDoc()
+    .then(userData => {
       for (let i in env.addressTypes) {
         const type = env.addressTypes[i];
         if (!keys[type]) {

@@ -1,10 +1,10 @@
 (function() {
 
-  app.directive('closedropdown', function($document) {
+  app.directive('closedropdown', $document => {
     return {
-      link: function(scope, element) {
+      link: (scope, element) => {
         element.data('dropdown', true);
-        angular.element($document[0].body).on('click', function(e) {
+        angular.element($document[0].body).on('click', e => {
           const inThing =  angular.element(e.target).inheritedData('dropdown');
           // Close dropdown menu when clicking outside of it
           if (!inThing) {

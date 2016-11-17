@@ -7,8 +7,7 @@
 
 
   const setMenu = function(lang) {
-    i18n.loadStrings(lang, 'menu')
-    .then(function(strings) {
+    i18n.loadStrings(lang, 'menu').then(strings => {
       const template = [];
       let windowMenu = {
         label: strings.WINDOW,
@@ -17,25 +16,25 @@
           {
             label: strings.NEXTTAB,
             accelerator: 'CmdOrCtrl+Tab',
-            click: function(item, focusedWindow) {
+            click: () => {
               Relief.emit('webview.switchToNext');
             },
           },
           {
             label: strings.MINIMIZE,
-            role: 'minimize'
+            role: 'minimize',
           },
           {
             label: strings.CLOSETAB,
             accelerator: 'CmdOrCtrl+W',
-            click: function(item, focusedWindow) {
+            click: () => {
               Relief.emit('webview.close');
             },
           },
           {
             label: strings.CLOSE,
             accelerator: 'CmdOrCtrl+Q',
-            role: 'close'
+            role: 'close',
           },
         ],
       };
@@ -44,44 +43,45 @@
         windowMenu.submenu.push({
           accelerator: 'CmdOrCtrl+' + i,
           visible: false,
-          click: function(item, focusedWindow) {
+          click: () => {
             Relief.emit('webview.jumpTo', i);
           },
         });
       }
 
       template.push(windowMenu);
+
       template.push({
         label: strings.VIEW,
         submenu: [
           {
             label: strings.RELOAD,
             accelerator: 'CmdOrCtrl+R',
-            click (item, focusedWindow) {
+            click: () => {
               Relief.emit('webview.reload');
-            }
+            },
           },
           {
-            type: 'separator'
+            type: 'separator',
           },
           {
             label: strings.RESETZOOM,
-            role: 'resetzoom'
+            role: 'resetzoom',
           },
           {
             label: strings.ZOOMIN,
-            role: 'zoomin'
+            role: 'zoomin',
           },
           {
             label: strings.ZOOMOUT,
-            role: 'zoomout'
+            role: 'zoomout',
           },
           {
-            type: 'separator'
+            type: 'separator',
           },
           {
             label: strings.FULLSCREEN,
-            role: 'togglefullscreen'
+            role: 'togglefullscreen',
           },
         ],
       });
@@ -92,17 +92,19 @@
             {
               label: strings.DEVTOOLS,
               accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-              click (item, focusedWindow) {
-                if (focusedWindow) focusedWindow.webContents.toggleDevTools()
-              }
+              click: (item, focusedWindow) => {
+                if (focusedWindow) {
+                  focusedWindow.webContents.toggleDevTools();
+                }
+              },
             },
             {
               label: strings.DEVTOOLS_PAGE,
               accelerator: 'F12',
-              click: function(item, focusedWindow) {
+              click: () => {
                 Relief.emit('webview.devtools');
               },
-            }
+            },
           ],
         });
       }
@@ -111,16 +113,16 @@
         role: 'help',
         submenu: [
           {
-            label: strings.ABOUT
+            label: strings.ABOUT,
           },
           {
-            label: strings.DOCUMENTATION
+            label: strings.DOCUMENTATION,
           },
           {
-            label: strings.FORUM
+            label: strings.FORUM,
           },
           {
-            label: strings.ISSUES
+            label: strings.ISSUES,
           },
         ],
       });
@@ -131,7 +133,7 @@
   };
 
 
-  const init = function() {
+  const init = () => {
     return setMenu(env.defaultLanguage);
   };
 

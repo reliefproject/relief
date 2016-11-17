@@ -17,7 +17,7 @@
     });
 
 
-    this.generateAddress = function(passphrase) {
+    this.generateAddress = passphrase => {
       const address = nxtjs.secretPhraseToAccountId(passphrase);
       const numeric = nxtjs.rsConvert(address).account;
       const publicKey = nxtjs.secretPhraseToPublicKey(passphrase);
@@ -30,10 +30,10 @@
 
 
     // Passthrough function
-    this.request = function(options) {
+    this.request = options => {
       log.debug('Nxt request:', options);
       return new Promise(function(resolve, reject) {
-        client.request(options, function(err, data) {
+        client.request(options, (err, data) => {
           if (err) {
             return reject(err);
           }

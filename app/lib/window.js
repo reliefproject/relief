@@ -7,11 +7,11 @@
   let mainWindow = {};
 
 
-  const createWindow = function() {
+  const createWindow = () => {
     const { screen } = require('electron');
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     mainWindow = new BrowserWindow({
-      show: false,
+      show: true,
       width: width,
       height: height,
     });
@@ -20,7 +20,7 @@
   };
 
 
-  const refocus = function() {
+  const refocus = () => {
     if (mainWindow.isMinimized()) {
       mainWindow.restore();
     }
@@ -28,7 +28,7 @@
   };
 
 
-  Relief.on('loadingComplete', function() {
+  Relief.on('loadingComplete', () => {
     mainWindow.show();
   });
 

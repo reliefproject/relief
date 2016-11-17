@@ -21,12 +21,12 @@
       $scope.referrer = Relief.env.referrer;
       $scope.notification = {};
 
-      $scope.selectTab = function(tabId) {
+      $scope.selectTab = tabId => {
         $scope.selectedTab = tabId;
       };
 
 
-      $scope.openTab = function(tabId, tab, select) {
+      $scope.openTab = (tabId, tab, select) => {
         $scope.showAppMenu = false;
         select = select === undefined
           ? true
@@ -42,7 +42,7 @@
       };
 
 
-      $scope.closeTab = function(tabId) {
+      $scope.closeTab = tabId => {
         const webview = document.getElementById(tabId);
         const showing = angular.element(webview).hasClass('show');
         if (showing) {
@@ -63,12 +63,12 @@
       };
 
 
-      $scope.trustUrl = function(tab) {
+      $scope.trustUrl = tab => {
         return $sce.trustAsResourceUrl(tab.url);
       };
 
 
-      $scope.loggedOut = function() {
+      $scope.loggedOut = () => {
         $scope.isLoggedIn = false;
         const data = Relief.plugin.loadPlugin('start');
         $scope.tabs = {};
@@ -79,7 +79,7 @@
       };
 
 
-      const getTabDisplayTitle = function(plugin) {
+      const getTabDisplayTitle = plugin => {
         if (plugin.title !== null && typeof plugin.title === 'object') {
           return plugin.title[appData.language]
             ? plugin.title[appData.language]
@@ -89,13 +89,13 @@
       };
 
 
-      const getPluginSrc = function(plugin) {
+      const getPluginSrc = plugin => {
         const dir = Relief.env.getPath('plugin', Relief.env.standalone);
         return 'file://' + dir + '/' + plugin.name + '/' + plugin.main;
       }
 
 
-      const updateTabData = function() {
+      const updateTabData = () => {
         for (var k in $scope.tabs) {
           if (!$scope.tabs[k].url) {
             $scope.tabs[k].url = getPluginSrc($scope.tabs[k]);
@@ -109,17 +109,17 @@
 
 
       let notification = Notification.readQueue();
-      const workOffNotificationQueue = function() {
+      const workOffNotificationQueue = () => {
         let options;
         async.whilst(
-          function() {
+          () => {
             options = notification.next();
             return options.value;
           },
-          function(callback) {
+          callback => {
             $scope.notification = options.value;
             $scope.$apply();
-            setTimeout(function() {
+            setTimeout(() => {
               $scope.notification.show = false;
               $scope.$apply();
               $scope.notification = {};
@@ -128,7 +128,7 @@
               (Relief.env.notificationDisplaySeconds * 1000)
             );
           },
-          function(err) {
+          err => {
             if (err) {
               Relief.log.error(err);
             }
@@ -138,7 +138,7 @@
       };
 
 
-      Relief.db.app.getDoc().then(function(doc) {
+      Relief.db.app.getDoc().then(doc => {
         appData = doc;
         if (!appData) {
           appData = {
@@ -148,7 +148,7 @@
         // First start, we're not logged in
         $scope.loggedOut();
         return i18n.loadStrings(appData.language)
-        .then(function(strings) {
+        .then(strings => {
           $scope.strings = strings;
           $scope.$apply();
         })
@@ -159,7 +159,7 @@
       );
 
 
-      Relief.on('loggedIn', function() {
+      Relief.on('loggedIn', () => {
         $scope.isLoggedIn = true;
         let newTabs = {
           apps: Relief.plugin.loadPlugin('apps'),
@@ -178,10 +178,10 @@
       });
 
 
-      Relief.on('updateAppMenu', function() {
+      Relief.on('updateAppMenu', () => {
         Relief.db.user.getDoc()
         .then(function(data) {
-          for(let k in data.plugins) {
+          for (let k in data.plugins) {
             const plugin = data.plugins[k];
             if (plugin.showInMenu) {
               const pluginData = Relief.plugin.loadPlugin(k);
@@ -194,7 +194,7 @@
       });
 
 
-      Relief.on('languageChanged', function(lang) {
+      Relief.on('languageChanged', lang => {
         if (lang !== appData.language) {
           appData.language = lang;
           updateTabData();
@@ -207,38 +207,32 @@
       });
 
 
-      Relief.on('nxt.BlockHeight', function(height) {
+      Relief.on('nxt.BlockHeight', height => {
         $scope.nxtBlockHeight = height;
         $scope.$apply();
       });
 
 
-      Relief.on('webview.ready', function(id) {
+      Relief.on('webview.ready', id => {
         contextMenu({
           window: document.getElementById(id),
           showInspectElement: false,
-          append: function(params) {
+          append: params => {
             return [{
               label: i18n.strings.COPY_IMAGE_URL,
               visible: params.mediaType === 'image',
-              click: function() {
-                Relief.clipboard.writeText(params.srcURL);
-              },
+              click: () => Relief.clipboard.writeText(params.srcURL),
             },
             {
               label: i18n.strings.OPEN_IMAGE,
               visible: params.mediaType === 'image',
-              click: function() {
-                shell.openExternal(params.srcURL);
-              },
+              click: () => shell.openExternal(params.srcURL),
             },
             {
               label: i18n.strings.OPEN_LINK,
               visible: params.linkURL !== '',
-              click: function() {
-                shell.openExternal(params.linkURL);
-              },
-            }];
+              click: () => shell.openExternal(params.linkURL),
+            },];
           },
           labels: {
             cut: i18n.strings.CUT,
@@ -251,22 +245,22 @@
       });
 
 
-      Relief.on('webview.open', function(plugin) {
+      Relief.on('webview.open', plugin => {
         $scope.openTab(plugin);
         $scope.$apply();
       });
 
 
-      Relief.on('webview.close', function() {
+      Relief.on('webview.close', () => {
         const tabId = $scope.selectedTab;
-        if(!$scope.tabs[tabId].fixed) {
+        if (!$scope.tabs[tabId].fixed) {
           $scope.closeTab(tabId);
           $scope.$apply();
         }
       });
 
 
-      Relief.on('webview.reload', function() {
+      Relief.on('webview.reload', () => {
         const webview = document.getElementById(
           $scope.selectedTab
         );
@@ -274,7 +268,7 @@
       });
 
 
-      Relief.on('webview.devtools', function() {
+      Relief.on('webview.devtools', () => {
         const webview = document.getElementById(
           $scope.selectedTab
         );
@@ -282,7 +276,7 @@
       });
 
 
-      Relief.on('webview.switchToNext', function() {
+      Relief.on('webview.switchToNext', () => {
         const keys = Object.keys($scope.tabs);
         if (keys.length === 1) {
           return;
@@ -303,7 +297,7 @@
       });
 
 
-      Relief.on('webview.jumpTo', function(number) {
+      Relief.on('webview.jumpTo', number => {
         const index = (number - 1);
         const keys = Object.keys($scope.tabs);
         if (!keys[index]) {
@@ -316,14 +310,14 @@
       });
 
 
-      Relief.on('notify', function(options) {
+      Relief.on('notify', options => {
         options.show = true;
         options.locale = appData.language;
         Notification.addToQueue(options);
       });
 
 
-      Relief.on('notify.dataInconsistency', function(data) {
+      Relief.on('notify.dataInconsistency', data => {
         let message = i18n.strings.WARN_INCONST_DATA_NXT;
         message += ' (Hosts: ' + data.frequency + '/' + data.total + ', Score: ' + data.score + ')';
         Relief.emit('notify', {

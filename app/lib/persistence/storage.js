@@ -42,9 +42,9 @@
     db = new Datastore(options);
 
 
-    this.getDoc = function() {
-      return new Promise(function(resolve, reject) {
-        db.findOne({ _id: options.id }, function(err, data) {
+    this.getDoc = () => {
+      return new Promise((resolve, reject) => {
+        db.findOne({ _id: options.id }, (err, data) => {
           if (err) {
             return reject(err);
           }
@@ -54,10 +54,10 @@
     };
 
 
-    this.insertDoc = function(doc) {
-      return new Promise(function(resolve, reject) {
+    this.insertDoc = doc => {
+      return new Promise((resolve, reject) => {
         doc._id = options.id;
-        db.insert(doc, function(err) {
+        db.insert(doc, err => {
           if (err) {
             return reject(err);
           }
@@ -67,9 +67,9 @@
     };
 
 
-    this.update = function(values) {
-      return new Promise(function(resolve, reject) {
-        db.update({ _id: options.id }, { $set: values }, {}, function(err) {
+    this.update = values => {
+      return new Promise((resolve, reject) => {
+        db.update({ _id: options.id }, { $set: values }, {}, err => {
           if (err) {
             return reject(err);
           }
@@ -79,10 +79,10 @@
     };
 
 
-    this.updateDoc = function(doc) {
-      return new Promise(function(resolve, reject) {
+    this.updateDoc = doc => {
+      return new Promise((resolve, reject) => {
         doc._id = options.id;
-        db.update({ _id: options.id }, doc, {}, function(err) {
+        db.update({ _id: options.id }, doc, {}, err => {
           if (err) {
             return reject(err);
           }
@@ -92,10 +92,10 @@
     };
 
 
-    this.upsert = function(doc) {
-      return new Promise(function(resolve, reject) {
+    this.upsert = doc => {
+      return new Promise((resolve, reject) => {
         doc._id = options.id;
-        db.update({ _id: options.id }, doc, { upsert: true }, function(err) {
+        db.update({ _id: options.id }, doc, { upsert: true }, err => {
           if (err) {
             return reject(err);
           }

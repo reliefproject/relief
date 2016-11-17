@@ -1,32 +1,22 @@
 (function() {
 
+
+  // Random based on https://github.com/my8bird/nodejs-secure-random
+
+
   const jetpack = require('fs-jetpack');
   const crypto = require('crypto');
   const assert  = require('assert');
   const MaxUInt = 4294967295;
 
-  /**
-   * Based on https://github.com/my8bird/nodejs-secure-random
-   *
-   * Map random int to the range so that an even distrobution of results is possible
-   *
-   * Using this method ensures an even distrobution of as opposed to the modulo
-   * technique is is biased.
-   *
-   * @see http://mathoverflow.net/questions/35556/skewing-the-distribution-of-random-values-over-a-range
-   * for an explaination of the modulo issue.
-   */
+
   const mapToRange = function(min, max, randUInt) {
     const resultRange = (max + 1) - min;
     const factor = resultRange / MaxUInt;
-    // Bitshifting by zero equates to Math.floor, albeit faster.
     return ((randUInt * factor) + min) >> 0;
   }
 
-  /**
-   * Returns a random unsigned Int
-   * Returns the random int returned by nodes crypto library
-  */
+
   const getRandomInt = function(min, max) {
     let unsignedInt;
     let randInt;
@@ -47,18 +37,16 @@
     });
   };
 
-  /**
-   * Generate a passphrase
-   */
+
   const generatePassphrase = function(words) {
     let count = 0;
     let phrase = '';
     const wordlist = JSON.parse(
       jetpack.read(__dirname + '/data/wordlist.json')
     );
-    return new Promise(function(reoslve, reject) {
+    return new Promise((resolve, reject) => {
       for (let i = 0; i < words; i++) {
-        getRandomInt(0, wordlist.length - 1).then(function(value) {
+        getRandomInt(0, wordlist.length - 1).then(value => {
           count++;
           phrase += wordlist[value];
           if (count < words) {
@@ -72,9 +60,6 @@
   };
 
 
-  /**
-   * Export module
-   */
   module.exports = {
     generate: generatePassphrase,
   };
