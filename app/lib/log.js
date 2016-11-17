@@ -35,27 +35,10 @@ const logger = new (winston.Logger)({
     new (winston.transports.File)({
       level: env.logLevelFile,
       filename: logFile,
+      maxsize: env.logFileMaxSize,
+      maxFiles: env.maxLogFiles,
     }),
   ],
 });
-
-
-// Clean up log dir
-const options = {
-  age: {
-    seconds: (env.deleteLogsOlderThanDays * 86400),
-  },
-  extensions: env.logFileSuffix,
-};
-const result = findRemoveSync(
-  logsDir,
-  options
-);
-for (let k in result) {
-  if (result[k]) {
-    logger.info('Deleted log file', k);
-  }
-}
-
 
 module.exports = logger;
