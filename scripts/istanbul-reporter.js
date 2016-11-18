@@ -1,6 +1,6 @@
 var istanbul = require('istanbul');
 
-module.exports = function (runner, options) {
+module.exports = function(runner, options) {
     mocha.reporters.Base.call(this, runner);
 
     var reporterOpts = { dir: 'coverage' },
@@ -12,7 +12,7 @@ module.exports = function (runner, options) {
     if (options.reportDir) reporterOpts.dir = options.reportDir;
     if (process.env.ISTANBUL_REPORT_DIR) reporterOpts.dir = process.env.ISTANBUL_REPORT_DIR;
 
-    runner.on('end', function(){
+    runner.on('end', function() {
         var cov = global.__coverage__ || {},
             collector = new istanbul.Collector();
 
@@ -20,7 +20,7 @@ module.exports = function (runner, options) {
 
         reporters.forEach(function(reporter) {
             istanbul.Report.create(reporter, reporterOpts).writeReport(collector, true);
-        });
+          });
 
-    });
-};
+      });
+  };
