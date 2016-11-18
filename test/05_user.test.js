@@ -15,8 +15,6 @@ describe('User', () => {
     .then(() => {}, err => {
       assert.instanceOf(err, Error);
       done();
-    }, err => {
-      console.log(err.stack);
     });
   });
 
