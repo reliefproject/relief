@@ -1,6 +1,7 @@
 node_modules
 app/node_modules
 app/config/defaults.json
+app/config/relief.json
 .DS_Store
 Thumbs.db
 *.log
