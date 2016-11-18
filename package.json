@@ -32,7 +32,7 @@
     "prestart": "git submodule update --recursive --remote --init",
     "start": "gulp start",
     "pretest": "gulp build --env=test",
-    "test": "electron-mocha test --recursive"
+    "test": "electron-mocha test/relief.test.js --opts test/mocha.opts"
   },
   "devDependencies": {
     "chai": "^3.5.0",

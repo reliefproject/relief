@@ -1,29 +1,46 @@
+const path = require('path');
 const { remote } = require('electron');
-const User = remote.require('./lib/user');
-const Nxt = remote.require('./lib/blockchain/nxt');
-const DbManager = remote.require('./lib/db/db_manager');
+
+const _require = file => {
+  return remote.require(
+    path.join(process.cwd(), 'app', file)
+  );
+};
+
+const User = _require('lib/user');
+const Nxt = _require('lib/blockchain/nxt');
+const DbManager = _require('lib/db/db_manager');
 const db = new DbManager();
 
 global.Relief = remote.getGlobal('Relief');
 
-// Electron
-Relief.app = remote.require('electron').app;
-Relief.clipboard = remote.require('electron').clipboard;
+const api = {
 
-// Libs
-Relief.env = remote.require('./lib/env');
-Relief.log = remote.require('./lib/log');
-Relief.i18n = remote.require('./lib/i18n');
-Relief.plugin = remote.require('./lib/plugin');
-Relief.crypto = {
-  generatePassphrase: remote.require('./lib/crypto/passphrase').generate,
-};
-Relief.user = new User();
-Relief.nxt = new Nxt();
-Relief.db = { app: db.get('app'), user: db.get('user'), };
+  // Electron
+  app: remote.require('electron').app,
+  clipboard: remote.require('electron').clipboard,
 
-// External libs
-Relief.lib = {
-  nxtjs: remote.require('nxtjs'),
-  nxtpm: remote.require('nxtpm'),
+  // Libs
+  env: _require('lib/env'),
+  log: _require('lib/log'),
+  i18n: _require('lib/i18n'),
+  plugin: _require('lib/plugin'),
+  crypto: {
+    generatePassphrase: _require('lib/crypto/passphrase').generate,
+  },
+  user: new User(),
+  nxt: new Nxt(),
+  db: {
+    app: db.get('app'),
+    user: db.get('user'),
+  },
+
+  // External Libs
+  lib: {
+    nxtjs: _require('node_modules/nxtjs'),
+    nxtpm: _require('node_modules/nxtpm'),
+  },
+
 };
+
+Object.assign(Relief, api);

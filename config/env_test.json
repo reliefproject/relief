@@ -1,4 +1,5 @@
 {
   "name": "test",
-  "nxtTestnet": true
+  "nxtTestnet": true,
+  "standalone": true
 }
