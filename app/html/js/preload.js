@@ -40,7 +40,6 @@ const api = {
   // External Libs
   lib: {
     nxtjs: _require('node_modules/nxtjs'),
-    nxtpm: _require('node_modules/nxtpm'),
   },
 
 };

@@ -12,9 +12,6 @@ nxtpm.setConfig('nxt:numSources', env.nxtNumSources);
 
 
 const pluginDir = env.getPath('plugin', env.standalone);
-const getPluginList = () => {
-  return jetpack.list(pluginDir);
-};
 
 
 const loadPlugin = name => {
@@ -46,7 +43,6 @@ const install = packageName => {
 
 
 module.exports = {
-  getPluginList,
   loadPlugin,
   getPackageInfo,
   install,
