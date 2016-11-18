@@ -6,16 +6,20 @@ const log = require('./log');
 const Nxt = require('./blockchain/nxt');
 
 
+const pluginDir = env.getPath('plugin', env.standalone);
+
+
 const nxtList = new Nxt().getServerList();
 nxtpm.setConfig('nxt:serverList', nxtList);
 nxtpm.setConfig('nxt:numSources', env.nxtNumSources);
 
 
-const pluginDir = env.getPath('plugin', env.standalone);
+const info = name => nxtpm.Package.getPackageInfo(name);
+const install = name => nxtpm.Package.install(name, pluginDir);
 
 
-const loadPlugin = name => {
-  log.info('Loading plugin', name);
+const getManifest = name => {
+  log.info('Get manifest of', name);
   const dir = path.join(pluginDir, name);
   if (jetpack.exists(dir) !== 'dir') {
     throw new Error('Plugin not found');
@@ -31,19 +35,8 @@ const loadPlugin = name => {
 };
 
 
-const getPackageInfo = packageName => {
-  return nxtpm.Package.getPackageInfo(packageName);
-};
-
-
-const install = packageName => {
-  const pluginDir = env.getPath('plugin', env.standalone);
-  return nxtpm.Package.install(packageName, pluginDir);
-};
-
-
 module.exports = {
-  loadPlugin,
-  getPackageInfo,
+  getManifest,
+  info,
   install,
 };

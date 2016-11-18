@@ -28,7 +28,7 @@
   "configDir":"config",
   "commonDir":"common",
   "pluginDir":"plugins",
-  "pluginManifest":"manifest.json",
+  "pluginManifest":"nxtpm.json",
   "defaultPlugins":["start", "apps", "keys"],
   "exportFilename":"relief_keys.json",
   "nxtNumSources":3,

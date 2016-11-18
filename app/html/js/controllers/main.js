@@ -29,7 +29,7 @@ app.controller(
         ? true
         : select;
       if (!tab) {
-        tab = Relief.plugin.loadPlugin(tabId);
+        tab = Relief.plugin.getManifest(tabId);
       }
       $scope.tabs[tabId] = tab;
       if (select) {
@@ -67,7 +67,7 @@ app.controller(
 
     $scope.loggedOut = () => {
       $scope.isLoggedIn = false;
-      const data = Relief.plugin.loadPlugin('start');
+      const data = Relief.plugin.getManifest('start');
       $scope.tabs = {};
       $scope.tabs['start'] = data;
       $scope.selectedTab = 'start';
@@ -159,7 +159,7 @@ app.controller(
     Relief.on('loggedIn', () => {
       $scope.isLoggedIn = true;
       let newTabs = {
-        apps: Relief.plugin.loadPlugin('apps'),
+        apps: Relief.plugin.getManifest('apps'),
       };
       delete $scope.tabs['start'];
       // New tabs first, in case another tab, e.g. "help" is already open
@@ -181,7 +181,7 @@ app.controller(
         for (let k in data.plugins) {
           const plugin = data.plugins[k];
           if (plugin.showInMenu) {
-            const pluginData = Relief.plugin.loadPlugin(k);
+            const pluginData = Relief.plugin.getManifest(k);
             $scope.appMenu[k] = pluginData;
             $scope.appMenu[k].title = getTabDisplayTitle(pluginData);
           }

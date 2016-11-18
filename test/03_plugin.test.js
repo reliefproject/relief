@@ -1,24 +1,33 @@
-const assert = require('assert');
+const { assert, expect } = require('chai');
 
 describe('Plugin', () => {
-  // TODO
-  /*  It('gets list of plugin dirs', function(done) {
-    const list = plugin.getPluginList();
-    assert((list instanceof Array), true);
+
+  it('#getManifest', done => {
+    const manifest = Relief.plugin.getManifest('apps');
+    assert.equal(manifest.name, 'apps');
     done();
   });
-  it('loads a plugin', function(done) {
-    const pluginInfo = plugin.loadPlugin('start')
-    assert.equal(pluginInfo.name, 'start');
-    done();
+
+  it('#info', done => {
+    Relief.plugin.info('test6')
+    .then(data => {
+      assert.equal(data.manifest.name, 'test6');
+      assert.equal(data.transaction.name, 'test6');
+      done();
+    }, err => {
+      console.log(err.stack);
+    });
   });
-  it('fails to load plugin', function(done) {
-    assert.throws(
-      () => {
-        plugin.loadPlugin('_start');
-      },
-      Error
-    );
-    done();
-  });*/
+
+  it('#install', done => {
+    Relief.plugin.install('test6')
+    .then(() => {
+      const manifest = Relief.plugin.getManifest('test6');
+      assert.equal(manifest.name, 'test6');
+      done();
+    }, err => {
+      console.log(err.stack);
+    });
+  });
+
 });
