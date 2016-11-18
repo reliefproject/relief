@@ -1,0 +1,4 @@
+ --renderer
+ --require-main ./app/main.js
+ --preload ./app/html/js/preload.js
+ --check-leaks

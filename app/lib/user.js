@@ -95,7 +95,7 @@ class User {
 
 
   isLoggedIn() {
-    return db.get('user') ? true : false;
+    return Object.keys(db.get('user')).length > 0 ? true : false;
   };
 
 
@@ -119,12 +119,13 @@ class User {
   importKeys(data) {
     log.info('Importing keys from file');
     let keys = JSON.parse(data);
-    for (type of env.addressTypes) {
+    for (let type of env.addressTypes) {
       if (!keys[type]) {
         continue;
       }
-      for (address of keys[type]) {
-        for (key of env.importRequiredKeys) {
+      for (let addressId in keys[type]) {
+        const address = keys[type][addressId];
+        for (let key of env.importRequiredKeys) {
           if (!(key in address)) {
             throw new Error('Missing key ' + key);
           }

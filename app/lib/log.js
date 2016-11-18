@@ -25,6 +25,7 @@ jetpack.file(logFile);
 const logger = new (winston.Logger)({
   transports: [
     new (winston.transports.Console)({
+      silent: env.name === 'test' ? true : false,
       level: env.logLevelConsole,
       colorize: true,
       prettyPrint: true,

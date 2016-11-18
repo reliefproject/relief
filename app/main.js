@@ -20,14 +20,14 @@ if (shouldQuit) {
   app.quit();
 }
 
+const db = new DbManager().init('app');
+const nxt = new Nxt();
 
 app.on('ready', () => {
 
   log.info('Relief', env.version);
   log.info('Environment', env.name);
 
-  const db = new DbManager().init('app');
-  const nxt = new Nxt();
   menu.init();
   window.createWindow();
 

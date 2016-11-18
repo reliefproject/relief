@@ -32,7 +32,9 @@ const api = {
   nxt: new Nxt(),
   db: {
     app: db.get('app'),
-    user: db.get('user'),
+    get user() {
+      return db.get('user');
+    },
   },
 
   // External Libs
