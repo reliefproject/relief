@@ -1,8 +1,10 @@
 // Random based on https://github.com/my8bird/nodejs-secure-random
 
+const path = require('path');
 const jetpack = require('fs-jetpack');
 const crypto = require('crypto');
 const assert  = require('assert');
+const env = require('../env');
 const MaxUInt = 4294967295;
 
 
@@ -37,8 +39,11 @@ const getRandomInt = function(min, max) {
 const generatePassphrase = function(words) {
   let count = 0;
   let phrase = '';
+  const file = path.join(
+    env.getPath('root'), 'data', 'wordlist.json'
+  );
   const wordlist = JSON.parse(
-    jetpack.read(__dirname + '/data/wordlist.json')
+    jetpack.read(file)
   );
   return new Promise((resolve, reject) => {
     for (let i = 0; i < words; i++) {

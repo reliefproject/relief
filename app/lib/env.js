@@ -20,6 +20,9 @@ env.getPath = (name, standalone) => {
     ? app.getAppPath()
     : app.getPath('userData');
   switch (name) {
+    case 'root': {
+      return path.join(__dirname, '..');
+    }
     case 'config': {
       return path.join(rootPath, env.configDir);
     }
