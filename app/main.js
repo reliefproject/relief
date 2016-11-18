@@ -20,7 +20,7 @@ if (shouldQuit) {
   app.quit();
 }
 
-const db = new DbManager().init('app');
+const db = new DbManager().init('app', {}, true);
 const nxt = new Nxt();
 
 app.on('ready', () => {

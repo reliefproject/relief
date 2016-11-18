@@ -46,9 +46,7 @@ class User {
       const schemaFile = path.join(
         __dirname, '..', 'data', 'schema_user.json'
       );
-      let schema = JSON.parse(
-        jetpack.read(schemaFile)
-      );
+      let schema = jetpack.read(schemaFile, 'json');
       schema.username = username;
       for (let plugin of env.defaultPlugins) {
         if (plugin === 'start') {

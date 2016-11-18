@@ -21,6 +21,9 @@ class Store {
       }
     }
     options.autoload = true;
+    if (!jetpack.exists(options.filename) && !options.createIfNotExists) {
+      throw new Error('DB not found at ' + options.filename);
+    }
     jetpack.file(options.filename);
     this.options = options;
     this.db = new Datastore(options);

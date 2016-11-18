@@ -33,12 +33,24 @@ class DbManager {
     if (env.stores.indexOf(store) === -1) {
       return null;
     }
+    const file = this.path(store, credentials.username);
     this.stores[store] = new Store({
       id: store,
-      filename: this.path(store, credentials.username),
+      filename: file,
       encryptionKey: credentials.key,
       createIfNotExists: create,
     });
+    if (store === 'app') {
+      this.stores[store].getDoc().then(doc => {
+        if (doc === null) {
+          const schemaFile = path.join(
+            env.getPath('root'), 'data', 'schema_app.json'
+          );
+          let schema = jetpack.read(schemaFile, 'json');
+          return this.stores[store].insertDoc(schema);
+        }
+      });
+    }
   };
 
 

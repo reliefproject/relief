@@ -7,33 +7,19 @@ describe('Application DB', () => {
     done();
   });
 
-  /* TODO  insert schema
   it('#getDoc', done => {
     Relief.db.app.getDoc().then(doc => {
-      console.log(doc)
-    });
-  });
-  */
-
-  it('#insertDoc', done => {
-    Relief.db.app.insertDoc({
-      hello: 'world',
-    })
-    .then(Relief.db.app.getDoc)
-    .then(doc => {
-      assert.equal(doc._id, 'app');
-      assert.equal(doc.hello, 'world');
+      assert.typeOf(doc, 'object');
+      expect(doc.users).empty;
       done();
-    }, err => {
-      console.log(err.stack);
     });
   });
 
   it('#update', done => {
-    Relief.db.app.update({ hello: 'welt' })
+    Relief.db.app.update({ hello: 'world' })
     .then(Relief.db.app.getDoc)
     .then(doc => {
-      assert.equal(doc.hello, 'welt');
+      assert.equal(doc.hello, 'world');
       done();
     }, err => {
       console.log(err.stack);
