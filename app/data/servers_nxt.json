@@ -41,7 +41,7 @@
   },
   {
     "transport": "http",
-    "host": "208.77.17.129",
+    "host": "88.151.148.10",
     "port": 7876,
     "path": "/nxt",
     "method": "POST",
@@ -51,7 +51,27 @@
   },
   {
     "transport": "http",
-    "host": "104.162.22.224",
+    "host": "198.71.84.173",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "91.239.69.78",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "nxt.notbot.me",
     "port": 7876,
     "path": "/nxt",
     "method": "POST",
@@ -71,6 +91,26 @@
   },
   {
     "transport": "http",
+    "host": "de016.static.nxt-nodes.net",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "de001.static.nxt-nodes.net",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
     "host": "de014.static.nxt-nodes.net",
     "port": 7876,
     "path": "/nxt",
@@ -81,7 +121,57 @@
   },
   {
     "transport": "http",
+    "host": "de003.static.nxt-nodes.net",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "de005.static.nxt-nodes.net",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "de006.static.nxt-nodes.net",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
     "host": "73.164.53.107",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "nxt3d.net",
+    "port": 7877,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "192.3.196.10",
     "port": 7876,
     "path": "/nxt",
     "method": "POST",
@@ -121,7 +211,7 @@
   },
   {
     "transport": "http",
-    "host": "gayka.no-ip.info",
+    "host": "136.243.249.132",
     "port": 7876,
     "path": "/nxt",
     "method": "POST",
@@ -181,16 +271,6 @@
   },
   {
     "transport": "http",
-    "host": "109.70.186.198",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    }
-  },
-  {
-    "transport": "http",
     "host": "174.140.168.163",
     "port": 7877,
     "path": "/nxt",
@@ -201,8 +281,48 @@
   },
   {
     "transport": "http",
+    "host": "163.172.166.207",
+    "port": 7877,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "23.89.198.33",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
     "host": "163.172.158.229",
     "port": 7877,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "104.236.130.225",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "de001.dynamic.nxt-nodes.net",
+    "port": 7876,
     "path": "/nxt",
     "method": "POST",
     "headers": {
@@ -281,6 +401,16 @@
   },
   {
     "transport": "http",
+    "host": "23.88.61.53",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
     "host": "nxt.sx",
     "port": 7876,
     "path": "/nxt",
@@ -291,8 +421,8 @@
   },
   {
     "transport": "http",
-    "host": "198.46.193.111",
-    "port": 7876,
+    "host": "nxtnode.duckdns.org",
+    "port": 7877,
     "path": "/nxt",
     "method": "POST",
     "headers": {
@@ -302,6 +432,16 @@
   {
     "transport": "http",
     "host": "de011.static.nxt-nodes.net",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "de015.static.nxt-nodes.net",
     "port": 7876,
     "path": "/nxt",
     "method": "POST",
@@ -331,37 +471,7 @@
   },
   {
     "transport": "http",
-    "host": "nxt.cryonet.de",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    }
-  },
-  {
-    "transport": "http",
     "host": "178.79.128.235",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    }
-  },
-  {
-    "transport": "http",
-    "host": "69.163.40.132",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    }
-  },
-  {
-    "transport": "http",
-    "host": "104.168.174.36",
     "port": 7876,
     "path": "/nxt",
     "method": "POST",
@@ -381,6 +491,16 @@
   },
   {
     "transport": "http",
+    "host": "nxtsrv.ddns.net",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
     "host": "45.55.39.125",
     "port": 7876,
     "path": "/nxt",
@@ -391,8 +511,8 @@
   },
   {
     "transport": "http",
-    "host": "37.97.136.254",
-    "port": 9875,
+    "host": "23.92.65.249",
+    "port": 7876,
     "path": "/nxt",
     "method": "POST",
     "headers": {
@@ -422,16 +542,6 @@
   {
     "transport": "http",
     "host": "162.243.122.251",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    }
-  },
-  {
-    "transport": "http",
-    "host": "104.193.41.253",
     "port": 7876,
     "path": "/nxt",
     "method": "POST",
@@ -481,8 +591,18 @@
   },
   {
     "transport": "http",
-    "host": "91.205.131.95",
-    "port": 7878,
+    "host": "192.157.241.218",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "212.47.228.94",
+    "port": 7877,
     "path": "/nxt",
     "method": "POST",
     "headers": {
@@ -501,26 +621,6 @@
   },
   {
     "transport": "http",
-    "host": "212.47.228.94",
-    "port": 7877,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    }
-  },
-  {
-    "transport": "http",
-    "host": "92.25.63.239",
-    "port": 7878,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    }
-  },
-  {
-    "transport": "http",
     "host": "nxt2.utut.org",
     "port": 7877,
     "path": "/nxt",
@@ -531,7 +631,17 @@
   },
   {
     "transport": "http",
-    "host": "87.211.143.232",
+    "host": "23.88.113.131",
+    "port": 7876,
+    "path": "/nxt",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  },
+  {
+    "transport": "http",
+    "host": "phvll7lsuuvlqpfo.myfritz.net",
     "port": 7876,
     "path": "/nxt",
     "method": "POST",
@@ -541,8 +651,8 @@
   },
   {
     "transport": "https",
-    "host": "nxt1.utut.org",
-    "port": 7876,
+    "host": "nrs.scripterron.org",
+    "port": 6877,
     "path": "/nxt",
     "method": "POST",
     "headers": {
@@ -554,8 +664,8 @@
   },
   {
     "transport": "https",
-    "host": "212.47.249.50",
-    "port": 7878,
+    "host": "nxt.noip.me",
+    "port": 6877,
     "path": "/nxt",
     "method": "POST",
     "headers": {
@@ -567,385 +677,8 @@
   },
   {
     "transport": "https",
-    "host": "208.77.17.129",
-    "port": 7878,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "73.154.94.14",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "193.242.211.149",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "163.172.160.91",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "163.172.161.7",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "node1.ardorcrypto.com",
-    "port": 7877,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "174.140.168.163",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "72.182.27.227",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "162.243.242.8",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "163.172.158.229",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "212.47.243.70",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "nxtx.ru",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "96.236.141.73",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "163.172.143.181",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "85.25.5.21",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "crypto.rapidant.com",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "163.172.166.73",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "78.46.233.109",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "163.172.163.4",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "beammeup1.ddns.net",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "145.132.7.244",
-    "port": 7878,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "163.172.157.87",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "91.205.131.95",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "162.243.145.83",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "212.47.228.94",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "squidgle.hopto.org",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "92.25.63.239",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "nxt2.utut.org",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "103.250.83.112",
-    "port": 7876,
-    "path": "/nxt",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    "tls": {
-      "rejectUnauthorized": false
-    }
-  },
-  {
-    "transport": "https",
-    "host": "nxt.galeki.com",
-    "port": 7876,
+    "host": "174.140.168.136",
+    "port": 6877,
     "path": "/nxt",
     "method": "POST",
     "headers": {
