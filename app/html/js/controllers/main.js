@@ -18,6 +18,7 @@ app.controller(
     $scope.referrer = Relief.env.referrer;
     $scope.notification = {};
 
+
     $scope.selectTab = tabId => {
       $scope.selectedTab = tabId;
     };
@@ -127,7 +128,7 @@ app.controller(
         },
         err => {
           if (err) {
-            Relief.log.error(err);
+            Relief.log.error(err.stack || err);
           }
           setTimeout(workOffNotificationQueue, 1000);
         }
@@ -144,16 +145,12 @@ app.controller(
       }
       // First start, we're not logged in
       $scope.loggedOut();
-      return i18n.loadStrings(appData.language)
-      .then(strings => {
-        $scope.strings = strings;
-        $scope.$apply();
-      })
-      .then(workOffNotificationQueue);
-    },
-      // Error handler
-      Relief.log.error
-    );
+      i18n.load(appData.language, ['common', 'browser'])
+      $scope.strings = i18n.strings;
+      workOffNotificationQueue();
+    }, err => {
+      Relief.log.error(err.stack || err);
+    });
 
 
     Relief.on('loggedIn', () => {
@@ -187,6 +184,8 @@ app.controller(
           }
         }
         $scope.$apply();
+      }, err => {
+        Relief.log.error(err.stack || err);
       });
     });
 
@@ -195,11 +194,9 @@ app.controller(
       if (lang !== appData.language) {
         appData.language = lang;
         updateTabData();
-        i18n.loadStrings(appData.language)
-        .then(function(strings) {
-          $scope.strings = strings;
-          $scope.$apply();
-        });
+        i18n.load(appData.language, ['common', 'browser']);
+        $scope.strings = i18n.strings;
+        $scope.$apply();
       }
     });
 

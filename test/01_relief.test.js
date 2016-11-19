@@ -13,7 +13,7 @@ describe('Environment', () => {
 
 describe('Log', () => {
   it('Has a logger instance', done => {
-    assert(typeof Relief.log, 'object');
+    assert.typeOf(Relief.log, 'object');
     done();
   });
   it('Logs to file', done => {
@@ -32,6 +32,7 @@ describe('Log', () => {
 
 
 describe('Internationialization', () => {
+
   it('Has a folder for each language', done => {
     const dirs = jetpack.list(
       path.join(
@@ -44,10 +45,12 @@ describe('Internationialization', () => {
     }
     done();
   });
-  // It('Loads the i18n strings', done => {
-  // TODO
-  //})
 
-  // TODO it falls back to default language
+  it('Loads the i18n strings', done => {
+    const strings = Relief.i18n.load('de', ['common', 'keys']);
+    assert.typeOf(strings.de, 'object');
+    assert.typeOf(strings.en, 'object');
+    done();
+  });
 
 });

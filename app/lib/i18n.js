@@ -7,39 +7,29 @@ const i18nDir = path.join(
 );
 
 
-const loadStrings = (lang, filename) => {
-  return new Promise((resolve, reject) => {
+const load = (lang, ids) => {
 
-    let strings = {};
-    const defaultMsgDir = path.join(i18nDir, env.defaultLanguage);
-    const defaultFile = path.join(defaultMsgDir, filename + '.json');
-    strings = jetpack.read(
-      path.join(defaultMsgDir, 'common.json'),
-      'json'
-    );
-    Object.assign(
-      strings,
-      jetpack.read(defaultFile, 'json')
-    );
+  ids = ids instanceof Array ? ids : [ ids ];
 
-    const msgDir = path.join(i18nDir, lang);
-    const file = path.join(msgDir, filename + '.json');
-    const commonFile = path.join(msgDir, 'common.json');
-    Object.assign(
-      strings,
-      jetpack.read(commonFile, 'json')
-    );
-    Object.assign(
-      strings,
-      jetpack.read(file, 'json')
-    );
+  let strings = {
+    [env.defaultLanguage]: {},
+    [lang]: {},
+  };
 
-    resolve(strings);
+  for (lang in strings) {
+    for (id of ids) {
+      const file = path.join(i18nDir, lang, id + '.json');
+      Object.assign(
+        strings[lang],
+        jetpack.read(file, 'json')
+      );
+    }
+  }
 
-  });
+  return strings;
 };
 
 
 module.exports = {
-  loadStrings,
+  load,
 };
