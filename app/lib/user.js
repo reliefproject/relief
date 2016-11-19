@@ -117,24 +117,24 @@ class User {
   importKeys(data) {
     log.info('Importing keys from file');
     let keys = JSON.parse(data);
-    for (let type of env.addressTypes) {
-      if (!keys[type]) {
-        continue;
-      }
-      for (let addressId in keys[type]) {
-        const address = keys[type][addressId];
-        for (let key of env.importRequiredKeys) {
-          if (!(key in address)) {
-            throw new Error('Missing key ' + key);
-          }
-        }
-        address.label = address.label || '';
-        address.category = address.category || 'default';
-      }
-    }
     const userDb = db.get('user');
     return userDb.getDoc().then(doc => {
-      Object.assign(doc.addresses, keys);
+      for (let type of env.addressTypes) {
+        if (!keys[type]) {
+          continue;
+        }
+        for (let addressId in keys[type]) {
+          const address = keys[type][addressId];
+          for (let key of env.importRequiredKeys) {
+            if (!(key in address)) {
+              throw new Error('Missing key ' + key);
+            }
+          }
+          address.label = address.label || '';
+          address.category = address.category || 'default';
+        }
+        Object.assign(doc.addresses[type], keys[type]);
+      }
       return userDb.update({
         addresses: doc.addresses,
       });
