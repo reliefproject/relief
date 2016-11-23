@@ -14,8 +14,8 @@ nxtpm.setConfig('nxt:serverList', nxtList);
 nxtpm.setConfig('nxt:numSources', env.nxtNumSources);
 
 
-const info = name => nxtpm.Package.getPackageInfo(name);
-const install = name => nxtpm.Package.install(name, pluginDir);
+const info = name => nxtpm.info(name);
+const install = name => nxtpm.install(name, pluginDir);
 
 
 const getManifest = name => {
@@ -35,8 +35,29 @@ const getManifest = name => {
 };
 
 
+const getList = () => {
+  let list = {};
+  const dirs = jetpack.list(pluginDir);
+  for (let plugin of dirs) {
+    list[plugin] = getManifest(plugin);
+  }
+  return list;
+};
+
+
+const remove = name => {
+  const dir = path.join(pluginDir, name);
+  if (jetpack.exists(dir) !== 'dir') {
+    return;
+  }
+  jetpack.remove(dir);
+};
+
+
 module.exports = {
   getManifest,
+  getList,
+  remove,
   info,
   install,
 };

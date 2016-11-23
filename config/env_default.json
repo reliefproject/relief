@@ -30,6 +30,7 @@
   "pluginDir":"plugins",
   "pluginManifest":"nxtpm.json",
   "defaultPlugins":["start", "apps", "keys"],
+  "hiddenPlugins":["start"],
   "exportFilename":"relief_keys.json",
   "nxtNumSources":3,
   "nxtTestnet": false,

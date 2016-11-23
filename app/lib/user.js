@@ -6,6 +6,7 @@ const jetpack = require('fs-jetpack');
 
 const env = require('./env');
 const log = require('./log');
+const plugin = require('./plugin');
 const blockchain = require('./blockchain/blockchain');
 const DbManager = require('./db/db_manager');
 
@@ -83,6 +84,20 @@ class User {
       const salt = doc.users[username].salt;
       const key = this.getHash(password, salt);
       db.init('user', { username, key });
+    })
+    .then(() => {
+      const userDb = db.get('user');
+      return userDb.getDoc().then(doc => {
+        const plugins = plugin.getList();
+        for (let k in plugins) {
+          if (!doc.plugins[k]) {
+            doc.plugins[k] = {
+              showInMenu: false,
+            };
+          }
+        }
+        return userDb.updateDoc(doc);
+      });
     });
   };
 
