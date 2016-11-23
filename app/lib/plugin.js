@@ -16,6 +16,7 @@ nxtpm.setConfig('nxt:numSources', env.nxtNumSources);
 
 const info = name => nxtpm.info(name);
 const install = name => nxtpm.install(name, pluginDir);
+const expandManifest = nxtpm.manifest.expand;
 
 
 const getManifest = name => {
@@ -60,4 +61,5 @@ module.exports = {
   remove,
   info,
   install,
+  expandManifest,
 };
