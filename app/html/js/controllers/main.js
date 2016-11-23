@@ -175,6 +175,7 @@ app.controller(
     Relief.on('updateAppMenu', () => {
       Relief.db.user.getDoc()
       .then(function(data) {
+        $scope.appMenu = {};
         for (let k in data.plugins) {
           const plugin = data.plugins[k];
           if (plugin.showInMenu) {
