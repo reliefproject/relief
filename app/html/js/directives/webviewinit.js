@@ -1,11 +1,11 @@
-app.directive('webviewinit', () => {
+app.directive('webviewinit', function() {
   return {
-    link: (scope, element, attrs) => {
+    link: function(scope, element, attrs) {
 
-      element.bind('did-start-loading', e => {
+      element.bind('did-start-loading', function(e) {
         this.addEventListener('console-message', e => {
           Relief.log.info(
-            'Log message from plugin',
+            'Console message from plugin',
             element.attr('id')
           );
           if (e.level === 0) {
