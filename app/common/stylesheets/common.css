@@ -12,6 +12,10 @@ html {
    padding-right:0;
 }
 
+.modal-body td {
+  white-space: normal;
+}
+
 /* Override blue bg color */
 tr:active {
   color: #333;
