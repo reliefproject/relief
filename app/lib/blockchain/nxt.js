@@ -67,10 +67,11 @@ class Nxt extends Blockchain {
         }
         log.debug('Nxt response', data);
         if (data.score < 1) {
-          Relief.emit('notify.dataInconsistency', {
-            frequency: data.frequency,
-            score: data.score,
-          });
+          Relief.emit('notify.dataInconsistency', [
+            data.frequency,
+            Math.round(data.frequency / data.score),
+            data.score,
+          ]);
         }
         resolve(data);
       });

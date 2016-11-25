@@ -13,6 +13,8 @@ app.service('i18n', function() {
       );
     },
 
+    format: Relief.util.format,
+
     getCategoryTitle: (cat) => {
       const key = 'CATEGORY_' + cat.toUpperCase();
       return service.strings[key];

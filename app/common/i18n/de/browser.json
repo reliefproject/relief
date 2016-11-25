@@ -8,5 +8,5 @@
   "COPY_IMAGE_URL":"Bild URL kopieren",
   "OPEN_IMAGE":"Bild im Browser öffnen",
   "OPEN_LINK":"Link im Browser öffnen",
-  "WARN_INCONST_DATA_NXT":"Achtung: Inkonsistente Daten von Nxt."
+  "WARN_INCONST_DATA_NXT":"Achtung: Inkonsistente Daten von Nxt. (Hosts: %d/%d, Score: %d)"
 }

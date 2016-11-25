@@ -314,10 +314,9 @@ app.controller(
 
     Relief.on('notify.dataInconsistency', data => {
       let message = i18n.strings.WARN_INCONST_DATA_NXT;
-      message += ' (Hosts: ' + data.frequency + '/' + data.total + ', Score: ' + data.score + ')';
       Relief.emit('notify', {
         type: 'negative',
-        message: message,
+        message: i18n.format(message, ...data),
       });
     });
 

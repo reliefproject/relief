@@ -20,6 +20,9 @@ const api = {
   app: remote.require('electron').app,
   clipboard: remote.require('electron').clipboard,
 
+  // Node.js
+  util: require('util'),
+
   // Libs
   env: _require('lib/env'),
   log: _require('lib/log'),
@@ -40,6 +43,7 @@ const api = {
   // External Libs
   lib: {
     nxtjs: _require('node_modules/nxtjs'),
+    semver: _require('node_modules/semver'),
   },
 
 };
